@@ -1,54 +1,74 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ABOUT_TEXT } from '../../data/team';
+import showroomImg from '../../assets/images/about/showroom.jpg';
 
 const BrandStory = () => {
+  const paragraphs = ABOUT_TEXT.trim().split('\n\n').filter(Boolean);
+
   return (
-    <section className="py-24 px-6 md:px-12 bg-bg-primary overflow-hidden">
+    <section className="py-24 px-6 md:px-12" style={{ background: '#0F1E38' }}>
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          {/* Story Text */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-7 space-y-8"
+            className="space-y-6"
           >
             <div>
-              <span className="text-gold uppercase tracking-[0.3em] text-xs font-sans font-bold">Our Story</span>
-              <h2 className="text-4xl md:text-6xl font-serif text-white mt-4 leading-tight italic">
-                Redefining Indian <br /> Living Spaces
+              <span className="section-label">Our Story</span>
+              <h2 className="text-4xl md:text-5xl font-serif text-white mt-4 leading-tight">
+                Brightening Homes <br />
+                <span className="italic" style={{ color: '#C4A265' }}>Across Canada</span>
               </h2>
             </div>
-            
-            <div className="space-y-6 text-ivory-muted text-lg font-light leading-relaxed">
-              <p>
-                Brighton Decore is India's one-stop shop for creatively useful home design needs. We provide utility products that are both aesthetically pleasing and functional.
+
+            {paragraphs.map((para, i) => (
+              <p key={i} className="text-sm md:text-base leading-relaxed font-light" style={{ color: '#C8C0B0' }}>
+                {para.trim()}
               </p>
-              <p>
-                Founded in 2012, we have always maintained a strong focus on quality, innovation, and a customer-centric mindset. Our products and designs meet international quality standards while catering specifically to the unique needs of Indian households.
-              </p>
-              <p>
-                Whether it's a compact urban studio or a sprawling suburban villa, our approach remains the same: combining utility with luxury to create spaces that tell your unique story.
-              </p>
-            </div>
+            ))}
           </motion.div>
 
+          {/* Showroom Image */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-5 relative"
+            className="relative mt-12 lg:mt-0"
           >
-            <div className="aspect-[4/5] gold-border p-2">
-                <img 
-                    src="https://images.unsplash.com/photo-1616137422495-1e9a47e215b2?auto=format&fit=crop&q=80&w=1000" 
-                    alt="Interior Design Work" 
-                    className="w-full h-full object-cover grayscale-[20%]"
-                />
+            <div className="p-1" style={{ border: '1px solid rgba(196,162,101,0.3)' }}>
+              <img
+                src={showroomImg}
+                alt="Brighton Decor Saskatoon showroom and team"
+                loading="lazy"
+                decoding="async"
+                width={600}
+                height={450}
+                className="w-full h-auto object-cover"
+              />
             </div>
-            {/* Stats Overlay */}
-            <div className="absolute -bottom-10 -left-10 bg-gold p-8 text-bg-primary hidden md:block">
-                <p className="text-4xl font-serif font-bold">12+</p>
-                <p className="text-[10px] uppercase font-bold tracking-widest mt-1">Years of Legacy</p>
+            {/* Decorative corner */}
+            <div
+              className="absolute -top-5 -right-5 w-20 h-20 hidden md:block"
+              style={{ borderTop: '1px solid rgba(196,162,101,0.25)', borderRight: '1px solid rgba(196,162,101,0.25)' }}
+            />
+            <div
+              className="absolute -bottom-5 -left-5 w-20 h-20 hidden md:block"
+              style={{ borderBottom: '1px solid rgba(196,162,101,0.25)', borderLeft: '1px solid rgba(196,162,101,0.25)' }}
+            />
+
+            {/* Stat card */}
+            <div
+              className="absolute bottom-8 -left-6 px-6 py-4 hidden md:block"
+              style={{ background: '#0A1628', border: '1px solid rgba(196,162,101,0.3)' }}
+            >
+              <p className="text-3xl font-serif" style={{ color: '#C4A265' }}>1300+</p>
+              <p className="text-[10px] uppercase tracking-widest font-bold mt-1" style={{ color: '#C8C0B0' }}>
+                Homes Brightened
+              </p>
             </div>
           </motion.div>
         </div>

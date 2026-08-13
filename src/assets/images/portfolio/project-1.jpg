@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#1D3355"/>
+  <rect x="2" y="2" width="796" height="596" fill="none" stroke="#C4A265" stroke-width="1" opacity="0.3"/>
+  <line x1="400" y1="0" x2="400" y2="600" stroke="#C4A265" stroke-width="0.5" opacity="0.1"/>
+  <line x1="0" y1="300" x2="800" y2="300" stroke="#C4A265" stroke-width="0.5" opacity="0.1"/>
+  <text x="400" y="290" fill="#C4A265" font-family="Georgia,serif" font-size="24" text-anchor="middle" font-style="italic">Project 1 - Saskatoon</text>
+  <text x="400" y="320" fill="#C8C0B0" font-family="Arial,sans-serif" font-size="14" text-anchor="middle">Brighton Decor Canada</text>
+</svg>

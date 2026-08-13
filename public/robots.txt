@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://brightondecor.co/sitemap.xml

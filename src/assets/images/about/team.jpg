@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#0F1E38"/>
+  <rect x="2" y="2" width="796" height="496" fill="none" stroke="#C4A265" stroke-width="1" opacity="0.3"/>
+  <line x1="400" y1="0" x2="400" y2="500" stroke="#C4A265" stroke-width="0.5" opacity="0.1"/>
+  <line x1="0" y1="250" x2="800" y2="250" stroke="#C4A265" stroke-width="0.5" opacity="0.1"/>
+  <text x="400" y="240" fill="#C4A265" font-family="Georgia,serif" font-size="24" text-anchor="middle" font-style="italic">Our Team</text>
+  <text x="400" y="270" fill="#C8C0B0" font-family="Arial,sans-serif" font-size="14" text-anchor="middle">Brighton Decor Canada</text>
+</svg>

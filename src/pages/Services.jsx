@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import PageTransition from '../components/common/PageTransition';
-import { services, processSteps, pricingPackages } from '../data/services';
+import { services, processSteps } from '../data/services';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, CheckCircle2, Layout, Home, ChefHat, ShowerHead, Briefcase, Move3d } from 'lucide-react';
+import { ChevronDown, Ruler, Layers, Home, Zap, Briefcase, LayoutGrid } from 'lucide-react';
+
+import { Link } from 'react-router-dom';
 
 const iconMap = {
-  Layout, Home, ChefHat, ShowerHead, Briefcase, Move3d
+  Ruler, Layers, Home, Zap, Briefcase,
+  Blinds: LayoutGrid,
 };
+
 
 const Services = () => {
   const [expandedId, setExpandedId] = useState(null);
@@ -14,126 +18,130 @@ const Services = () => {
   return (
     <PageTransition>
       {/* Hero */}
-      <section className="pt-32 pb-24 px-6 bg-bg-primary">
+      <section className="pt-32 pb-20 px-6" style={{ background: '#0A1628' }}>
         <div className="max-w-7xl mx-auto text-center">
-            <span className="text-gold uppercase tracking-[0.3em] text-xs font-sans font-bold">Expertise</span>
-            <h1 className="text-5xl md:text-7xl font-serif text-white mt-4 italic mb-8">What We Do</h1>
-            <p className="text-ivory-muted max-w-2xl mx-auto text-lg font-light">
-                Comprehensive interior solutions delivered with surgical precision and artistic flair.
-            </p>
+          <span className="section-label">What We Offer</span>
+          <h1 className="text-5xl md:text-7xl font-serif text-white mt-4 italic mb-8">Our Services</h1>
+          <p className="max-w-2xl mx-auto text-lg font-light" style={{ color: '#C8C0B0' }}>
+            From free in-home measurement to professional installation — Brighton Decor handles
+            everything your windows and floors need.
+          </p>
         </div>
       </section>
 
       {/* Services Grid */}
-      <section className="py-24 px-6 bg-bg-secondary">
+      <section className="py-20 px-6 border-y" style={{ background: '#0F1E38', borderColor: 'rgba(196,162,101,0.1)' }}>
         <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {services.map((s) => {
-                    const Icon = iconMap[s.icon];
-                    return (
-                        <div 
-                            key={s.id}
-                            className="bg-bg-tertiary p-8 gold-border group cursor-pointer"
-                            onClick={() => setExpandedId(expandedId === s.id ? null : s.id)}
-                        >
-                            <div className="w-12 h-12 bg-gold/10 flex items-center justify-center mb-6 text-gold transition-all group-hover:scale-110">
-                                <Icon size={24} />
-                            </div>
-                            <h3 className="text-2xl font-serif text-white mb-4">{s.name}</h3>
-                            <p className="text-ivory-muted text-sm leading-relaxed mb-6">
-                                {s.description}
-                            </p>
-                            
-                            <div className="flex items-center text-gold text-[10px] uppercase font-bold tracking-widest gap-2">
-                                <span>{expandedId === s.id ? 'Show Less' : 'Learn More'}</span>
-                                <ChevronDown size={14} className={expandedId === s.id ? 'rotate-180' : ''} />
-                            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((s) => {
+              const Icon = iconMap[s.icon] || Grid3X3;
+              return (
+                <div
+                  key={s.id}
+                  className="p-8 cursor-pointer transition-all duration-300 group"
+                  style={{
+                    background: '#162844',
+                    border: '1px solid rgba(196,162,101,0.08)',
+                  }}
+                  onClick={() => setExpandedId(expandedId === s.id ? null : s.id)}
+                  onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(196,162,101,0.3)'}
+                  onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(196,162,101,0.08)'}
+                >
+                  <div
+                    className="w-12 h-12 flex items-center justify-center mb-6 transition-all group-hover:scale-110"
+                    style={{ background: 'rgba(196,162,101,0.1)', color: '#C4A265' }}
+                  >
+                    <Icon size={22} />
+                  </div>
+                  <h3 className="text-xl font-serif text-white mb-3">{s.name}</h3>
+                  <p className="text-sm leading-relaxed mb-5" style={{ color: '#C8C0B0' }}>
+                    {s.description}
+                  </p>
 
-                            <AnimatePresence>
-                                {expandedId === s.id && (
-                                    <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: 'auto', opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        className="overflow-hidden mt-6 pt-6 border-t border-gold/10"
-                                    >
-                                        <p className="text-ivory-muted text-sm italic">{s.longDescription}</p>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-                    );
-                })}
-            </div>
+                  <div className="flex items-center text-xs uppercase font-bold tracking-widest gap-2" style={{ color: '#C4A265' }}>
+                    <span>{expandedId === s.id ? 'Show Less' : 'Learn More'}</span>
+                    <ChevronDown
+                      size={14}
+                      className="transition-transform duration-300"
+                      style={{ transform: expandedId === s.id ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                    />
+                  </div>
+
+                  <AnimatePresence>
+                    {expandedId === s.id && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="overflow-hidden mt-5 pt-5"
+                        style={{ borderTop: '1px solid rgba(196,162,101,0.1)' }}
+                      >
+                        <p className="text-sm italic leading-relaxed" style={{ color: '#C8C0B0' }}>
+                          {s.longDescription}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
       {/* Process Steps */}
-      <section className="py-24 px-6 bg-bg-primary">
+      <section className="py-24 px-6" style={{ background: '#0A1628' }}>
         <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-                <span className="text-gold uppercase tracking-widest text-xs font-bold">Workflow</span>
-                <h2 className="text-4xl font-serif text-white mt-2">The Creation Process</h2>
-            </div>
-            
-            <div className="flex flex-col md:flex-row gap-6">
-                {processSteps.map((step, i) => (
-                    <div key={i} className="flex-1 p-8 bg-bg-tertiary/50 border border-gold/5 relative overflow-hidden group">
-                        <span className="text-6xl font-serif text-gold/5 absolute -top-2 -right-2 transition-all group-hover:text-gold/10">
-                            {step.step}
-                        </span>
-                        <h4 className="text-gold text-xs uppercase tracking-widest font-bold mb-4">{step.title}</h4>
-                        <p className="text-ivory-muted text-sm relative z-10">{step.description}</p>
-                        {i < processSteps.length - 1 && (
-                            <div className="hidden md:block absolute top-1/2 -right-4 translate-x-1/2 -translate-y-1/2 z-10 text-gold/20">
-                                <ChevronDown size={32} className="-rotate-90" />
-                            </div>
-                        )}
-                    </div>
-                ))}
-            </div>
+          <div className="text-center mb-16">
+            <span className="section-label">How We Work</span>
+            <h2 className="text-4xl font-serif text-white mt-4">
+              Our <span className="italic" style={{ color: '#C4A265' }}>Installation Process</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {processSteps.map((step, i) => (
+              <div
+                key={i}
+                className="p-8 relative overflow-hidden group"
+                style={{ background: '#0F1E38', border: '1px solid rgba(196,162,101,0.06)' }}
+              >
+                <span
+                  className="text-7xl font-serif absolute -top-2 -right-2 pointer-events-none select-none transition-colors duration-500"
+                  style={{ color: 'rgba(196,162,101,0.05)' }}
+                >
+                  {step.step}
+                </span>
+                <div
+                  className="w-8 h-8 flex items-center justify-center mb-5 text-xs font-bold font-serif"
+                  style={{ border: '1px solid rgba(196,162,101,0.4)', color: '#C4A265' }}
+                >
+                  {step.step}
+                </div>
+                <h4 className="text-base font-serif text-white mb-2">{step.title}</h4>
+                <p className="text-sm relative z-10 leading-relaxed" style={{ color: '#C8C0B0' }}>
+                  {step.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Pricing */}
-      <section className="py-24 px-6 bg-bg-secondary border-t border-gold/10">
-        <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-                <span className="text-gold uppercase tracking-widest text-xs font-bold">Investment</span>
-                <h2 className="text-4xl font-serif text-white mt-2 italic">Design Packages</h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {pricingPackages.map((pkg, i) => (
-                    <div 
-                        key={i} 
-                        className={`p-10 gold-border flex flex-col ${pkg.isPopular ? 'bg-bg-tertiary scale-105 z-10' : 'bg-transparent shadow-none'}`}
-                    >
-                        {pkg.isPopular && (
-                            <span className="bg-gold text-bg-primary text-[10px] uppercase font-bold tracking-widest px-3 py-1 mb-6 w-fit mx-auto">
-                                Most Preferred
-                            </span>
-                        )}
-                        <h4 className="text-white font-serif text-3xl text-center mb-2">{pkg.name}</h4>
-                        <p className="text-gold font-serif text-4xl text-center mb-10">{pkg.price}</p>
-                        
-                        <ul className="flex-1 space-y-4 mb-10">
-                            {pkg.features.map((f, j) => (
-                                <li key={j} className="flex items-start gap-3 text-ivory-muted text-sm">
-                                    <CheckCircle2 size={16} className="text-gold mt-0.5 flex-shrink-0" />
-                                    <span>{f}</span>
-                                </li>
-                            ))}
-                        </ul>
-
-                        <button className={`w-full py-4 text-xs uppercase tracking-widest font-bold transition-all ${
-                            pkg.isPopular ? 'bg-gold text-bg-primary hover:bg-white' : 'border border-gold text-gold hover:bg-gold hover:text-bg-primary'
-                        }`}>
-                            Enquire Now
-                        </button>
-                    </div>
-                ))}
-            </div>
+      {/* CTA */}
+      <section className="py-20 px-6 text-center border-t" style={{ background: '#0F1E38', borderColor: 'rgba(196,162,101,0.1)' }}>
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-4xl font-serif text-white mb-6 italic">
+            Ready to get started?
+          </h2>
+          <p className="mb-10 text-sm" style={{ color: '#C8C0B0' }}>
+            Book your free in-home measurement today. No obligation — just expert advice and a perfect fit.
+          </p>
+          <Link to="/contact">
+            <button className="btn-gold px-12 py-4 rounded-none uppercase tracking-[0.3em] font-bold text-xs">
+              Book Free Measurement
+            </button>
+          </Link>
         </div>
       </section>
     </PageTransition>
