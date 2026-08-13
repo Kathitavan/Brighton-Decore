@@ -15,12 +15,17 @@ import Home from './pages/Home';
 import Portfolio from './pages/Portfolio';
 import About from './pages/About';
 import Services from './pages/Services';
+import RoomViewer from './pages/RoomViewer';
+import Blog from './pages/Blog';
+import Testimonials from './pages/Testimonials';
 import Contact from './pages/Contact';
 import Products from './pages/Products';
 import NotFound from './pages/NotFound';
+import CustomizeButton from './components/common/CustomizeButton';
 
 function App() {
   const location = useLocation();
+  const isRoomViewer = location.pathname === '/room-viewer';
 
   useEffect(() => {
     // Initialize Lenis smooth scroll
@@ -49,27 +54,31 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen" style={{ background: '#0A1628', color: '#F5F2EC' }}>
+    <div className="bg-bg-primary min-h-screen text-ivory">
       <LoadingScreen />
       <ScrollToTop />
       <CursorFollower />
-      <Navbar />
+      {!isRoomViewer && <Navbar />}
 
       <main>
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
-            <Route path="/"          element={<Home />} />
-            <Route path="/products"  element={<Products />} />
+            <Route path="/" element={<Home />} />
             <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/services"  element={<Services />} />
-            <Route path="/about"     element={<About />} />
-            <Route path="/contact"   element={<Contact />} />
-            <Route path="*"          element={<NotFound />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/room-viewer" element={<RoomViewer />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/testimonials" element={<Testimonials />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </AnimatePresence>
       </main>
 
-      <Footer />
+      {!isRoomViewer && <CustomizeButton />}
+      {!isRoomViewer && <Footer />}
     </div>
   );
 }
