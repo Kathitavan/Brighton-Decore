@@ -6,6 +6,8 @@ import PageTransition from '../components/common/PageTransition';
 import RoomCanvas from '../components/room-viewer/RoomCanvas';
 import { TEMPLATES } from '../data/roomTemplates';
 import { BLIND_PRODUCTS, WALL_COLORS, FLOOR_OPTIONS } from '../data/roomProducts';
+import { company } from '../config/company';
+import styles from '../styles/pages/roomViewer.module.css';
 
 const DEFAULT_STATE = {
   floorType: 'lightoak',
@@ -84,7 +86,7 @@ const RoomViewer = () => {
 
     return (
         <PageTransition>
-            <div className="flex flex-col h-screen w-full bg-bg-primary overflow-hidden">
+            <div className={`flex flex-col h-screen w-full overflow-hidden ${styles.roomStudioPage}`}>
                 {/* Top Bar */}
                 <div className="h-[56px] w-full bg-[#0F0E0C] border-b border-gold/20 flex items-center justify-between px-4 md:px-6 z-[100]">
                     <button 
@@ -95,7 +97,8 @@ const RoomViewer = () => {
                     </button>
 
                     <h1 className="text-white font-serif text-lg md:text-xl flex items-center gap-2">
-                        Brighton Decore <span className="text-gold">✦</span> <span className="italic opacity-80">Room Studio</span>
+                        <img src={company.logo} alt={company.name} className="h-7 w-auto object-contain" />
+                        <span className="text-gold">✦</span> <span className="italic opacity-80 text-sm md:text-base">3D Room Studio</span>
                     </h1>
 
                     <div className="flex items-center gap-2 md:gap-4">
@@ -109,7 +112,7 @@ const RoomViewer = () => {
                             onClick={() => navigate('/contact')}
                             className="bg-gold text-bg-primary px-4 md:px-6 py-2 text-[10px] uppercase font-bold tracking-[0.2em] hover:bg-white transition-all transform hover:scale-105 active:scale-95 group flex items-center gap-2"
                         >
-                            <span className="hidden sm:inline">Book Design</span> <ArrowLeft size={14} className="rotate-180" />
+                            <span className="hidden sm:inline">Get This Look</span> <ArrowLeft size={14} className="rotate-180" />
                         </button>
                     </div>
                 </div>
@@ -252,7 +255,7 @@ const RoomViewer = () => {
                             </div>
 
                             <div id="section-blinds">
-                                <Section title="Window Blinds" id="blinds" activeSection={activeSection} setActiveSection={setActiveSection} badge="Brighton Decore">
+                                <Section title="Window Blinds" id="blinds" activeSection={activeSection} setActiveSection={setActiveSection} badge="Brighton Decor">
                                     <div className="grid grid-cols-2 gap-2">
                                         {BLIND_PRODUCTS.map(b => (
                                             <button 
@@ -264,7 +267,7 @@ const RoomViewer = () => {
                                                     <div className="w-6 h-4 border border-gold/20" />
                                                 </div>
                                                 <span className="text-[9px] font-bold text-white whitespace-nowrap">{b.name}</span>
-                                                <span className="text-[8px] text-gold/80">{b.priceRange.split('–')[0]}</span>
+                                                <span className="text-[8px] text-gold/80">{b.shortDesc?.split(',')[0] || ''}</span>
                                             </button>
                                         ))}
                                     </div>
@@ -421,7 +424,7 @@ const RoomViewer = () => {
                                 onClick={() => navigate('/contact')}
                                 className="w-full bg-gold text-bg-primary py-3.5 text-[10px] uppercase font-bold tracking-widest hover:bg-white transition-all"
                             >
-                                Place & Book Design →
+                                Book Free Measurement →
                             </button>
                         </div>
                     </aside>
@@ -499,7 +502,7 @@ const RoomViewer = () => {
                                         onClick={() => navigate('/contact')}
                                         className="w-full bg-gold text-bg-primary py-4 uppercase font-bold text-xs tracking-widest hover:bg-white transition-all transform hover:scale-[1.02] active:scale-95"
                                     >
-                                        Book a Free Consultation →
+                                        Book Free Measurement →
                                     </button>
                                     <button 
                                         onClick={() => setShowSaveModal(false)}

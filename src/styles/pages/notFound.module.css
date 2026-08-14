@@ -1,0 +1,63 @@
+/* src/styles/pages/notFound.module.css */
+/* Theme: Cosmic Void & Electric Gold */
+.pageWrapper {
+  --page-bg: #040404;
+  --page-card-bg: rgba(255, 255, 255, 0.03);
+  --page-accent: #FFD700;
+  --page-accent-light: #FFE44D;
+  --page-text: #FFFFFF;
+  --page-text-muted: rgba(255, 255, 255, 0.75);
+  --page-border: rgba(255, 215, 0, 0.35);
+
+  background-color: var(--page-bg);
+  color: var(--page-text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.watermark404 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(12rem, 30vw, 32rem);
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  color: rgba(255, 215, 0, 0.04);
+  user-select: none;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.magneticBtn {
+  background: var(--page-accent);
+  color: var(--page-bg);
+  padding: 1rem 2.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-weight: 800;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.35);
+}
+
+.magneticBtn:hover {
+  background: var(--page-text);
+  color: var(--page-bg);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.45);
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(4deg); }
+}
+
+.floatingIcon {
+  animation: floatIcon 6s ease-in-out infinite;
+}

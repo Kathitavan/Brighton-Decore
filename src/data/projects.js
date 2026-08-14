@@ -1,90 +1,247 @@
+// src/data/projects.js
+// Brighton Decor Canada — Architectural & Interior Portfolio Single Source of Truth
+
 export const projects = [
   {
     id: 1,
-    title: "The Arora Residence",
-    category: "Residential",
-    city: "New Delhi",
-    image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1000&sig=1",
-    description: "A luxury 4BHK apartment designed with a fusion of modern aesthetics and traditional Indian patterns.",
-    beforeImage: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000&sig=11",
+    slug: 'saskatoon-river-heights-residence',
+    title: 'Saskatoon River Heights Residence',
+    category: 'Residential',
+    categories: ['Residential', 'Window Coverings', 'Blinds', 'Living Spaces'],
+    type: 'Motorized Architectural Shading & Hardwood',
+    city: 'Saskatoon, SK',
+    country: 'Canada',
+    area: '3,800 Sq. Ft.',
+    completion: 'Winter 2025',
+    description: 'Custom automated roller shades and natural white oak flooring across a light-filled prairie architectural home.',
+    longDescription: 'Perched along the South Saskatchewan River valley, this residence called for seamless solar heat management during summer long days and thermal isolation for cold winters. We paired Hunter Douglas automated dual-roller shades with broad 8-inch Canadian white oak planks.',
+    image: '/assets/imgs/portfolio/project-1.jpg',
+    beforeImage: '/assets/imgs/portfolio/before-1.jpg',
+    afterImage: '/assets/imgs/portfolio/after-1.jpg',
     gallery: [
-      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1000&sig=1",
-      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=1000&sig=2",
-      "https://images.unsplash.com/photo-1600566752355-35792ec3ad88?auto=format&fit=crop&q=80&w=1000&sig=3"
-    ]
+      '/assets/imgs/portfolio/project-1.jpg',
+      '/assets/imgs/portfolio/project-2.jpg',
+      '/assets/imgs/home/hero-main.jpg',
+      '/assets/imgs/products/roller-blinds.jpg',
+    ],
+    services: ['Automated Motorized Roller Blinds', 'Natural White Oak Hardwood Flooring', 'Custom Architectural Drapery'],
+    materials: ['Hunter Douglas PowerView Automation', 'Canadian White Oak Planks', 'Belgian Linen Sheers'],
+    featured: true,
+    story: {
+      brief: 'The homeowner desired full UV filtering for expansive floor-to-ceiling river view glazing without compromising interior warmth.',
+      approach: 'We recessed low-profile motorized roller tracks into ceiling pockets while applying broad matte-finished white oak flooring.',
+      materials: 'Selected zero-VOC matte sealant for the timber flooring and anti-glare micro-weave fabrics for high-sun windows.',
+      result: 'An effortless living space with automated sunlight management and organic Scandinavian-Canadian warmth.'
+    }
   },
   {
     id: 2,
-    title: "Café Lune",
-    category: "Commercial",
-    city: "Mumbai",
-    image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=1000&sig=4",
-    description: "A chic, minimalist café interior that maximizes natural light and creates a cozy ambiance.",
-    beforeImage: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1000&sig=12",
+    slug: 'calgary-west-coast-alpine-penthouse',
+    title: 'Calgary West Coast Alpine Penthouse',
+    category: 'Window Coverings',
+    categories: ['Window Coverings', 'Blinds', 'Bedrooms', 'Residential'],
+    type: 'Dual-Layer Automated Zebra & Blackout',
+    city: 'Calgary, AB',
+    country: 'Canada',
+    area: '2,450 Sq. Ft.',
+    completion: 'Fall 2025',
+    description: 'Precision dual-layer zebra blinds offering versatile light control from soft diffused morning glow to total privacy.',
+    longDescription: 'High above Calgary downtown, this luxury penthouse combines dramatic skyline views with extreme high-altitude sun exposure. Our dual-layer motorized zebra shades allow exact positioning between sheer transparency and complete blackout comfort.',
+    image: '/assets/imgs/portfolio/project-2.jpg',
     gallery: [
-      "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=1000&sig=4",
-      "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=1000&sig=5",
-      "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=1000&sig=6"
-    ]
+      '/assets/imgs/portfolio/project-2.jpg',
+      '/assets/imgs/products/zebra-blinds.jpg',
+      '/assets/imgs/portfolio/project-3.jpg',
+    ],
+    services: ['Zebra Sheer Blinds', 'Blackout Bedroom Shades', 'Smart Home Integration'],
+    materials: ['Somfy Motorized Actuators', 'Acoustic Sheer Weaves', 'Charcoal Sunscreen Mesh'],
+    featured: true,
+    story: {
+      brief: 'Filtering glare during mountain sunsets while maintaining uninterrupted vistas of the Bow River and downtown skyline.',
+      approach: 'Integrated custom dual-cassette zebra shades programmatically tied to sunrise and sunset schedules.',
+      materials: 'Flame-retardant anti-static sheer fabrics paired with high-torque Somfy quiet motors.',
+      result: 'Complete atmosphere control at the touch of a button or smartphone app.'
+    }
   },
   {
     id: 3,
-    title: "The Grand Vista Penthouse",
-    category: "Luxury",
-    city: "Bangalore",
-    image: "https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&q=80&w=1000&sig=7",
-    description: "Ultra-luxury penthouse featuring bespoke furniture, floor-to-ceiling windows, and smart home automation.",
-    beforeImage: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=1000&sig=13",
+    slug: 'vancouver-coastal-minimalist-villa',
+    title: 'Vancouver Coastal Minimalist Villa',
+    category: 'Living Spaces',
+    categories: ['Living Spaces', 'Window Coverings', 'Residential'],
+    type: 'Architectural Honeycomb Insulation',
+    city: 'Vancouver, BC',
+    country: 'Canada',
+    area: '4,200 Sq. Ft.',
+    completion: 'Spring 2025',
+    description: 'Cellular thermal honeycomb shades and wide-plank engineered flooring engineered for coastal damp weather.',
+    longDescription: 'Located in West Vancouver, this architectural villa features floor-to-ceiling glass openings facing English Bay. Our double-cell honeycomb blinds deliver exceptional R-value insulation against moist coastal winds while preserving geometric minimalism.',
+    image: '/assets/imgs/portfolio/project-3.jpg',
     gallery: [
-      "https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&q=80&w=1000&sig=7",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000&sig=8",
-      "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&q=80&w=1000&sig=9"
-    ]
+      '/assets/imgs/portfolio/project-3.jpg',
+      '/assets/imgs/products/honeycomb-blinds.jpg',
+      '/assets/imgs/portfolio/project-7.jpg',
+    ],
+    services: ['Cellular Honeycomb Blinds', 'Engineered Wide-Plank Oak', 'Floor-to-Ceiling Drapery Tracks'],
+    materials: ['Cellular Thermal Fabric', 'UV-Reflective Inner Core', 'Brushed Anodized Hardware'],
+    featured: true,
+    story: {
+      brief: 'Prevent heat loss during damp coastal winters while dampening ambient reverberation across expansive glass walls.',
+      approach: 'Applied top-down bottom-up cellular honeycomb shades with hidden side guide cables for draft-free operation.',
+      materials: 'Precision pleated non-woven polyester with aluminum heat barrier technology.',
+      result: 'A 28% reduction in winter heating loads paired with immaculate architectural acoustics.'
+    }
   },
   {
     id: 4,
-    title: "Zenith Tech HQ",
-    category: "Commercial",
-    city: "Hyderabad",
-    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80&w=1000&sig=10",
-    description: "Modern office space designed to foster creativity and collaboration with ergonomic workstations.",
-    beforeImage: "https://images.unsplash.com/photo-1517502884422-41eaadeff171?auto=format&fit=crop&q=80&w=1000&sig=14",
+    slug: 'toronto-yorkville-executive-loft',
+    title: 'Toronto Yorkville Executive Loft',
+    category: 'Flooring',
+    categories: ['Flooring', 'Residential', 'Living Spaces'],
+    type: 'Engineered Walnut & Acoustic Underlayment',
+    city: 'Toronto, ON',
+    country: 'Canada',
+    area: '1,950 Sq. Ft.',
+    completion: 'Summer 2025',
+    description: 'Rich American walnut flooring paired with sound-dampening acoustic layers for multi-level urban luxury.',
+    longDescription: 'This Yorkville loft required high impact sound rating compliance alongside ultra-luxurious visual finish. We selected hand-selected deep American walnut engineered planks with a matte UV oil finish over high-density cork acoustic underlayment.',
+    image: '/assets/imgs/portfolio/project-4.jpg',
     gallery: [
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80&w=1000&sig=10",
-      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1000&sig=11",
-      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=1000&sig=12"
-    ]
+      '/assets/imgs/portfolio/project-4.jpg',
+      '/assets/imgs/products/engineered-hardwood.jpg',
+      '/assets/imgs/products/hardwood-flooring.jpg',
+    ],
+    services: ['Engineered American Walnut Flooring', 'Acoustic Subfloor Underlayment', 'Custom Flush Baseboards'],
+    materials: ['American Black Walnut', 'Acoustic Cork Membrane', 'Bona Traffic HD Matte Finish'],
+    featured: true,
+    story: {
+      brief: 'Exceed strict condominium condo board sound transmission limits without sacrificing deep hardwood luxury.',
+      approach: 'Installed 4mm real walnut wear layer flooring over a specialized sound dampening membrane test-certified to FIIC 68.',
+      materials: 'Natural walnut with deep grain variation finished in zero-sheen protective sealant.',
+      result: 'Whisper-quiet acoustic performance and timeless architectural beauty.'
+    }
   },
   {
     id: 5,
-    title: "The Oasis Retreat",
-    category: "Hospitality",
-    city: "Goa",
-    image: "https://images.unsplash.com/photo-1582719478250-c89cae4df85b?auto=format&fit=crop&q=80&w=1000&sig=13",
-    description: "Boutique resort interiors focusing on organic materials and a tropical luxury aesthetic.",
-    beforeImage: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=1000&sig=15",
+    slug: 'edmonton-river-valley-modern-estate',
+    title: 'Edmonton River Valley Estate',
+    category: 'Blinds',
+    categories: ['Blinds', 'Window Coverings', 'Bedrooms', 'Residential'],
+    type: 'Handcrafted Wooden & Faux Wood Blinds',
+    city: 'Edmonton, AB',
+    country: 'Canada',
+    area: '3,100 Sq. Ft.',
+    completion: 'Autumn 2025',
+    description: 'Warm natural wood slats and moisture-resistant faux wood treatments customized for extreme Prairie seasons.',
+    longDescription: 'Designed for a growing family in Edmonton, this estate balances warm tactile timber elements with moisture-durable window treatments in wet bath and kitchen areas.',
+    image: '/assets/imgs/portfolio/project-5.jpg',
     gallery: [
-      "https://images.unsplash.com/photo-1582719478250-c89cae4df85b?auto=format&fit=crop&q=80&w=1000&sig=13",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1000&sig=14",
-      "https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&q=80&w=1000&sig=15"
-    ]
+      '/assets/imgs/portfolio/project-5.jpg',
+      '/assets/imgs/products/wooden-blinds.jpg',
+    ],
+    services: ['Handcrafted Basswood Blinds', 'Faux Wood Moisture Blinds', 'Motorized Tilting Controls'],
+    materials: ['Sustainably Harvested Basswood', 'UV-Stabilized Composite Slats', 'Gold Anodized Pull Knobs'],
+    featured: false
+  },
+  {
+    id: 6,
+    slug: 'regina-prairie-contemporary-manor',
+    title: 'Regina Prairie Contemporary Manor',
+    category: 'Bedrooms',
+    categories: ['Bedrooms', 'Window Coverings', 'Residential'],
+    type: 'Blackout Honeycomb & Acoustic Drapery',
+    city: 'Regina, SK',
+    country: 'Canada',
+    area: '2,850 Sq. Ft.',
+    completion: 'Winter 2024',
+    description: 'Total light suppression blackout shades integrated into custom upholstered headboard alcoves.',
+    longDescription: 'Engineered specifically for shift workers and early summer sunrises in Saskatchewan, this master bedroom suite achieves 100% light blackout with motorized side channels.',
+    image: '/assets/imgs/portfolio/project-6.jpg',
+    gallery: [
+      '/assets/imgs/portfolio/project-6.jpg',
+      '/assets/imgs/products/roller-blinds.jpg',
+    ],
+    services: ['Blackout Cell Shades', 'Acoustic Velvet Side Panels', 'Recessed Ceiling Tracks'],
+    materials: ['Opaque Mylar Core Cellular', 'Heavyweight Velvet', 'Soft Touch Control Wand'],
+    featured: false
+  },
+  {
+    id: 7,
+    slug: 'winnipeg-tuxedo-park-residence',
+    title: 'Winnipeg Tuxedo Park Residence',
+    category: 'Kitchens',
+    categories: ['Kitchens', 'Blinds', 'Flooring', 'Residential'],
+    type: 'Waterproof PVC Blinds & SPC Tile Flooring',
+    city: 'Winnipeg, MB',
+    country: 'Canada',
+    area: '2,200 Sq. Ft.',
+    completion: 'Spring 2024',
+    description: 'Hygiene-coated waterproof window coverings and stone-polymer composite floor tiling built for busy culinary spaces.',
+    longDescription: 'In this renovated Winnipeg kitchen and pantry, dampness and high splash zones dictated stain-impervious materials that maintain an ultra-clean architectural aesthetic.',
+    image: '/assets/imgs/portfolio/project-7.jpg',
+    gallery: [
+      '/assets/imgs/portfolio/project-7.jpg',
+      '/assets/imgs/products/pvc-blinds.jpg',
+      '/assets/imgs/products/vinyl-plank.jpg',
+    ],
+    services: ['Waterproof PVC Window Blinds', 'SPC Rigid Core Tile Flooring', 'Custom Stainless Valance Strips'],
+    materials: ['Commercial Hygiene-Grade PVC', 'Stone Plastic Composite Plank', 'Micro-Bevel Edge Detail'],
+    featured: false
+  },
+  {
+    id: 8,
+    slug: 'canmore-alpine-mountain-chalet',
+    title: 'Canmore Alpine Mountain Chalet',
+    category: 'Commercial',
+    categories: ['Commercial', 'Window Coverings', 'Blinds'],
+    type: 'Motorized Solar Screens & Heavy Timber Flooring',
+    city: 'Canmore, AB',
+    country: 'Canada',
+    area: '5,400 Sq. Ft.',
+    completion: 'Summer 2024',
+    description: 'Commercial-grade exterior & interior motorized solar screen system for a high-end Rocky Mountain resort lounge.',
+    longDescription: 'Mount Rundle glare management required automated solar screens built to withstand mountain gust wind loads while preserving sweeping alpine views.',
+    image: '/assets/imgs/portfolio/project-8.jpg',
+    gallery: [
+      '/assets/imgs/portfolio/project-8.jpg',
+      '/assets/imgs/products/vertical-blinds.jpg',
+    ],
+    services: ['Heavy-Duty Commercial Solar Screens', 'Wind-Lock Side Channels', 'High-Traffic Timber Floor Refinishing'],
+    materials: ['Vinyl-Coated Fiberglass Screen Mesh', 'Heavy Gauge Extruded Aluminum', 'Commercial Polyurethane'],
+    featured: false
+  },
+  {
+    id: 9,
+    slug: 'saskatoon-willowgrove-family-home',
+    title: 'Saskatoon Willowgrove Family Home',
+    category: 'Residential',
+    categories: ['Residential', 'Flooring', 'Living Spaces'],
+    type: 'Wide-Plank Laminate & Vertical Sheers',
+    city: 'Saskatoon, SK',
+    country: 'Canada',
+    area: '2,700 Sq. Ft.',
+    completion: 'Fall 2024',
+    description: 'Durable wide-plank laminate flooring across a full main floor renovation, paired with patio vertical sheers.',
+    longDescription: 'A complete transformation for a family home in Willowgrove, Saskatoon — uniting high scratch resistance with warm Scandinavian aesthetic tones.',
+    image: '/assets/imgs/portfolio/project-9.jpg',
+    gallery: [
+      '/assets/imgs/portfolio/project-9.jpg',
+      '/assets/imgs/products/laminate-flooring.jpg',
+    ],
+    services: ['Wide-Plank Scratch-Proof Laminate', 'Vertical Window Sheers', 'Matching Stair Treads'],
+    materials: ['AC4 Rated Laminate Board', 'Translucent Vertical Mesh', 'Flush Anodized Nosing'],
+    featured: false
   }
 ];
 
-// Generate 15 more mock projects to reach 20 as requested
-for (let i = 6; i <= 20; i++) {
-  projects.push({
-    id: i,
-    title: `Project ${["Avenue", "Suite", "Hills", "Villas", "Plaza", "Gardens"][i % 6]} ${i}`,
-    category: ["Residential", "Commercial", "Luxury", "Hospitality"][i % 4],
-    city: ["Pune", "Chennai", "Kolkata", "Ahmedabad", "Jaipur"][i % 5],
-    image: `https://images.unsplash.com/photo-${1600000000000 + i * 123456}?auto=format&fit=crop&q=80&w=1000&sig=${i + 20}`,
-    description: "A demonstration of Brighton Decore's commitment to quality and innovative design principles.",
-    beforeImage: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000&sig=99",
-    gallery: [
-      `https://images.unsplash.com/photo-${1600000000000 + i * 123456}?auto=format&fit=crop&q=80&w=1000&sig=${i + 20}`,
-      `https://images.unsplash.com/photo-${1600000000000 + i * 223456}?auto=format&fit=crop&q=80&w=1000&sig=${i + 40}`,
-      `https://images.unsplash.com/photo-${1600000000000 + i * 323456}?auto=format&fit=crop&q=80&w=1000&sig=${i + 60}`
-    ]
-  });
-}
+export const portfolioCategories = [
+  'All',
+  'Residential',
+  'Window Coverings',
+  'Blinds',
+  'Flooring',
+  'Living Spaces',
+  'Bedrooms',
+  'Kitchens',
+  'Commercial'
+];

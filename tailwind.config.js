@@ -7,38 +7,43 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: {
-          primary: '#0F0E0C',
-          secondary: '#1A1814',
-          tertiary: '#242018',
-        },
+        // Pure Palette Foundation (No dynamic theme bleeding)
         gold: {
           DEFAULT: '#C9A55A',
-          muted: '#8B6914',
+          light: '#DFBF7A',
+          dark: '#A68238',
+          pale: 'rgba(201, 165, 90, 0.15)',
         },
-        ivory: {
-          DEFAULT: '#F5F0E8',
-          muted: '#A89F8C',
+        obsidian: {
+          DEFAULT: '#0A0908',
+          surface: '#171816',
+          card: '#121210',
         },
-        brown: '#6B5340',
+        forest: {
+          DEFAULT: '#0A120E',
+          emerald: '#52B788',
+          sage: '#74C69D',
+        },
+        walnut: {
+          DEFAULT: '#140F0B',
+          dune: '#D9C5A0',
+          sand: '#FAF6EF',
+        },
+        terracotta: {
+          DEFAULT: '#D96B43',
+          warm: '#140C08',
+          cream: '#FFFDF7',
+        },
+        amber: {
+          DEFAULT: '#D97736',
+          sandstone: '#1F1A14',
+          cream: '#F5EBE1',
+        },
       },
       fontFamily: {
-        serif: ['"Cormorant Garamond"', 'serif'],
-        sans: ['"DM Sans"', 'sans-serif'],
-      },
-      animation: {
-        'fade-up': 'fadeUp 0.5s ease-out forwards',
-        'fade-in': 'fadeIn 0.5s ease-out forwards',
-      },
-      keyframes: {
-        fadeUp: {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
+        serif: ['Playfair Display', 'Cormorant Garamond', 'Georgia', 'serif'],
+        sans: ['Inter', 'DM Sans', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
       },
     },
   },

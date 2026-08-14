@@ -1,73 +1,87 @@
+// src/data/services.js
+// Single source of truth dataset for Brighton Decor Canada Services
+
 export const services = [
   {
-    id: 1,
-    name: "Interior Design Consultation",
-    description: "Expert advice tailored to your space, lifestyle, and aesthetic preferences. We guide you through the initial creative process.",
-    longDescription: "Our consultation phase involves deep-diving into your vision, functional requirements, and budget. We provide mood boards, initial sketches, and material suggestions to set the right direction for your project.",
-    icon: "Layout"
+    id: 'blinds',
+    name: 'Window Blinds',
+    category: 'WINDOW SOLUTIONS',
+    tagline: 'Quiet control. Beautifully finished.',
+    image: '/assets/imgs/products/roller-blinds.jpg',
+    description: 'Premium blinds in every style — roller, zebra, honeycomb, vertical, wooden, and PVC — expertly fitted for any window.',
+    longDescription:
+      'We carry an extensive range of window blinds to suit every taste, window type, and budget. From the clean minimalism of roller blinds to the warm character of wooden and faux-wood options, we help you find the perfect match. All products are measured precisely and installed professionally.',
+    icon: 'Layers',
+    features: ['Roller Blinds', 'Zebra Blinds', 'Honeycomb Blinds', 'Vertical Blinds', 'Wooden & Faux Wood', 'PVC Blinds'],
   },
   {
-    id: 2,
-    name: "Full Home Design",
-    description: "End-to-end interior solutions for your entire home, from concept to handover. Total transformation of living spaces.",
-    longDescription: "Our comprehensive home design service covers everything from flooring and false ceilings to furniture selection and decor. We ensure a cohesive design language throughout your residence, reflecting your personality in every room.",
-    icon: "Home"
+    id: 'window-coverings',
+    name: 'Window Coverings',
+    category: 'CUSTOM DRAPERY',
+    tagline: 'Light, shadow, and architectural drape.',
+    image: '/assets/imgs/products/zebra-blinds.jpg',
+    description: 'Complete window solutions — from soft curtain treatments to custom-fitted coverings that complement your interior.',
+    longDescription:
+      'Beyond blinds, we offer a full range of window covering solutions designed to complement your space and lifestyle. Whether you are looking for privacy, light control, insulation, or purely aesthetic enhancement, our team will guide you to the right solution.',
+    icon: 'Frame',
+    features: ['Custom Curtains', 'Sheer Panels', 'Blackout Options', 'Day & Night Solutions', 'Child-Safe Mechanisms', 'Motorized Options'],
   },
   {
-    id: 3,
-    name: "Modular Kitchen Design",
-    description: "Functional and stylish kitchens utilizing international quality standards and ergonomic spatial planning.",
-    longDescription: "We specialize in high-performance modular kitchens that combine sleek European aesthetics with robust Indian usage patterns. Featuring soft-close hardware, anti-fingerprint surfaces, and smart storage solutions.",
-    icon: "ChefHat"
+    id: 'flooring-supply',
+    name: 'Flooring Supply',
+    category: 'MATERIAL SELECTION',
+    tagline: 'Enduring timber, tile & acoustic vinyl.',
+    image: '/assets/imgs/products/hardwood-flooring.jpg',
+    description: 'Quality flooring materials — hardwood, laminate, vinyl, and more — sourced to match your space, style, and budget.',
+    longDescription:
+      'We supply a curated selection of flooring materials suitable for Canadian homes. From durable hardwood and elegant laminate to waterproof vinyl plank flooring, our products are selected for quality, performance, and lasting beauty in all Canadian climate conditions.',
+    icon: 'Grid',
+    features: ['Hardwood Flooring', 'Laminate Flooring', 'Vinyl Plank (LVP)', 'Engineered Wood', 'Tile & Stone', 'Carpet Options'],
   },
   {
-    id: 4,
-    name: "Bathroom & Wet Areas",
-    description: "Luxe bathroom designs focusing on premium fixtures, waterproofing excellence, and spa-like ambiance.",
-    longDescription: "Transforming your bathroom into a sanctuary. We focus on ergonomic layouts, anti-skid premium tiling, moisture-resistant materials, and the latest in automated sanitaryware and shower systems.",
-    icon: "ShowerHead"
+    id: 'flooring-installation',
+    name: 'Flooring Installation',
+    category: 'CRAFT & INSTALLATION',
+    tagline: 'Precision fitted for Canadian homes.',
+    image: '/assets/imgs/products/engineered-hardwood.jpg',
+    description: 'Professional flooring installation by trained technicians — precise, clean, and built to last.',
+    longDescription:
+      'Our installation teams are trained professionals who take pride in their workmanship. We prepare subfloors correctly, follow manufacturer specifications, and ensure every installation is level, secure, and beautifully finished. We clean up thoroughly before we leave.',
+    icon: 'Hammer',
+    features: ['Subfloor Preparation', 'All Flooring Types', 'Furniture Moving', 'Trim & Baseboard Finishing', 'Clean-Up Included', '1-Year Workmanship Warranty'],
   },
   {
-    id: 5,
-    name: "Commercial Spaces",
-    description: "Office, retail, and hospitality interiors designed to boost productivity and enhance brand identity.",
-    longDescription: "Our commercial designs prioritize acoustic performance, lighting hierarchy, and efficient workflow. Whether it's a high-energy tech office or a boutique luxury showroom, we design for business success.",
-    icon: "Briefcase"
+    id: 'measurement',
+    name: 'Free Site Measurement',
+    category: 'SITE CONCIERGE',
+    tagline: 'Zero cost. Guaranteed precision.',
+    image: '/assets/imgs/portfolio/project-1.jpg',
+    description: 'Complimentary on-site measurement for accurate quotes and a perfect fit, every single time.',
+    longDescription:
+      'Accurate measurement is the foundation of every great installation. We visit your home at no charge, take precise measurements of every window and floor area, and use these to provide you with an accurate, no-surprise quote. This service is completely free with no obligation.',
+    icon: 'Ruler',
+    features: ['No-Charge Service', 'Professional Measurement Tools', 'Accurate Quoting', 'No Obligation', 'Same-Day Quote Available', 'All of Saskatoon & Area'],
   },
   {
-    id: 6,
-    name: "3D Visualization & Walkthrough",
-    description: "Photorealistic 3D renders and virtual walkthroughs to help you visualize your space before execution begins.",
-    longDescription: "Leveraging cutting-edge rendering technologies, we provide you with a 'digital twin' of your proposed interior. This minimizes surprises during execution and allows for informed decisions on colors and textures.",
-    icon: "Move3d"
-  }
+    id: 'consultation',
+    name: 'Design Consultation',
+    category: 'ATELIER ADVISORY',
+    tagline: 'Personalized interior guidance in your space.',
+    image: '/assets/imgs/about/showroom-saskatoon.jpg',
+    description: 'Expert guidance to help you choose products that align with your vision, your home, and your lifestyle.',
+    longDescription:
+      'Not sure where to start? Our team brings samples directly to your home so you can see exactly how products will look in your actual space with your actual lighting. We offer honest, no-pressure advice tailored to your needs and budget.',
+    icon: 'Lightbulb',
+    features: ['In-Home Sample Viewing', 'Product Recommendations', 'Style Guidance', 'Budget Planning', 'Light & Privacy Advice', 'No-Pressure Approach'],
+  },
 ];
 
 export const processSteps = [
-  { step: "01", title: "Consultation", description: "Initial meeting to understand your vision, requirements, and budget." },
-  { step: "02", title: "Concept Design", description: "Developing mood boards, floor plans, and initial 3D sketches." },
-  { step: "03", title: "Material Selection", description: "Choosing the exact fabrics, finishes, and fixtures for your project." },
-  { step: "04", title: "Execution", description: "On-site work managed by our project supervisors with strict quality checks." },
-  { step: "05", title: "Handover", description: "Final reveal of your dream space, ready for you to move in." }
-];
-
-export const pricingPackages = [
-  {
-    name: "Starter",
-    price: "₹89,000",
-    features: ["Single Room Design", "3D Renders (2 views)", "Material Moodboard", "Basic Furniture Layout", "1 Revision cycle"],
-    isPopular: false
-  },
-  {
-    name: "Premium",
-    price: "₹2,49,000",
-    features: ["3BHK Apartment Package", "Full 3D Walkthrough", "Lighting Design", "Electrical & Plumbing Layout", "2 Revision cycles", "Execution Supervision"],
-    isPopular: true
-  },
-  {
-    name: "Luxury",
-    price: "₹5,99,000+",
-    features: ["Custom Villa Package", "Bespoke Furniture Design", "Smart Home Integration", "International Material Sourcing", "Unlimited Revisions", "Dedicated Project Manager"],
-    isPopular: false
-  }
+  { step: '01', title: 'Contact Us', description: 'Reach out by phone, email, or our online form to get started with your project.' },
+  { step: '02', title: 'Free Site Measurement', description: 'We visit your home at no charge and take precise measurements of every window and floor area.' },
+  { step: '03', title: 'Understand Your Needs', description: 'We listen carefully to your preferences, lifestyle, and budget to find the perfect solution.' },
+  { step: '04', title: 'Product Recommendation', description: 'We present a curated selection of products that work beautifully in your specific space.' },
+  { step: '05', title: 'Confirm Selection', description: 'You review samples and colours in your own home, make your choices, and we finalize the order.' },
+  { step: '06', title: 'Professional Installation', description: 'Our skilled team installs everything with precision, care, and zero mess left behind.' },
+  { step: '07', title: 'Project Complete', description: 'Enjoy your beautifully transformed home, backed by our 1-year workmanship warranty.' },
 ];

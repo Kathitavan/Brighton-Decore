@@ -1,0 +1,136 @@
+/* src/styles/pages/contact.module.css */
+/* Brighton Decor Canada — Contact Theme: Deep Forest Emerald & Botanical Sage Concierge */
+
+.contactPage {
+  --contact-bg: #0A120E;
+  --contact-card-bg: rgba(14, 30, 23, 0.8);
+  --contact-accent: #52B788;
+  --contact-accent-light: #74C69D;
+  --contact-text: #E8F5E9;
+  --contact-text-muted: rgba(232, 245, 233, 0.75);
+  --contact-border: rgba(82, 183, 136, 0.35);
+
+  background-color: var(--contact-bg);
+  color: var(--contact-text);
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient Radial Emerald Mesh Orbs */
+.ambientOrbTop {
+  position: absolute;
+  top: 5%;
+  right: 8%;
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(82, 183, 136, 0.16) 0%, rgba(82, 183, 136, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(90px);
+  z-index: 0;
+}
+
+.ambientOrbBottom {
+  position: absolute;
+  bottom: 8%;
+  left: 5%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(116, 198, 157, 0.12) 0%, rgba(116, 198, 157, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(100px);
+  z-index: 0;
+}
+
+.glassCard {
+  background: var(--contact-card-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--contact-border);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+  transition: all 0.4s ease;
+}
+
+.glassCard:hover {
+  border-color: rgba(82, 183, 136, 0.65);
+  box-shadow: 0 40px 90px rgba(82, 183, 136, 0.18);
+}
+
+.infoCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(82, 183, 136, 0.25);
+  border-radius: 1.25rem;
+  transition: all 0.35s ease;
+}
+
+.infoCard:hover {
+  background: rgba(82, 183, 136, 0.08);
+  border-color: rgba(82, 183, 136, 0.6);
+  transform: translateX(4px);
+}
+
+.iconBox {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  background: rgba(82, 183, 136, 0.18);
+  border: 1px solid rgba(82, 183, 136, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--contact-accent);
+  flex-shrink: 0;
+  box-shadow: 0 0 20px rgba(82, 183, 136, 0.25);
+}
+
+.formInput {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(82, 183, 136, 0.28);
+  color: #FFFFFF;
+  padding: 1rem 1.25rem;
+  border-radius: 0.85rem;
+  outline: none;
+  font-family: var(--font-sans, system-ui);
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.formInput:focus {
+  border-color: var(--contact-accent);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 25px rgba(82, 183, 136, 0.35);
+}
+
+.formInput::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.primaryBtn {
+  background: var(--contact-accent);
+  color: #0A120E;
+  font-weight: 800;
+  padding: 1.1rem 2rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  transition: all 0.35s ease;
+  box-shadow: 0 10px 30px rgba(82, 183, 136, 0.4);
+  width: 100%;
+}
+
+.primaryBtn:hover {
+  background: #FFFFFF;
+  color: #0A120E;
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.45);
+}

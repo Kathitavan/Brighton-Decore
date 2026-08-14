@@ -1,0 +1,30 @@
+/* src/styles/pages/portfolio.module.css */
+/* Brighton Decor Canada — Portfolio Theme: Gallery Editorial Magazine */
+
+.portfolioPage {
+  --portfolio-bg: #0A0908;
+  --portfolio-card-bg: rgba(23, 24, 22, 0.85);
+  --portfolio-accent: #C9A55A;
+  --portfolio-accent-light: #DFBF7A;
+  --portfolio-text: #F5F2EA;
+  --portfolio-text-muted: rgba(245, 242, 234, 0.75);
+  --portfolio-border: rgba(201, 165, 90, 0.25);
+
+  background-color: var(--portfolio-bg);
+  color: var(--portfolio-text);
+  min-height: 100vh;
+}
+
+.galleryCard {
+  background: var(--portfolio-card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--portfolio-border);
+  border-radius: 1.25rem;
+  transition: all 0.5s ease;
+}
+
+.galleryCard:hover {
+  border-color: rgba(201, 165, 90, 0.6);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+}

@@ -52,9 +52,12 @@ const Sidebar = ({ roomState, onUpdate, onSave }) => {
                 >
                   <div className="w-16 h-12 shrink-0 bg-bg-tertiary overflow-hidden">
                     <img 
-                        src={`https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=120&sig=${idx + 10}`} 
+                        src={`/assets/imgs/products/${blind.id}-blinds.jpg`} 
                         alt="" 
                         className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all"
+                        onError={(e) => {
+                          e.target.src = '/assets/imgs/common/placeholder.jpg';
+                        }}
                     />
                   </div>
                   <div className="flex-1 min-w-0">

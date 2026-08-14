@@ -54,7 +54,7 @@ function App() {
   }, []);
 
   return (
-    <div className="bg-bg-primary min-h-screen text-ivory">
+    <div className="min-h-screen w-full">
       <LoadingScreen />
       <ScrollToTop />
       <CursorFollower />

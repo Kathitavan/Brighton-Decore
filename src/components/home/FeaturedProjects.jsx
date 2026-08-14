@@ -1,89 +1,109 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+// src/components/home/FeaturedProjects.jsx
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { projects } from '../../data/projects';
-import { ArrowUpRight } from 'lucide-react';
 
 const FeaturedProjects = () => {
-  const featured = projects.slice(0, 3);
+  const navigate = useNavigate();
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-60px' });
+  const featured = projects.slice(0, 4);
 
   return (
-    <section className="py-24 px-6 md:px-12 bg-bg-primary overflow-hidden">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 space-y-6 md:space-y-0">
-          <div className="max-w-2xl">
-            <span className="text-gold uppercase tracking-[0.3em] text-xs font-sans font-bold">Latest Work</span>
-            <h2 className="text-4xl md:text-5xl font-serif text-white mt-4">Selected <span className="italic">Masterpieces</span></h2>
-          </div>
-          <Link 
-            to="/portfolio" 
-            className="group flex items-center space-x-2 text-gold uppercase tracking-widest text-xs font-bold border-b border-gold/30 pb-2 hover:border-gold transition-all"
-          >
-            <span>View All Projects</span>
-            <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-          </Link>
-        </div>
+    <section
+      ref={ref}
+      className="py-16 md:py-24 bg-[#0A0908] text-white relative overflow-hidden border-t border-white/10"
+      aria-label="Featured portfolio projects"
+    >
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(201,165,90,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(201,165,90,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-[#C9A55A]/5 rounded-full blur-[160px] pointer-events-none" />
 
-        {/* Asymmetric Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Main Large Card */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="lg:col-span-7 relative group overflow-hidden"
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="aspect-[4/5] md:aspect-[16/10] overflow-hidden">
-              <img 
-                src={featured[0].image} 
-                alt={featured[0].title}
-                className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-              />
-            </div>
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
-              <span className="bg-gold text-bg-primary px-3 py-1 text-[10px] uppercase font-bold tracking-widest w-fit mb-4">
-                {featured[0].category}
+            <div className="inline-flex items-center gap-3 px-3.5 py-1.5 rounded-full bg-[#C9A55A]/10 border border-[#C9A55A]/25 mb-4">
+              <Sparkles size={14} className="text-[#C9A55A]" />
+              <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-[#C9A55A]">
+                Canadian Portfolio
               </span>
-              <h3 className="text-3xl font-serif text-white mb-2">{featured[0].title}</h3>
-              <p className="text-ivory-muted text-sm mb-6">{featured[0].city}</p>
-              <Link to="/portfolio" className="text-white uppercase tracking-[0.2em] text-xs font-bold border-b border-white w-fit pb-1">
-                View Project
-              </Link>
             </div>
+
+            <h2 className="font-serif text-white text-3xl sm:text-4xl md:text-5xl leading-tight">
+              Featured Transformations
+            </h2>
           </motion.div>
 
-          {/* Right Stack */}
-          <div className="lg:col-span-5 flex flex-col gap-8">
-            {featured.slice(1, 3).map((project, idx) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 + idx * 0.2 }}
-                viewport={{ once: true }}
-                className="relative group overflow-hidden"
-              >
-                <div className="aspect-[16/9] overflow-hidden">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
-                  <span className="bg-gold text-bg-primary px-3 py-1 text-[10px] uppercase font-bold tracking-widest w-fit mb-3">
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            onClick={() => navigate('/portfolio')}
+            className="group inline-flex items-center gap-3 border border-white/20 px-6 py-3.5 text-[11px] uppercase tracking-[0.2em] font-bold font-sans text-white hover:border-[#C9A55A] hover:text-[#C9A55A] transition-all duration-300 rounded-full"
+          >
+            <span>Explore All Projects</span>
+            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          </motion.button>
+        </div>
+
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {featured.map((project, i) => (
+            <motion.article
+              key={project.id}
+              initial={{ opacity: 0, y: 36 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+              className="group cursor-pointer backdrop-blur-xl bg-white/[0.02] border border-white/10 p-6 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:border-[#C9A55A]/50 transition-all duration-500"
+              onClick={() => navigate('/portfolio')}
+            >
+              {/* Image Frame */}
+              <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-[#1A1814] mb-6">
+                <img
+                  src={project.image}
+                  alt={`${project.title} — Brighton Decor Ltd`}
+                  className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.target.src = '/assets/imgs/common/placeholder.jpg';
+                  }}
+                />
+                
+                {/* Dark-to-Light Glass Category Badge */}
+                <div className="absolute top-4 left-4">
+                  <span className="backdrop-blur-md bg-[#0A0908]/80 border border-[#C9A55A]/30 text-[#C9A55A] text-[10px] uppercase tracking-[0.2em] font-bold font-sans px-3.5 py-1.5 rounded-full">
                     {project.category}
                   </span>
-                  <h3 className="text-xl font-serif text-white mb-1">{project.title}</h3>
-                  <p className="text-ivory-muted text-xs mb-4">{project.city}</p>
-                  <Link to="/portfolio" className="text-white uppercase tracking-[0.2em] text-[10px] font-bold border-b border-white w-fit pb-1">
-                    View Project
-                  </Link>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+
+                {/* Subtle Hover Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0908]/80 via-transparent to-transparent opacity-40 group-hover:opacity-20 transition-opacity" />
+              </div>
+
+              {/* Information & Arrow */}
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="font-serif text-white text-2xl font-bold mb-1 group-hover:text-[#C9A55A] transition-colors duration-300">
+                    {project.title}
+                  </h3>
+                  <p className="text-white/60 text-sm font-sans font-light">{project.type}</p>
+                </div>
+                
+                <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 group-hover:bg-[#C9A55A] group-hover:text-[#0A0908] group-hover:border-[#C9A55A] transition-all duration-300">
+                  <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </div>
+            </motion.article>
+          ))}
         </div>
+
       </div>
     </section>
   );

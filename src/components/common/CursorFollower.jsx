@@ -21,7 +21,7 @@ const CursorFollower = () => {
         x: position.x - 12,
         y: position.y - 12,
         scale: isHovering ? 2.5 : 1,
-        backgroundColor: isHovering ? 'rgba(201, 165, 90, 0.2)' : 'transparent',
+        backgroundColor: isHovering ? 'rgba(201, 165, 90, 0.2)' : 'rgba(201, 165, 90, 0)',
       }}
       transition={{
         type: 'spring',

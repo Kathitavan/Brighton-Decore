@@ -1,0 +1,50 @@
+/* src/styles/pages/blog.module.css */
+/* Brighton Decor Canada — Design Ideas / Blog Theme: Publisher's Editorial Magazine (Cream Paper & Terracotta) */
+
+.blogPage {
+  --blog-bg: #FBF9F4;
+  --blog-card-bg: #FFFFFF;
+  --blog-accent: #D96B43;
+  --blog-accent-dark: #261C14;
+  --blog-text: #261C14;
+  --blog-text-muted: rgba(38, 28, 20, 0.7);
+  --blog-border: rgba(217, 107, 67, 0.3);
+
+  background-color: var(--blog-bg);
+  color: var(--blog-text);
+  min-height: 100vh;
+}
+
+.articleCard {
+  background: var(--blog-card-bg);
+  border: 1px solid rgba(38, 28, 20, 0.12);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.articleCard:hover {
+  transform: translateY(-6px);
+  border-color: rgba(217, 107, 67, 0.65);
+  box-shadow: 0 30px 60px rgba(217, 107, 67, 0.15);
+}
+
+.readTimeBadge {
+  background: rgba(217, 107, 67, 0.15);
+  border: 1px solid var(--blog-border);
+  color: var(--blog-accent);
+}
+
+.primaryBtn {
+  background: var(--blog-accent-dark);
+  color: #FBF9F4;
+  font-weight: 700;
+  transition: all 0.35s ease;
+}
+
+.primaryBtn:hover {
+  background: var(--blog-accent);
+  color: #FBF9F4;
+  transform: translateY(-2px);
+}

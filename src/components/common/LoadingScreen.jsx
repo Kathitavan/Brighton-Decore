@@ -1,66 +1,72 @@
+// src/components/common/LoadingScreen.jsx
+// Brighton Decor Canada — Opening Animation with Official Brand Logo
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { company } from '../../config/company';
 
 const LoadingScreen = () => {
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            setTimeout(() => setIsLoading(false), 200);
+            return 100;
+          }
+          return prev + Math.random() * 18 + 8;
+        });
+      }, 80);
+      return () => clearInterval(interval);
+    }, 100);
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <AnimatePresence>
-      {loading && (
+      {isLoading && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: 'easeInOut' }}
-          className="fixed inset-0 z-[1000] bg-bg-primary flex flex-col items-center justify-center p-6"
+          exit={{ opacity: 0, transition: { duration: 0.6, ease: 'easeInOut' } }}
+          className="fixed inset-0 z-[999] bg-[#0A0908] flex flex-col items-center justify-center p-6 select-none"
         >
-          <div className="text-center overflow-hidden">
-            <motion.div
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
-              className="mb-2"
-            >
-              <span className="text-4xl md:text-6xl font-serif font-bold tracking-tighter text-white">
-                BRIGHTON
-              </span>
-            </motion.div>
-            
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 1, delay: 0.5, ease: 'easeInOut' }}
-              className="h-[1px] bg-gold w-full mb-2 origin-left"
-            />
-            
-            <motion.div
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.8, ease: 'easeOut' }}
-            >
-              <span className="text-xs md:text-sm tracking-[0.6em] uppercase text-gold font-sans font-bold">
-                Decore
-              </span>
-            </motion.div>
-          </div>
-          
+          {/* Brand Logo Opening Animation */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2 }}
-            className="absolute bottom-12 flex items-center gap-4"
+            initial={{ opacity: 0, scale: 0.9, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-center text-center mb-12"
           >
-            <div className="w-12 h-[1px] bg-gold/30" />
-            <span className="text-[10px] uppercase tracking-[0.2em] text-ivory-muted font-bold italic">Where Spaces Tell Stories</span>
-            <div className="w-12 h-[1px] bg-gold/30" />
+            <img
+              src={company.logo}
+              alt={company.name}
+              className="h-20 md:h-24 w-auto object-contain mb-3 filter drop-shadow-[0_0_20px_rgba(201,165,90,0.3)]"
+            />
+            <div className="text-[10px] tracking-[0.4em] uppercase text-[#C9A55A] font-sans font-semibold">
+              Decor Ltd — Canada
+            </div>
           </motion.div>
+
+          {/* Progress Bar */}
+          <div className="w-56 h-[1.5px] bg-white/10 relative overflow-hidden rounded-full">
+            <motion.div
+              className="absolute inset-y-0 left-0 bg-[#C9A55A] shadow-[0_0_12px_#C9A55A]"
+              style={{ width: `${progress}%` }}
+              transition={{ ease: 'linear' }}
+            />
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.6 }}
+            transition={{ delay: 0.3 }}
+            className="text-white/50 text-[10px] tracking-[0.3em] uppercase font-sans mt-6"
+          >
+            Saskatoon, Saskatchewan
+          </motion.p>
         </motion.div>
       )}
     </AnimatePresence>

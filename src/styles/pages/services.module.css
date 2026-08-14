@@ -1,0 +1,64 @@
+/* src/styles/pages/services.module.css */
+/* Brighton Decor Canada — Services Theme: Deep Architectural Slate & Champagne Gold (3D Interactive) */
+
+.servicesPage {
+  --services-bg: #0B0E14;
+  --services-card-bg: rgba(20, 24, 34, 0.85);
+  --services-accent: #C9A55A;
+  --services-accent-light: #DFBF7A;
+  --services-text: #F2EFE9;
+  --services-text-muted: rgba(242, 239, 233, 0.75);
+  --services-border: rgba(201, 165, 90, 0.25);
+
+  background-color: var(--services-bg);
+  color: var(--services-text);
+  min-height: 100vh;
+}
+
+.superHeading {
+  font-family: 'Cinzel', 'Italiana', 'Playfair Display', Georgia, serif;
+  letter-spacing: -0.02em;
+}
+
+.gridPattern {
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(201, 165, 90, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(201, 165, 90, 0.04) 1px, transparent 1px);
+}
+
+.serviceCard3D {
+  background: var(--services-card-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--services-border);
+  border-radius: 1.5rem;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+}
+
+.serviceCard3D:hover {
+  border-color: rgba(201, 165, 90, 0.7);
+  box-shadow: 0 30px 80px rgba(201, 165, 90, 0.22);
+}
+
+.goldBadge {
+  background: rgba(201, 165, 90, 0.15);
+  border: 1px solid var(--services-border);
+  color: var(--services-accent);
+}
+
+.primaryBtn {
+  background: var(--services-accent);
+  color: #0B0E14;
+  font-weight: 800;
+  transition: all 0.35s ease;
+  box-shadow: 0 10px 30px rgba(201, 165, 90, 0.35);
+}
+
+.primaryBtn:hover {
+  background: #FFFFFF;
+  color: #0B0E14;
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.4);
+}

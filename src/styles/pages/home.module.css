@@ -1,0 +1,70 @@
+/* src/styles/pages/home.module.css */
+/* Brighton Decor Canada — Home Theme: Dark Architectural Luxury */
+
+.homePage {
+  --home-bg: #0A0908;
+  --home-card-bg: rgba(23, 24, 22, 0.85);
+  --home-accent: #C9A55A;
+  --home-accent-light: #DFBF7A;
+  --home-text: #F5F2EA;
+  --home-border: rgba(201, 165, 90, 0.25);
+
+  background-color: var(--home-bg);
+  color: var(--home-text);
+  min-height: 100vh;
+}
+
+.heroSection {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--home-bg);
+}
+
+.heroVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.95;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(10, 9, 8, 0.2) 0%, rgba(10, 9, 8, 0.65) 100%),
+              linear-gradient(to right, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.35) 50%, rgba(0, 0, 0, 0.55) 100%);
+  pointer-events: none;
+}
+
+.glassCard {
+  background: var(--home-card-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--home-border);
+  border-radius: 1.25rem;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65);
+}
+
+.accentBadge {
+  background: rgba(201, 165, 90, 0.15);
+  border: 1px solid var(--home-border);
+  color: var(--home-accent);
+}
+
+.primaryBtn {
+  background: var(--home-accent);
+  color: var(--home-bg);
+  font-weight: 700;
+  transition: all 0.35s ease;
+  box-shadow: 0 10px 30px rgba(201, 165, 90, 0.35);
+}
+
+.primaryBtn:hover {
+  background: #FFFFFF;
+  color: var(--home-bg);
+  transform: translateY(-2px);
+}

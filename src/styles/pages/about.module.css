@@ -1,0 +1,82 @@
+/* src/styles/pages/about.module.css */
+/* Brighton Decor Canada — About Theme: Warm Sandstone Heritage */
+
+.aboutPage {
+  --about-bg: #1F1A14;
+  --about-card-bg: rgba(245, 235, 225, 0.05);
+  --about-accent: #D97736;
+  --about-accent-light: #E88B4C;
+  --about-text: #F5EBE1;
+  --about-text-muted: rgba(245, 235, 225, 0.75);
+  --about-border: rgba(217, 119, 54, 0.35);
+
+  background-color: var(--about-bg);
+  color: var(--about-text);
+  min-height: 100vh;
+}
+
+.heroContainer {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--about-bg);
+}
+
+.timelineProgressTrack {
+  position: absolute;
+  left: 50%;
+  top: 2rem;
+  bottom: 2rem;
+  width: 2px;
+  background: rgba(217, 119, 54, 0.15);
+  transform: translateX(-50%);
+}
+
+.timelineProgressLine {
+  position: absolute;
+  left: 50%;
+  top: 2rem;
+  bottom: 2rem;
+  width: 2px;
+  background: linear-gradient(180deg, #D97736 0%, #F5EBE1 50%, #D97736 100%);
+  transform: translateX(-50%);
+  transform-origin: top;
+  box-shadow: 0 0 18px rgba(217, 119, 54, 0.7);
+}
+
+.visionGlassCard {
+  background: linear-gradient(135deg, rgba(245, 235, 225, 0.06) 0%, rgba(245, 235, 225, 0.02) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--about-border);
+  border-radius: 1.5rem;
+  transition: all 0.4s ease;
+}
+
+.visionGlassCard:hover {
+  border-color: rgba(217, 119, 54, 0.75);
+  box-shadow: 0 30px 70px rgba(217, 119, 54, 0.2);
+}
+
+.accentBadge {
+  background: rgba(217, 119, 54, 0.15);
+  border: 1px solid var(--about-border);
+  color: var(--about-accent);
+}
+
+.primaryBtn {
+  background: var(--about-accent);
+  color: var(--about-bg);
+  font-weight: 700;
+  transition: all 0.35s ease;
+  box-shadow: 0 10px 30px rgba(217, 119, 54, 0.35);
+}
+
+.primaryBtn:hover {
+  background: var(--about-text);
+  color: var(--about-bg);
+  transform: translateY(-2px);
+}

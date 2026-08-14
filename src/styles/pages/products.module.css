@@ -1,0 +1,143 @@
+/* src/styles/pages/products.module.css */
+/* Brighton Decor Canada — Products Theme: Peaceful Warm Sand Dune & Artisan Timber Showroom */
+
+.productsPage {
+  --products-bg: #F5F0E6;
+  --products-bg-alt: #FAF8F5;
+  --products-linen: #EAE3D2;
+  --products-card-bg: #FFFFFF;
+  --products-accent: #B89656;
+  --products-accent-light: #D4BA85;
+  --products-timber: #2B1F17;
+  --products-sage: #7C8D78;
+  --products-text: #2B1F17;
+  --products-text-muted: rgba(43, 31, 23, 0.7);
+  --products-border: rgba(184, 150, 86, 0.3);
+
+  background-color: var(--products-bg);
+  color: var(--products-text);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Subtle Architectural Grid Pattern Overlay */
+.gridPattern {
+  background-size: 60px 60px;
+  background-image: 
+    linear-gradient(to right, rgba(43, 31, 23, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(43, 31, 23, 0.04) 1px, transparent 1px);
+}
+
+.filterPill {
+  position: relative;
+  padding: 0.65rem 1.6rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  font-family: var(--font-sans, system-ui);
+  transition: color 0.3s ease;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.filterPillActive {
+  color: #F5F0E6;
+}
+
+.filterPillInactive {
+  color: rgba(43, 31, 23, 0.7);
+  border: 1px solid rgba(43, 31, 23, 0.15);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.filterPillInactive:hover {
+  border-color: var(--products-accent);
+  color: var(--products-timber);
+  background: #FFFFFF;
+}
+
+/* 3D Glassmorphic Showroom Card */
+.productCard3D {
+  background: var(--products-card-bg);
+  border: 1px solid rgba(43, 31, 23, 0.12);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+  box-shadow: 0 10px 30px rgba(43, 31, 23, 0.05);
+}
+
+.productCard3D:hover {
+  border-color: rgba(184, 150, 86, 0.65);
+  box-shadow: 0 25px 60px rgba(43, 31, 23, 0.14);
+}
+
+.swatchDot {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.swatchDotActive {
+  border-color: var(--products-accent);
+  transform: scale(1.25);
+  box-shadow: 0 0 10px rgba(184, 150, 86, 0.4);
+}
+
+/* Primary Timber Button with Fill-up Micro-interaction */
+.primaryBtn {
+  position: relative;
+  background: var(--products-timber);
+  color: #F5F0E6;
+  font-weight: 700;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px rgba(43, 31, 23, 0.2);
+}
+
+.primaryBtn:hover {
+  background: var(--products-accent);
+  color: #2B1F17;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(184, 150, 86, 0.35);
+}
+
+/* 3D Pulse Ring for Try in 3D Button */
+.try3dBtn {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.try3dBtn::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(184, 150, 86, 0.5);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.try3dBtn:hover::after {
+  opacity: 1;
+  animation: pulseRing 1.8s infinite;
+}
+
+@keyframes pulseRing {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.08); opacity: 0; }
+}
+
+/* Moving Specular Sheen Highlight Overlay */
+.sheenBeam {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  transition: opacity 0.3s ease;
+}

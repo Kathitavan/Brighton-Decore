@@ -1,0 +1,53 @@
+/* src/styles/pages/testimonials.module.css */
+/* Brighton Decor Canada — Testimonials Theme: Nordic Velvet & Emerald Glow */
+
+.testimonialsPage {
+  --testimonials-bg: #0B1713;
+  --testimonials-card-bg: rgba(228, 239, 234, 0.05);
+  --testimonials-accent: #F5B83D;
+  --testimonials-accent-light: #FFCA65;
+  --testimonials-text: #E4EFEA;
+  --testimonials-text-muted: rgba(228, 239, 234, 0.75);
+  --testimonials-border: rgba(245, 184, 61, 0.3);
+
+  background-color: var(--testimonials-bg);
+  color: var(--testimonials-text);
+  min-height: 100vh;
+}
+
+.testimonialCard {
+  background: var(--testimonials-card-bg);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--testimonials-border);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonialCard:hover {
+  transform: translateY(-6px);
+  border-color: rgba(245, 184, 61, 0.65);
+  box-shadow: 0 25px 60px rgba(11, 23, 19, 0.7);
+}
+
+.starBadge {
+  color: var(--testimonials-accent);
+  filter: drop-shadow(0 0 8px rgba(245, 184, 61, 0.6));
+}
+
+.primaryBtn {
+  background: var(--testimonials-accent);
+  color: #0B1713;
+  font-weight: 700;
+  transition: all 0.35s ease;
+  box-shadow: 0 10px 30px rgba(245, 184, 61, 0.35);
+}
+
+.primaryBtn:hover {
+  background: #FFFFFF;
+  color: #0B1713;
+  transform: translateY(-2px);
+}
