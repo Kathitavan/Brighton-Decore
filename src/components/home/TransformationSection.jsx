@@ -271,33 +271,7 @@ const TransformationSection = () => {
           </div>
         </motion.div>
 
-        {/* 3. TRANSFORMATION METADATA & SEQUENTIAL STATS */}
-        <div className="max-w-5xl mx-auto mt-10 md:mt-14">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {currentPair.meta.map((item, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.4 + idx * 0.1 }}
-                className="backdrop-blur-xl bg-white/[0.02] border border-white/10 p-5 md:p-6 rounded-xl hover:border-[#C9A55A]/40 transition-colors group"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="font-mono text-xs font-bold text-[#C9A55A] tracking-widest bg-[#C9A55A]/10 border border-[#C9A55A]/25 px-2.5 py-1 rounded">
-                    {item.num}
-                  </span>
-                  <CheckCircle2 size={16} className="text-[#C9A55A]" />
-                </div>
-                <h3 className="font-serif text-[#F5F2EA] text-base md:text-lg font-bold mb-1.5 group-hover:text-[#C9A55A] transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-white/60 text-xs md:text-sm font-sans font-light leading-relaxed">
-                  {item.desc}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+
 
         {/* 4. SECTION CTA */}
         <motion.div

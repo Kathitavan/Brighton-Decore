@@ -59,15 +59,24 @@ const TestimonialCard = ({ testimonial, index, isInView }) => {
 
         {/* Author Details */}
         <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-          <div>
-            <div className="font-serif text-white font-bold text-base group-hover:text-[#C9A55A] transition-colors">
-              {testimonial.name}
-            </div>
-            <div className="text-[10px] uppercase tracking-[0.2em] font-mono text-[#C9A55A] mt-0.5">
-              {testimonial.city}
+          <div className="flex items-center gap-3">
+            {testimonial.avatar && (
+              <img
+                src={testimonial.avatar}
+                alt={testimonial.name}
+                className="w-10 h-10 rounded-full object-cover border-2 border-[#C9A55A]/60 shadow-md shrink-0"
+              />
+            )}
+            <div>
+              <div className="font-serif text-white font-bold text-base group-hover:text-[#C9A55A] transition-colors">
+                {testimonial.name}
+              </div>
+              <div className="text-[10px] uppercase tracking-[0.2em] font-mono text-[#C9A55A] mt-0.5">
+                {testimonial.city}
+              </div>
             </div>
           </div>
-          {testimonial.service && (
+          {testimonial.service && !testimonial.avatar && (
             <span className="text-[10px] text-white/50 font-sans px-2.5 py-1 rounded-full bg-white/5 border border-white/10">
               {testimonial.service}
             </span>

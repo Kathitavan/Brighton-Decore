@@ -5,11 +5,6 @@ import { Shield, Clock, Star, MapPin, Ruler, Wrench, Sparkles } from 'lucide-rea
 
 const reasons = [
   {
-    icon: Ruler,
-    title: 'Free Site Measurement',
-    desc: 'We visit your home at no charge and take precise measurements — no guesswork, no surprises.',
-  },
-  {
     icon: Wrench,
     title: 'Professional Installation',
     desc: 'Trained technicians who take pride in their work — every blind and floor installed perfectly.',

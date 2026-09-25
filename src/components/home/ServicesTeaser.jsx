@@ -1,22 +1,124 @@
 // src/components/home/ServicesTeaser.jsx
-import React, { useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Layers, Grid, Hammer, Ruler, Frame, Lightbulb, Sparkles } from 'lucide-react';
+import { ArrowRight, Layers, Grid, Frame, Sparkles, X, FileText, Box, CheckCircle2 } from 'lucide-react';
 
-const icons = { Layers, Grid, Hammer, Ruler, Frame, Lightbulb };
+const icons = { Layers, Grid, Frame };
 
 const services = [
-  { icon: 'Layers',    name: 'Window Blinds',          desc: 'Roller, zebra, honeycomb, vertical, wooden & PVC blinds.', path: '/services' },
-  { icon: 'Frame',     name: 'Window Coverings',        desc: 'Custom curtains, sheers, and blackout solutions.', path: '/services' },
-  { icon: 'Grid',      name: 'Flooring Supply',         desc: 'Hardwood, laminate, vinyl plank, and more.', path: '/services' },
-  { icon: 'Hammer',    name: 'Flooring Installation',   desc: 'Professional install with a 1-year warranty.', path: '/services' },
-  { icon: 'Ruler',     name: 'Free Site Measurement',   desc: 'Complimentary on-site measuring — no obligation.', path: '/services' },
-  { icon: 'Lightbulb', name: 'Design Consultation',     desc: 'Expert, no-pressure guidance in your own home.', path: '/services' },
+  {
+    id: 'blinds',
+    icon: 'Layers',
+    name: 'Window Blinds',
+    desc: 'Roller, zebra, honeycomb, vertical, wooden & PVC blinds.',
+    path: '/services',
+  },
+  {
+    id: 'window-coverings',
+    icon: 'Frame',
+    name: 'Window Coverings',
+    desc: 'Custom curtains, sheers, and blackout solutions.',
+    path: '/services',
+  },
+  {
+    id: 'flooring',
+    icon: 'Grid',
+    name: 'Flooring',
+    desc: 'Hardwood, laminate, vinyl plank, and carpet tile.',
+    path: '/services',
+  },
 ];
 
-const ServiceTiltCard = ({ service, index, isInView }) => {
-  const navigate = useNavigate();
+// Details dataset accessed on click
+const blindsDetails = [
+  {
+    id: 'roller',
+    name: 'Roller Blinds',
+    desc: 'Clean, minimal, excellent light control for modern spaces.',
+    image: '/assets/imgs/products/roller-blinds.jpg',
+  },
+  {
+    id: 'zebra',
+    name: 'Zebra Blinds',
+    desc: 'Dual-layer sheer & opaque alternating strips for variable light.',
+    image: '/assets/imgs/products/zebra-blinds.jpg',
+  },
+  {
+    id: 'honeycomb',
+    name: 'Honeycomb Blinds',
+    desc: 'Cellular insulation engineering for ultimate energy efficiency.',
+    image: '/assets/imgs/products/honeycomb-blinds.jpg',
+  },
+  {
+    id: 'vertical',
+    name: 'Vertical Blinds',
+    desc: 'Sleek architectural coverage for wide windows & patio doors.',
+    image: '/assets/imgs/products/vertical-blinds.jpg',
+  },
+  {
+    id: 'wooden',
+    name: 'Wooden & Faux Wood',
+    desc: 'Warm natural rich textures with durable moisture resistance.',
+    image: '/assets/imgs/products/wooden-blinds.jpg',
+  },
+  {
+    id: 'pvc',
+    name: 'PVC Blinds',
+    desc: 'Waterproof, easy-clean durability engineered for heavy use.',
+    image: '/assets/imgs/products/pvc-blinds.jpg',
+  },
+];
+
+const flooringDetails = [
+  {
+    id: 'hardwood',
+    name: 'Hardwood',
+    desc: 'Rich solid and engineered hardwood timber planks, precision milled for natural grain warmth and long-lasting durability.',
+    image: '/assets/imgs/products/hardwood-flooring.jpg',
+  },
+  {
+    id: 'laminate',
+    name: 'Laminate',
+    desc: 'High-density scratch-resistant laminate flooring replicating real timber aesthetics with effortless maintenance and water resilience.',
+    image: '/assets/imgs/products/laminate-flooring.jpg',
+  },
+  {
+    id: 'vinyl',
+    name: 'Vinyl Plank',
+    desc: '100% waterproof luxury vinyl plank (LVP) flooring engineered for high-traffic family zones, basements, kitchens, and moisture-prone areas.',
+    image: '/assets/imgs/products/vinyl-plank.jpg',
+  },
+  {
+    id: 'carpet-tile',
+    name: 'Carpet Tile',
+    desc: 'Modular, comfortable carpet tiles providing soft underfoot warmth, acoustic insulation, and simple individual tile stain replacement.',
+    image: '/assets/imgs/products/engineered-hardwood.jpg',
+  },
+];
+
+const coveringsDetails = [
+  {
+    id: 'drapes',
+    name: 'Custom Drapery & Curtains',
+    desc: 'Bespoke floor-to-ceiling drapery in Belgian linen, velvet, and blackout fabrics tailored to your exact window dimensions.',
+    image: '/assets/imgs/products/zebra-blinds.jpg',
+  },
+  {
+    id: 'sheers',
+    name: 'Architectural Sheer Panels',
+    desc: 'Light-diffusing sheer paneling filtering glare while creating an elegant atmosphere in living spaces.',
+    image: '/assets/imgs/products/roller-blinds.jpg',
+  },
+  {
+    id: 'motorized',
+    name: 'Smart Motorized Controls',
+    desc: 'Somfy & Lutron automated remote control systems integrated with home automation.',
+    image: '/assets/imgs/products/honeycomb-blinds.jpg',
+  },
+];
+
+const ServiceTiltCard = ({ service, index, isInView, onClick }) => {
   const cardRef = useRef(null);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -53,7 +155,7 @@ const ServiceTiltCard = ({ service, index, isInView }) => {
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={handleMouseLeave}
-        onClick={() => navigate(service.path)}
+        onClick={() => onClick(service.id)}
         style={{
           transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
           transition: 'transform 0.15s ease-out',
@@ -94,7 +196,7 @@ const ServiceTiltCard = ({ service, index, isInView }) => {
         </div>
 
         <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[10px] uppercase font-bold tracking-[0.2em] text-[#C9A55A] font-sans">
-          <span>Explore Service</span>
+          <span>Click to View Options</span>
           <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
         </div>
       </div>
@@ -106,6 +208,27 @@ const ServicesTeaser = () => {
   const navigate = useNavigate();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-60px' });
+  const [activeModal, setActiveModal] = useState(null); // 'blinds' | 'flooring' | 'window-coverings' | null
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (activeModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [activeModal]);
+
+  const handleCardClick = (serviceId) => {
+    setActiveModal(serviceId);
+  };
+
+  const closeModal = () => {
+    setActiveModal(null);
+  };
 
   return (
     <section
@@ -150,16 +273,258 @@ const ServicesTeaser = () => {
           </motion.button>
         </div>
 
-        {/* Services Grid */}
+        {/* Services Grid (3 Cards: Window Blinds, Window Coverings, Flooring) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, i) => (
-            <ServiceTiltCard key={service.name} service={service} index={i} isInView={isInView} />
+            <ServiceTiltCard
+              key={service.id}
+              service={service}
+              index={i}
+              isInView={isInView}
+              onClick={handleCardClick}
+            />
           ))}
         </div>
 
       </div>
+
+      {/* INTERACTIVE MODAL POPUP FOR SERVICE DETAILS */}
+      <AnimatePresence>
+        {activeModal && (
+          <div className="fixed inset-0 z-[250] flex items-center justify-center p-4 sm:p-6 md:p-10">
+            {/* Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeModal}
+              className="fixed inset-0 bg-black/85 backdrop-blur-md"
+            />
+
+            {/* Modal Dialog Content Container */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="relative z-10 w-full max-w-5xl max-h-[90vh] bg-[#0A0908] border border-[#C9A55A]/40 rounded-2xl shadow-[0_30px_90px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col"
+            >
+              {/* Modal Header */}
+              <div className="bg-[#121210] border-b border-white/10 px-6 sm:px-8 py-5 flex items-center justify-between shrink-0">
+                <div>
+                  <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-[#C9A55A] block mb-1 font-sans">
+                    {activeModal === 'blinds'
+                      ? 'WINDOW COVERINGS SUITE'
+                      : activeModal === 'flooring'
+                      ? 'CANADIAN FLOORING SUITE'
+                      : 'CUSTOM DRAPERY & COVERINGS'}
+                  </span>
+                  <h3 className="font-serif text-white text-2xl sm:text-3xl font-light">
+                    {activeModal === 'blinds'
+                      ? 'Bespoke Blinds Collection'
+                      : activeModal === 'flooring'
+                      ? 'Flooring Collection'
+                      : 'Window Coverings Suite'}
+                  </h3>
+                </div>
+                <button
+                  onClick={closeModal}
+                  aria-label="Close details modal"
+                  className="w-10 h-10 rounded-full bg-white/5 border border-white/15 flex items-center justify-center text-white/80 hover:text-[#0A0908] hover:bg-[#C9A55A] hover:border-[#C9A55A] transition-all duration-300"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Modal Body Scroll Area */}
+              <div className="p-6 sm:p-8 md:p-10 overflow-y-auto space-y-6 scrollbar-thin scrollbar-thumb-[#C9A55A]/40">
+                {/* 1. WINDOW BLINDS COLLECTION MODAL (PDF Page 3 & 4) */}
+                {activeModal === 'blinds' && (
+                  <div>
+                    <p className="text-white/70 font-sans font-light text-sm md:text-base mb-8 max-w-2xl">
+                      Tailored window blinds for Canadian homes. Select a style to request a complimentary quote or test live in 3D.
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {blindsDetails.map((blind) => (
+                        <div
+                          key={blind.id}
+                          className="bg-white/[0.03] border border-white/10 hover:border-[#C9A55A]/50 rounded-xl p-4 transition-all duration-300 flex flex-col justify-between group"
+                        >
+                          <div>
+                            <div className="aspect-[16/11] rounded-lg overflow-hidden bg-[#1A1814] mb-4">
+                              <img
+                                src={blind.image}
+                                alt={blind.name}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              />
+                            </div>
+                            <span className="text-[9px] uppercase font-bold tracking-[0.2em] text-[#C9A55A] block mb-1 font-sans">
+                              Window Blinds
+                            </span>
+                            <h4 className="font-serif text-white text-lg font-bold mb-2 group-hover:text-[#C9A55A] transition-colors">
+                              {blind.name}
+                            </h4>
+                            <p className="text-xs text-white/60 font-sans font-light leading-relaxed mb-4">
+                              {blind.desc}
+                            </p>
+                          </div>
+
+                          <div className="flex gap-2 pt-3 border-t border-white/10">
+                            <button
+                              onClick={() => {
+                                closeModal();
+                                navigate('/contact');
+                              }}
+                              className="flex-1 inline-flex items-center justify-center gap-1.5 text-[9px] font-bold tracking-wider uppercase font-sans text-[#C9A55A] border border-[#C9A55A]/40 py-2.5 px-3 rounded-lg hover:bg-[#C9A55A] hover:text-[#0A0908] transition-all"
+                            >
+                              <FileText size={12} />
+                              <span>Quote</span>
+                            </button>
+                            <button
+                              onClick={() => {
+                                closeModal();
+                                navigate('/room-viewer', { state: { preselect: blind.id } });
+                              }}
+                              className="flex-1 inline-flex items-center justify-center gap-1.5 text-[9px] font-bold tracking-wider uppercase font-sans bg-white/10 text-white py-2.5 px-3 rounded-lg hover:bg-white hover:text-[#0A0908] transition-all"
+                            >
+                              <Box size={12} />
+                              <span>3D Studio</span>
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 2. FLOORING COLLECTION MODAL (PDF Page 1: Hardwood, laminate, vinyl, carpet tile) */}
+                {activeModal === 'flooring' && (
+                  <div>
+                    <p className="text-white/70 font-sans font-light text-sm md:text-base mb-8 max-w-2xl">
+                      Explore our complete range of Canadian-rated flooring options — Hardwood, Laminate, Vinyl Plank, and Carpet Tile.
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      {flooringDetails.map((floor) => (
+                        <div
+                          key={floor.id}
+                          className="bg-white/[0.03] border border-white/10 hover:border-[#C9A55A]/50 rounded-xl p-5 transition-all duration-300 flex flex-col justify-between group"
+                        >
+                          <div>
+                            <div className="aspect-[16/10] rounded-lg overflow-hidden bg-[#1A1814] mb-4">
+                              <img
+                                src={floor.image}
+                                alt={floor.name}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              />
+                            </div>
+                            <span className="text-[9px] uppercase font-bold tracking-[0.2em] text-[#C9A55A] block mb-1 font-sans">
+                              Flooring Type
+                            </span>
+                            <h4 className="font-serif text-white text-xl font-bold mb-2 group-hover:text-[#C9A55A] transition-colors">
+                              {floor.name}
+                            </h4>
+                            <p className="text-xs text-white/70 font-sans font-light leading-relaxed mb-4">
+                              {floor.desc}
+                            </p>
+                          </div>
+
+                          <div className="flex gap-3 pt-3 border-t border-white/10">
+                            <button
+                              onClick={() => {
+                                closeModal();
+                                navigate('/contact');
+                              }}
+                              className="flex-1 inline-flex items-center justify-center gap-1.5 text-[10px] font-bold tracking-wider uppercase font-sans text-[#C9A55A] border border-[#C9A55A]/40 py-2.5 px-3 rounded-lg hover:bg-[#C9A55A] hover:text-[#0A0908] transition-all"
+                            >
+                              <FileText size={12} />
+                              <span>Request Quote</span>
+                            </button>
+                            <button
+                              onClick={() => {
+                                closeModal();
+                                navigate('/room-viewer');
+                              }}
+                              className="flex-1 inline-flex items-center justify-center gap-1.5 text-[10px] font-bold tracking-wider uppercase font-sans bg-white/10 text-white py-2.5 px-3 rounded-lg hover:bg-white hover:text-[#0A0908] transition-all"
+                            >
+                              <Box size={12} />
+                              <span>3D Studio</span>
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 3. WINDOW COVERINGS MODAL */}
+                {activeModal === 'window-coverings' && (
+                  <div>
+                    <p className="text-white/70 font-sans font-light text-sm md:text-base mb-8 max-w-2xl">
+                      Architectural drapery and custom window covering solutions tailored for light control and thermal comfort.
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                      {coveringsDetails.map((item) => (
+                        <div
+                          key={item.id}
+                          className="bg-white/[0.03] border border-white/10 hover:border-[#C9A55A]/50 rounded-xl p-5 transition-all duration-300 flex flex-col justify-between group"
+                        >
+                          <div>
+                            <div className="aspect-[16/10] rounded-lg overflow-hidden bg-[#1A1814] mb-4">
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              />
+                            </div>
+                            <span className="text-[9px] uppercase font-bold tracking-[0.2em] text-[#C9A55A] block mb-1 font-sans">
+                              Window Covering
+                            </span>
+                            <h4 className="font-serif text-white text-lg font-bold mb-2 group-hover:text-[#C9A55A] transition-colors">
+                              {item.name}
+                            </h4>
+                            <p className="text-xs text-white/70 font-sans font-light leading-relaxed mb-4">
+                              {item.desc}
+                            </p>
+                          </div>
+
+                          <div className="pt-3 border-t border-white/10">
+                            <button
+                              onClick={() => {
+                                closeModal();
+                                navigate('/contact');
+                              }}
+                              className="w-full inline-flex items-center justify-center gap-1.5 text-[10px] font-bold tracking-wider uppercase font-sans text-[#C9A55A] border border-[#C9A55A]/40 py-2.5 px-3 rounded-lg hover:bg-[#C9A55A] hover:text-[#0A0908] transition-all"
+                            >
+                              <FileText size={12} />
+                              <span>Request Quote</span>
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Modal Footer */}
+              <div className="bg-[#121210] border-t border-white/10 px-6 sm:px-8 py-4 flex items-center justify-between shrink-0">
+                <span className="text-[10px] uppercase font-mono tracking-widest text-white/50">
+                  Brighton Decor Guarantee · 1-Year Workmanship Warranty
+                </span>
+                <button
+                  onClick={closeModal}
+                  className="px-5 py-2 rounded-full bg-white/10 text-white hover:bg-white hover:text-[#0A0908] text-xs font-bold uppercase tracking-widest font-sans transition-all"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
 
 export default ServicesTeaser;
+

@@ -27,16 +27,38 @@ export const services = [
     features: ['Custom Curtains', 'Sheer Panels', 'Blackout Options', 'Day & Night Solutions', 'Child-Safe Mechanisms', 'Motorized Options'],
   },
   {
-    id: 'flooring-supply',
-    name: 'Flooring Supply',
-    category: 'MATERIAL SELECTION',
-    tagline: 'Enduring timber, tile & acoustic vinyl.',
+    id: 'flooring',
+    name: 'Flooring',
+    category: 'FLOORING SOLUTIONS',
+    tagline: 'Hardwood, laminate, vinyl & carpet tile.',
     image: '/assets/imgs/products/hardwood-flooring.jpg',
-    description: 'Quality flooring materials — hardwood, laminate, vinyl, and more — sourced to match your space, style, and budget.',
+    description: 'Hardwood, laminate, vinyl plank, and carpet tile — expertly selected for Canadian homes.',
     longDescription:
-      'We supply a curated selection of flooring materials suitable for Canadian homes. From durable hardwood and elegant laminate to waterproof vinyl plank flooring, our products are selected for quality, performance, and lasting beauty in all Canadian climate conditions.',
+      'We offer a curated selection of flooring options suitable for Canadian climate conditions. Explore our premium hardwood, durable laminate, 100% waterproof vinyl plank (LVP), and versatile carpet tiles tailored to elevate any interior.',
     icon: 'Grid',
-    features: ['Hardwood Flooring', 'Laminate Flooring', 'Vinyl Plank (LVP)', 'Engineered Wood', 'Tile & Stone', 'Carpet Options'],
+    features: ['Hardwood Flooring', 'Laminate Flooring', 'Vinyl Plank (LVP)', 'Carpet Tile'],
+    types: [
+      {
+        name: 'Hardwood',
+        desc: 'Rich solid and engineered hardwood timber planks, precision milled for natural grain warmth and long-lasting durability.',
+        image: '/assets/imgs/products/hardwood-flooring.jpg'
+      },
+      {
+        name: 'Laminate',
+        desc: 'High-density scratch-resistant laminate flooring replicating real timber aesthetics with effortless maintenance and water resilience.',
+        image: '/assets/imgs/products/laminate-flooring.jpg'
+      },
+      {
+        name: 'Vinyl Plank',
+        desc: '100% waterproof luxury vinyl plank flooring engineered for high-traffic family zones, basements, kitchens, and moisture-prone areas.',
+        image: '/assets/imgs/products/vinyl-plank.jpg'
+      },
+      {
+        name: 'Carpet Tile',
+        desc: 'Modular, comfortable carpet tiles providing soft underfoot warmth, acoustic insulation, and simple individual tile stain replacement.',
+        image: '/assets/imgs/products/engineered-hardwood.jpg'
+      }
+    ]
   },
   {
     id: 'flooring-installation',

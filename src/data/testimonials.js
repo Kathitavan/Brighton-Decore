@@ -22,12 +22,13 @@ export const testimonials = [
   },
   {
     id: 3,
-    name: 'Patricia R.',
-    city: 'Saskatoon, SK',
+    name: 'Michelle Harmington',
+    city: 'Happy client',
     quote:
-      'The free measurement service was such a great touch. They came out, measured everything, and gave us a clear quote the same day. Honest, transparent, and the finished result is beautiful.',
+      'Thoughtful, efficient and engaging process in which I felt like my preferences were understood and reflected in the final design. Look forward to using and referring to them in the future.',
     rating: 5,
-    service: 'Zebra Blinds & Honeycomb Blinds',
+    service: 'Interior Styling',
+    avatar: '/assets/imgs/testimonials/michelle-harmington.png',
   },
   {
     id: 4,

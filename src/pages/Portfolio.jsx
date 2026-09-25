@@ -15,7 +15,6 @@ const statsData = [
   { value: '1,300+', label: 'Canadian Homes Transformed' },
   { value: '4+', label: 'Years of Atelier Design' },
   { value: '100%', label: 'Client Satisfaction Rate' },
-  { value: '5', label: 'Provinces Served Nationwide' },
 ];
 
 const Portfolio = () => {
@@ -157,7 +156,7 @@ const Portfolio = () => {
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 pt-8 border-t border-white/15 bg-[#171816]/60 backdrop-blur-xl p-6 rounded-2xl border"
+                className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8 pt-8 border-t border-white/15 bg-[#171816]/60 backdrop-blur-xl p-6 rounded-2xl border"
               >
                 {statsData.map((stat, idx) => (
                   <div key={idx} className="text-center">

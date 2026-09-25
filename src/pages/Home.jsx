@@ -4,10 +4,8 @@ import PageTransition from '../components/common/PageTransition';
 import Hero from '../components/home/Hero';
 import Stats from '../components/home/Stats';
 import ServicesTeaser from '../components/home/ServicesTeaser';
-import BrandMarquee from '../components/home/BrandMarquee';
 import ProductsSection from '../components/home/ProductsSection';
 import TransformationSection from '../components/home/TransformationSection';
-import FeaturedProjects from '../components/home/FeaturedProjects';
 import WhyBrighton from '../components/home/WhyBrighton';
 import AboutSnippet from '../components/home/AboutSnippet';
 import ProcessSection from '../components/home/ProcessSection';
@@ -29,19 +27,13 @@ const Home = () => {
         {/* 3. Services — architectural offerings */}
         <ServicesTeaser />
 
-        {/* 4. Brand Partners Marquee */}
-        <BrandMarquee />
-
-        {/* 5. Products — blinds collection */}
+        {/* 4. Products — blinds collection */}
         <ProductsSection />
 
-        {/* 6. Transformation Showcase — Before & After V2 */}
+        {/* 5. Transformation Showcase — Before & After V2 */}
         <TransformationSection />
 
-        {/* 7. Portfolio — featured transformations */}
-        <FeaturedProjects />
-
-        {/* 8. Why Brighton Decor */}
+        {/* 6. Why Brighton Decor */}
         <WhyBrighton />
 
         {/* 9. About snippet */}
