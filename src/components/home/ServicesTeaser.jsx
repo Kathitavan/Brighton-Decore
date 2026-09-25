@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Layers, Grid, Frame, Sparkles, X, FileText, Box, CheckCircle2 } from 'lucide-react';
+import useModalScroll from '../../hooks/useModalScroll';
 
 const icons = { Layers, Grid, Frame };
 
@@ -210,17 +211,8 @@ const ServicesTeaser = () => {
   const isInView = useInView(ref, { once: true, margin: '-60px' });
   const [activeModal, setActiveModal] = useState(null); // 'blinds' | 'flooring' | 'window-coverings' | null
 
-  // Lock body scroll when modal is open
-  useEffect(() => {
-    if (activeModal) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [activeModal]);
+  // Manage body scroll locking cleanly via global hook
+  useModalScroll(!!activeModal);
 
   const handleCardClick = (serviceId) => {
     setActiveModal(serviceId);
@@ -291,7 +283,12 @@ const ServicesTeaser = () => {
       {/* INTERACTIVE MODAL POPUP FOR SERVICE DETAILS */}
       <AnimatePresence>
         {activeModal && (
-          <div className="fixed inset-0 z-[250] flex items-center justify-center p-4 sm:p-6 md:p-10">
+          <div 
+            className="fixed inset-0 z-[250] flex items-center justify-center p-4 sm:p-6 md:p-10"
+            role="dialog"
+            aria-modal="true"
+            data-lenis-prevent
+          >
             {/* Backdrop Overlay */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -337,7 +334,13 @@ const ServicesTeaser = () => {
               </div>
 
               {/* Modal Body Scroll Area */}
-              <div className="p-6 sm:p-8 md:p-10 overflow-y-auto space-y-6 scrollbar-thin scrollbar-thumb-[#C9A55A]/40">
+              <div 
+                className="p-6 sm:p-8 md:p-10 overflow-y-auto space-y-6 modal-scroll-area touch-pan-y"
+                data-lenis-prevent
+                data-lenis-prevent-wheel
+                data-lenis-prevent-touch
+                style={{ overscrollBehavior: 'contain' }}
+              >
                 {/* 1. WINDOW BLINDS COLLECTION MODAL (PDF Page 3 & 4) */}
                 {activeModal === 'blinds' && (
                   <div>

@@ -39,6 +39,18 @@ function App() {
       smoothTouch: false,
       touchMultiplier: 2,
       infinite: false,
+      prevent: (node) => {
+        return (
+          node.hasAttribute('data-lenis-prevent') ||
+          node.closest('[data-lenis-prevent]') !== null ||
+          node.closest('.lenis-prevent') !== null ||
+          node.closest('[role="dialog"]') !== null ||
+          node.closest('.modal-scroll-area') !== null ||
+          node.closest('.fixed') !== null ||
+          document.body.classList.contains('modal-open') ||
+          document.body.style.overflow === 'hidden'
+        );
+      },
     });
 
     function raf(time) {

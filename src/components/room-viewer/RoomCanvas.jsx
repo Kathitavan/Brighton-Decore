@@ -133,66 +133,168 @@ const Sofa = ({ style, color }) => {
 
 const Blinds = ({ type, open }) => {
     return useMemo(() => {
-        const height = 1.8 * (1 - open);
-        const yPos = 4.2 + (0.9 * open);
-        const fabricMat = new THREE.MeshStandardMaterial({ color: '#E8E0D4', roughness: 0.6, transparent: true, opacity: 0.92 });
+        const maxH = 1.95;
+        const currentH = Math.max(0.12, maxH * (1 - open));
+        const topY = 0.95; // relative to window center [0, 4.2, -4.9]
+        const bottomY = topY - currentH;
+        const centerY = topY - (currentH / 2);
+
+        const cassetteMat = new THREE.MeshStandardMaterial({
+            color: type === 'wooden' ? '#4A3520' : '#25221F',
+            metalness: 0.6,
+            roughness: 0.35
+        });
+
+        const bottomRailMat = new THREE.MeshStandardMaterial({
+            color: type === 'wooden' ? '#4A3520' : '#1C1B19',
+            metalness: 0.6,
+            roughness: 0.35
+        });
+
+        const TopCassette = (
+            <mesh position={[0, topY + 0.05, 0.02]} material={cassetteMat} castShadow receiveShadow>
+                <boxGeometry args={[2.42, 0.1, 0.1]} />
+            </mesh>
+        );
+
+        const BottomRail = (
+            <mesh position={[0, bottomY - 0.02, 0.02]} material={bottomRailMat} castShadow receiveShadow>
+                <boxGeometry args={[2.35, 0.04, 0.05]} />
+            </mesh>
+        );
 
         switch (type) {
-            case 'roller':
+            case 'roller': {
+                const rollerMat = new THREE.MeshStandardMaterial({
+                    color: '#E8E0D4',
+                    roughness: 0.65,
+                    metalness: 0.02,
+                    transparent: true,
+                    opacity: 0.94,
+                    side: THREE.DoubleSide
+                });
+
                 return (
-                    <mesh position={[0, yPos, -4.88]} material={fabricMat} castShadow receiveShadow>
-                        <planeGeometry args={[2.2, height]} />
-                    </mesh>
+                    <group>
+                        {TopCassette}
+                        <mesh position={[0, centerY, 0.01]} material={rollerMat} castShadow receiveShadow>
+                            <planeGeometry args={[2.3, currentH]} />
+                        </mesh>
+                        {BottomRail}
+                    </group>
                 );
-            case 'zebra':
+            }
+            case 'zebra': {
+                const numStrips = 11;
+                const stripH = currentH / numStrips;
+                const opaqueMat = new THREE.MeshStandardMaterial({ color: '#D6CFC4', roughness: 0.5, opacity: 0.95, transparent: true, side: THREE.DoubleSide });
+                const sheerMat = new THREE.MeshStandardMaterial({ color: '#F8F6F0', roughness: 0.2, opacity: 0.35, transparent: true, side: THREE.DoubleSide });
+
                 return (
-                    <group position={[0, 4.2, -4.88]}>
-                        {[...Array(9)].map((_, i) => (
-                            Math.ceil(9 * (1 - open)) > i && (
-                                <mesh key={i} position={[0, 0.8 - i * 0.2, 0]} castShadow receiveShadow>
-                                    <planeGeometry args={[2.2, 0.18]} />
-                                    <meshStandardMaterial color="#D4CFC8" roughness={0.5} opacity={i % 2 === 0 ? 0.9 : 0.35} transparent />
+                    <group>
+                        {TopCassette}
+                        <group position={[0, 0, 0.02]}>
+                            {[...Array(numStrips)].map((_, i) => (
+                                <mesh key={`front-${i}`} position={[0, topY - (i + 0.5) * stripH, 0]} material={i % 2 === 0 ? opaqueMat : sheerMat} castShadow receiveShadow>
+                                    <planeGeometry args={[2.3, stripH * 0.95]} />
                                 </mesh>
-                            )
-                        ))}
+                            ))}
+                        </group>
+                        <group position={[0, 0, -0.01]}>
+                            {[...Array(numStrips)].map((_, i) => (
+                                <mesh key={`back-${i}`} position={[0, topY - (i + 0.5) * stripH, 0]} material={i % 2 === 0 ? sheerMat : opaqueMat} castShadow receiveShadow>
+                                    <planeGeometry args={[2.3, stripH * 0.95]} />
+                                </mesh>
+                            ))}
+                        </group>
+                        {BottomRail}
                     </group>
                 );
-            case 'honeycomb':
+            }
+            case 'honeycomb': {
+                const pleatCount = Math.max(4, Math.floor(currentH / 0.12));
+                const pleatsMat = new THREE.MeshStandardMaterial({ color: '#D8CDBA', roughness: 0.75, opacity: 0.9, transparent: true });
+
                 return (
-                    <mesh position={[0, yPos, -4.88]} castShadow receiveShadow>
-                        <planeGeometry args={[2.2, height]} />
-                        <meshStandardMaterial color="#D4C8B0" roughness={0.7} opacity={0.88} transparent />
-                    </mesh>
-                );
-            case 'vertical':
-                return (
-                    <group position={[0, 4.2, -4.88]}>
-                        {[...Array(11)].map((_, i) => (
-                            <mesh key={i} position={[-1.1 + i * 0.22, 0, 0]} scale={[1, 1 - open, 1]} castShadow receiveShadow>
-                                <planeGeometry args={[0.2, 1.8]} />
-                                <meshStandardMaterial color="#C8C0B4" roughness={0.5} />
-                            </mesh>
-                        ))}
+                    <group>
+                        {TopCassette}
+                        <group position={[0, 0, 0.01]}>
+                            {[...Array(pleatCount)].map((_, i) => (
+                                <mesh key={i} position={[0, topY - (i + 0.5) * (currentH / pleatCount), 0]} material={pleatsMat} castShadow receiveShadow>
+                                    <boxGeometry args={[2.3, (currentH / pleatCount) * 0.85, 0.05]} />
+                                </mesh>
+                            ))}
+                        </group>
+                        {BottomRail}
                     </group>
                 );
-            case 'wooden':
+            }
+            case 'vertical': {
+                const numVanes = 12;
+                const vaneWidth = 0.22;
+                const vaneMat = new THREE.MeshStandardMaterial({ color: '#D4CDC2', roughness: 0.55, side: THREE.DoubleSide });
+                const vaneAngle = open * Math.PI * 0.45;
+
                 return (
-                    <group position={[0, 4.2, -4.88]}>
-                        {[...Array(7)].map((_, i) => (
-                            <mesh key={i} position={[0, 0.75 - i * 0.25, 0]} rotation-x={-0.3 + open * 0.6} castShadow receiveShadow>
-                                <planeGeometry args={[2.2, 0.22]} />
-                                <meshStandardMaterial color="#8B6914" roughness={0.35} metalness={0.1} />
-                            </mesh>
-                        ))}
+                    <group>
+                        {TopCassette}
+                        <group position={[0, 0, 0.02]}>
+                            {[...Array(numVanes)].map((_, i) => {
+                                const xPos = -1.15 + (i + 0.5) * (2.3 / numVanes);
+                                return (
+                                    <mesh key={i} position={[xPos, topY - (maxH / 2), 0]} rotation-y={vaneAngle} material={vaneMat} castShadow receiveShadow>
+                                        <boxGeometry args={[vaneWidth, maxH, 0.01]} />
+                                    </mesh>
+                                );
+                            })}
+                        </group>
                     </group>
                 );
-            case 'pvc':
+            }
+            case 'wooden': {
+                const slatCount = Math.max(4, Math.floor(currentH / 0.15));
+                const woodMat = new THREE.MeshStandardMaterial({ color: '#7C5228', roughness: 0.35, metalness: 0.08 });
+                const tapeMat = new THREE.MeshStandardMaterial({ color: '#3A2718', roughness: 0.8 });
+                const slatAngle = -0.3 + open * 0.65;
+
                 return (
-                    <mesh position={[0, yPos, -4.88]} castShadow receiveShadow>
-                        <planeGeometry args={[2.2, height]} />
-                        <meshStandardMaterial color="#FFFFFF" roughness={0.2} opacity={0.96} transparent />
-                    </mesh>
+                    <group>
+                        {TopCassette}
+                        <group position={[0, 0, 0.02]}>
+                            {[...Array(slatCount)].map((_, i) => (
+                                <mesh key={i} position={[0, topY - (i + 0.5) * (currentH / slatCount), 0]} rotation-x={slatAngle} material={woodMat} castShadow receiveShadow>
+                                    <boxGeometry args={[2.35, 0.1, 0.02]} />
+                                </mesh>
+                            ))}
+                            {[-0.7, 0.7].map((tx, idx) => (
+                                <mesh key={idx} position={[tx, centerY, 0.025]} material={tapeMat} castShadow>
+                                    <boxGeometry args={[0.04, currentH, 0.005]} />
+                                </mesh>
+                            ))}
+                        </group>
+                        {BottomRail}
+                    </group>
                 );
+            }
+            case 'pvc': {
+                const slatCount = Math.max(4, Math.floor(currentH / 0.14));
+                const pvcMat = new THREE.MeshStandardMaterial({ color: '#F9F8F6', roughness: 0.2, metalness: 0.04 });
+                const slatAngle = -0.25 + open * 0.55;
+
+                return (
+                    <group>
+                        {TopCassette}
+                        <group position={[0, 0, 0.02]}>
+                            {[...Array(slatCount)].map((_, i) => (
+                                <mesh key={i} position={[0, topY - (i + 0.5) * (currentH / slatCount), 0]} rotation-x={slatAngle} material={pvcMat} castShadow receiveShadow>
+                                    <boxGeometry args={[2.35, 0.09, 0.015]} />
+                                </mesh>
+                            ))}
+                        </group>
+                        {BottomRail}
+                    </group>
+                );
+            }
             default: return null;
         }
     }, [type, open]);

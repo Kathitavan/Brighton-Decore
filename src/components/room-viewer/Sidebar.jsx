@@ -14,7 +14,7 @@ const Sidebar = ({ roomState, onUpdate, onSave }) => {
   return (
     <div className="flex flex-col w-full md:w-[300px] h-[45vh] md:h-full bg-bg-secondary border-r border-gold/10 overflow-hidden shrink-0">
       {/* Scrollable Content Area */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0 p-4 scrollbar-thin scrollbar-thumb-gold/30">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0 p-4 scrollbar-thin scrollbar-thumb-gold/30 touch-pan-y" data-lenis-prevent data-lenis-prevent-wheel data-lenis-prevent-touch style={{ overscrollBehavior: 'contain' }}>
         <div className="space-y-10 pb-10">
           
           {/* Section 1: Room Type */}

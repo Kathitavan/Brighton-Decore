@@ -8,6 +8,7 @@ import { TEMPLATES } from '../data/roomTemplates';
 import { BLIND_PRODUCTS, WALL_COLORS, FLOOR_OPTIONS } from '../data/roomProducts';
 import { company } from '../config/company';
 import styles from '../styles/pages/roomViewer.module.css';
+import useModalScroll from '../hooks/useModalScroll';
 
 const DEFAULT_STATE = {
   floorType: 'lightoak',
@@ -65,6 +66,7 @@ const RoomViewer = () => {
     const [activeSection, setActiveSection] = useState(window.innerWidth < 768 ? null : 'presets');
     const [roomState, setRoomState] = useState(DEFAULT_STATE);
     const [showSaveModal, setShowSaveModal] = useState(false);
+    useModalScroll(showSaveModal);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     useEffect(() => {
@@ -125,7 +127,7 @@ const RoomViewer = () => {
                             <span className="text-[9px] uppercase tracking-[0.3em] text-gold font-bold mb-3 block">Customize Your Room</span>
                             
                             {/* Horizontal Category Picker (Mobile/Tablet) */}
-                            <div className="flex overflow-x-auto no-scrollbar gap-4 border-b border-gold/5 pb-2 mb-1 scroll-smooth">
+                            <div className="flex overflow-x-auto no-scrollbar gap-4 border-b border-gold/5 pb-2 mb-1 scroll-smooth" data-lenis-prevent data-lenis-prevent-wheel data-lenis-prevent-touch>
                                 {[
                                     { id: 'presets', l: 'Presets' },
                                     { id: 'floors', l: 'Flooring' },
@@ -152,7 +154,7 @@ const RoomViewer = () => {
                             </div>
                         </div>
 
-                        <div className="flex-1 overflow-y-auto min-h-0 scrollbar-v3 scroll-smooth">
+                        <div className="flex-1 overflow-y-auto min-h-0 scrollbar-v3 scroll-smooth touch-pan-y" data-lenis-prevent data-lenis-prevent-wheel data-lenis-prevent-touch style={{ overscrollBehavior: 'contain' }}>
                             <div id="section-presets">
                                 <Section title="Quick Presets" id="presets" activeSection={activeSection} setActiveSection={setActiveSection}>
                                     <div className={`flex ${isMobile ? 'flex-row overflow-x-auto pb-4 scrollbar-thin' : 'flex-col'} gap-3`}>
@@ -256,20 +258,43 @@ const RoomViewer = () => {
 
                             <div id="section-blinds">
                                 <Section title="Window Blinds" id="blinds" activeSection={activeSection} setActiveSection={setActiveSection} badge="Brighton Decor">
-                                    <div className="grid grid-cols-2 gap-2">
-                                        {BLIND_PRODUCTS.map(b => (
-                                            <button 
-                                                key={b.id} 
-                                                onClick={() => updateRoom('blindType', b.id)}
-                                                className={`p-2 border bg-bg-tertiary flex flex-col items-center gap-1 transition-all ${roomState.blindType === b.id ? 'border-gold' : 'border-gold/10 opacity-60 hover:opacity-100'}`}
-                                            >
-                                                <div className="w-full h-8 bg-gold/5 flex items-center justify-center">
-                                                    <div className="w-6 h-4 border border-gold/20" />
-                                                </div>
-                                                <span className="text-[9px] font-bold text-white whitespace-nowrap">{b.name}</span>
-                                                <span className="text-[8px] text-gold/80">{b.shortDesc?.split(',')[0] || ''}</span>
-                                            </button>
-                                        ))}
+                                    <div className="grid grid-cols-2 gap-2.5">
+                                        {BLIND_PRODUCTS.map(b => {
+                                            const isSelected = roomState.blindType === b.id;
+                                            return (
+                                                <button 
+                                                    key={b.id} 
+                                                    type="button"
+                                                    onClick={() => updateRoom('blindType', b.id)}
+                                                    className={`p-2.5 border rounded-xl bg-bg-tertiary flex flex-col items-center gap-2 transition-all duration-300 relative group cursor-pointer text-left w-full ${
+                                                        isSelected 
+                                                            ? 'border-gold bg-gold/15 shadow-[0_0_15px_rgba(201,165,90,0.25)] ring-1 ring-gold' 
+                                                            : 'border-gold/15 opacity-75 hover:opacity-100 hover:border-gold/40'
+                                                    }`}
+                                                >
+                                                    <div className="w-full aspect-[16/10] rounded-lg overflow-hidden bg-[#1A1814] relative">
+                                                        <img 
+                                                            src={`/assets/imgs/products/${b.id === 'wooden' ? 'wooden' : b.id}-blinds.jpg`} 
+                                                            alt={b.name} 
+                                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                            onError={(e) => {
+                                                                e.target.src = '/assets/imgs/products/roller-blinds.jpg';
+                                                            }}
+                                                        />
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                                        {isSelected && (
+                                                            <div className="absolute top-1.5 right-1.5 bg-gold text-[#0D0C0A] w-5 h-5 rounded-full flex items-center justify-center shadow-md z-10">
+                                                                <Check size={12} strokeWidth={3} />
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div className="w-full">
+                                                        <span className={`text-[10px] font-bold block truncate ${isSelected ? 'text-gold' : 'text-white'}`}>{b.name}</span>
+                                                        <span className="text-[8px] text-ivory/60 block mt-0.5 line-clamp-1">{b.shortDesc}</span>
+                                                    </div>
+                                                </button>
+                                            );
+                                        })}
                                     </div>
                                 </Section>
                             </div>
@@ -453,7 +478,12 @@ const RoomViewer = () => {
                 {/* Save Look Modal */}
                 <AnimatePresence>
                     {showSaveModal && (
-                        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-6">
+                        <div 
+                            className="fixed inset-0 z-[1000] flex items-center justify-center p-6"
+                            role="dialog"
+                            aria-modal="true"
+                            data-lenis-prevent
+                        >
                             <motion.div 
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
@@ -479,7 +509,7 @@ const RoomViewer = () => {
 
                                 <h3 className="text-2xl md:text-3xl font-serif text-gold mb-8 italic">Your Room Design Summary</h3>
                                 
-                                <div className="grid grid-cols-2 gap-y-4 gap-x-8 mb-10 overflow-y-auto max-h-[40vh] pr-4 scrollbar-thin">
+                                <div className="grid grid-cols-2 gap-y-4 gap-x-8 mb-10 overflow-y-auto max-h-[40vh] pr-4 modal-scroll-area touch-pan-y" data-lenis-prevent data-lenis-prevent-wheel data-lenis-prevent-touch style={{ overscrollBehavior: 'contain' }}>
                                     {[
                                         { l: 'Floor', v: roomState.floorType },
                                         { l: 'Wall', v: roomState.wallColor },

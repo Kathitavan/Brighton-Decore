@@ -4,7 +4,7 @@ import PageTransition from '../components/common/PageTransition';
 import Hero from '../components/home/Hero';
 import Stats from '../components/home/Stats';
 import ServicesTeaser from '../components/home/ServicesTeaser';
-import ProductsSection from '../components/home/ProductsSection';
+import Immersive3DShowcase from '../components/home/Immersive3DShowcase';
 import TransformationSection from '../components/home/TransformationSection';
 import WhyBrighton from '../components/home/WhyBrighton';
 import AboutSnippet from '../components/home/AboutSnippet';
@@ -27,8 +27,8 @@ const Home = () => {
         {/* 3. Services — architectural offerings */}
         <ServicesTeaser />
 
-        {/* 4. Products — blinds collection */}
-        <ProductsSection />
+        {/* 4. Immersive 3D Room Experience — Scroll-driven architectural showcase */}
+        <Immersive3DShowcase />
 
         {/* 5. Transformation Showcase — Before & After V2 */}
         <TransformationSection />

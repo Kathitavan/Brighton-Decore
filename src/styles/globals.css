@@ -92,3 +92,17 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Modal & Popup Global Scroll Rules */
+body.modal-open {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
+.modal-scroll-area,
+[data-lenis-prevent],
+[role="dialog"] {
+  overscroll-behavior: contain !important;
+  touch-action: pan-y !important;
+  -webkit-overflow-scrolling: touch !important;
+}

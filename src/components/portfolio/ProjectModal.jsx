@@ -6,28 +6,19 @@ import { X, MapPin, Tag, Calendar, Maximize2, ArrowLeft, ArrowRight, CheckCircle
 import BeforeAfterSlider from './BeforeAfterSlider';
 import { useNavigate } from 'react-router-dom';
 
+import useModalScroll from '../../hooks/useModalScroll';
+
 const ProjectModal = ({ project, projectsList = [], isOpen, onClose, onSelectProject }) => {
   const navigate = useNavigate();
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  useModalScroll(isOpen);
 
   useEffect(() => {
     setActiveGalleryIndex(0);
     setLightboxIndex(0);
   }, [project]);
-
-  // Lock body scroll when viewer is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
 
   // Handle Keyboard Navigation (ESC to close, Left/Right for gallery/projects)
   useEffect(() => {
@@ -69,7 +60,13 @@ const ProjectModal = ({ project, projectsList = [], isOpen, onClose, onSelectPro
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="fixed inset-0 z-[200] bg-[#0A0908] text-white overflow-y-auto overflow-x-hidden selection:bg-[#C9A55A] selection:text-[#0A0908]"
+          role="dialog"
+          aria-modal="true"
+          data-lenis-prevent
+          data-lenis-prevent-wheel
+          data-lenis-prevent-touch
+          style={{ overscrollBehavior: 'contain' }}
+          className="fixed inset-0 z-[200] bg-[#0A0908] text-white overflow-y-auto overflow-x-hidden selection:bg-[#C9A55A] selection:text-[#0A0908] modal-scroll-area touch-pan-y"
         >
           {/* Top Sticky Minimalist Architectural Header Bar */}
           <div className="sticky top-0 z-50 bg-[#0A0908]/90 backdrop-blur-xl border-b border-white/10 px-6 md:px-12 py-4 flex items-center justify-between">
@@ -401,7 +398,12 @@ const ProjectModal = ({ project, projectsList = [], isOpen, onClose, onSelectPro
 
           {/* FULLSCREEN LIGHTBOX MODAL */}
           {lightboxOpen && (
-            <div className="fixed inset-0 z-[300] bg-black/98 flex items-center justify-center p-4">
+            <div 
+              className="fixed inset-0 z-[300] bg-black/98 flex items-center justify-center p-4 modal-scroll-area touch-pan-y"
+              role="dialog"
+              aria-modal="true"
+              data-lenis-prevent
+            >
               <button
                 onClick={() => setLightboxOpen(false)}
                 className="absolute top-6 right-6 p-3 text-white bg-white/10 rounded-full hover:bg-[#C9A55A] hover:text-[#0A0908] transition-colors z-30"

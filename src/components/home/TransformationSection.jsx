@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Sparkles, ArrowRight, Maximize2, X, Sliders, CheckCircle2, FileText, LayoutGrid } from 'lucide-react';
+import useModalScroll from '../../hooks/useModalScroll';
 
 const transformationPairs = [
   {
@@ -54,6 +55,8 @@ const TransformationSection = () => {
   const [sliderPosition, setSliderPosition] = useState(50); // percentage (0 to 100)
   const [isDragging, setIsDragging] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useModalScroll(isFullscreen);
 
   const currentPair = transformationPairs.find((p) => p.id === activeTab) || transformationPairs[0];
 
@@ -311,7 +314,12 @@ const TransformationSection = () => {
 
       {/* Fullscreen Lightbox Modal */}
       {isFullscreen && (
-        <div className="fixed inset-0 z-[300] bg-black/98 flex flex-col items-center justify-center p-4">
+        <div 
+          className="fixed inset-0 z-[300] bg-black/98 flex flex-col items-center justify-center p-4 modal-scroll-area touch-pan-y"
+          role="dialog"
+          aria-modal="true"
+          data-lenis-prevent
+        >
           <button
             onClick={() => setIsFullscreen(false)}
             aria-label="Close Fullscreen"

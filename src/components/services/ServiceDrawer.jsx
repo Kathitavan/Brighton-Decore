@@ -1,12 +1,12 @@
-// src/components/services/ServiceDrawer.jsx
-// Brighton Decor Canada — Full-Height Immersive Service Detail Drawer
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, CheckCircle2, FileText, Sparkles, MapPin, ShieldCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import useModalScroll from '../../hooks/useModalScroll';
 
 const ServiceDrawer = ({ service, isOpen, onClose }) => {
   const navigate = useNavigate();
+  useModalScroll(isOpen);
 
   // Handle ESC key to close drawer
   useEffect(() => {
@@ -19,24 +19,12 @@ const ServiceDrawer = ({ service, isOpen, onClose }) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  // Lock body scroll when drawer is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
-
   if (!service || !isOpen) return null;
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[200] flex justify-end">
+        <div className="fixed inset-0 z-[200] flex justify-end" role="dialog" aria-modal="true" data-lenis-prevent>
           {/* Backdrop Blur Overlay */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -52,7 +40,11 @@ const ServiceDrawer = ({ service, isOpen, onClose }) => {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="relative z-10 w-full max-w-2xl h-full bg-[#0A0908] text-white border-l border-white/15 shadow-2xl flex flex-col justify-between overflow-y-auto"
+            className="relative z-10 w-full max-w-2xl h-full bg-[#0A0908] text-white border-l border-white/15 shadow-2xl flex flex-col justify-between overflow-y-auto modal-scroll-area touch-pan-y"
+            data-lenis-prevent
+            data-lenis-prevent-wheel
+            data-lenis-prevent-touch
+            style={{ overscrollBehavior: 'contain' }}
           >
             {/* Header Sticky Bar */}
             <div className="sticky top-0 z-20 bg-[#0A0908]/90 backdrop-blur-xl border-b border-white/10 px-8 py-5 flex items-center justify-between">

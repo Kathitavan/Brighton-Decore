@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Phone } from 'lucide-react';
 import { company } from '../../config/company';
+import useModalScroll from '../../hooks/useModalScroll';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -104,6 +105,7 @@ const getNavbarTheme = (pathname, scrolled) => {
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  useModalScroll(isOpen);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
@@ -214,7 +216,10 @@ const Navbar = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'tween', duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className={`fixed inset-0 z-[150] flex flex-col lg:hidden ${theme.mobileBg}`}
+            className={`fixed inset-0 z-[150] flex flex-col lg:hidden overflow-y-auto modal-scroll-area touch-pan-y ${theme.mobileBg}`}
+            role="dialog"
+            aria-modal="true"
+            data-lenis-prevent
           >
             {/* Mobile Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-current/10">
