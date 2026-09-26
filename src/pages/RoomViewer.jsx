@@ -8,12 +8,14 @@
 //   – Preserves data contract: route state `preselect` triggers blind selection.
 //   – Preserves CTAs: "Save This Look", "Get This Look", "Book Free Measurement".
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, 
   ChevronDown, 
+  ChevronLeft,
+  ChevronRight,
   RefreshCcw, 
   Save, 
   X, 
@@ -69,6 +71,21 @@ const RoomViewer = () => {
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+  const desktopNavRef = useRef(null);
+  const mobileNavRef = useRef(null);
+
+  const scrollDesktopNav = (offset) => {
+    if (desktopNavRef.current) {
+      desktopNavRef.current.scrollBy({ left: offset, behavior: 'smooth' });
+    }
+  };
+
+  const scrollMobileNav = (offset) => {
+    if (mobileNavRef.current) {
+      mobileNavRef.current.scrollBy({ left: offset, behavior: 'smooth' });
+    }
+  };
 
   useModalScroll(showSaveModal);
 
@@ -573,19 +590,37 @@ const RoomViewer = () => {
         </header>
 
         {/* Main Work Area */}
-        <div className="flex-1 flex overflow-hidden relative">
+        <div data-lenis-prevent className="flex-1 flex overflow-hidden relative">
           {/* Desktop Left Sidebar (>=1024px) */}
-          <aside className="hidden lg:flex w-[360px] h-full bg-[#0D0C0A] border-r border-white/10 flex-col shrink-0 z-40">
-            {/* Category Navigation Pills */}
-            <div className="p-3 border-b border-white/10 overflow-x-auto no-scrollbar">
-              <div className="flex gap-1.5">
+          <aside data-lenis-prevent className="hidden lg:flex w-[360px] h-full bg-[#0D0C0A] border-r border-white/10 flex-col shrink-0 z-40 min-h-0">
+            {/* Category Navigation Bar with Scroll Arrows & Mouse Wheel */}
+            <div className="relative border-b border-white/10 p-2 flex items-center gap-1 bg-[#0A0908]/60">
+              <button
+                type="button"
+                onClick={() => scrollDesktopNav(-140)}
+                className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-[#C9A55A]/20 hover:text-[#C9A55A] text-white/50 transition-colors shrink-0"
+                title="Scroll categories left"
+                aria-label="Scroll categories left"
+              >
+                <ChevronLeft size={14} />
+              </button>
+              <div
+                ref={desktopNavRef}
+                data-lenis-prevent
+                onWheel={(e) => {
+                  if (e.deltaY) {
+                    e.currentTarget.scrollLeft += e.deltaY;
+                  }
+                }}
+                className="overflow-x-auto no-scrollbar flex items-center gap-1.5 scroll-smooth py-1 px-1 w-full"
+              >
                 {CATEGORIES.map((cat) => {
                   const isSel = activeCategory === cat.id;
                   return (
                     <button
                       key={cat.id}
                       onClick={() => setActiveCategory(cat.id)}
-                      className={`px-3 py-1.5 rounded-full text-[10px] uppercase font-bold tracking-wider whitespace-nowrap transition-all ${
+                      className={`px-3 py-1.5 rounded-full text-[10px] uppercase font-bold tracking-wider whitespace-nowrap transition-all shrink-0 ${
                         isSel
                           ? 'bg-[#C9A55A] text-[#0A0908] shadow-sm'
                           : 'text-white/60 hover:text-white hover:bg-white/5'
@@ -596,10 +631,22 @@ const RoomViewer = () => {
                   );
                 })}
               </div>
+              <button
+                type="button"
+                onClick={() => scrollDesktopNav(140)}
+                className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-[#C9A55A]/20 hover:text-[#C9A55A] text-white/50 transition-colors shrink-0"
+                title="Scroll categories right"
+                aria-label="Scroll categories right"
+              >
+                <ChevronRight size={14} />
+              </button>
             </div>
 
-            {/* Category Content Area with Animated Transition */}
-            <div className="flex-1 overflow-y-auto p-4 scrollbar-thin scrollbar-thumb-white/10">
+            {/* Category Content Area with Animated Transition & Fluid Scrolling */}
+            <div 
+              data-lenis-prevent 
+              className="flex-1 min-h-0 overflow-y-auto p-4 scrollbar-thin scrollbar-thumb-[#C9A55A]/30 hover:scrollbar-thumb-[#C9A55A] scrollbar-track-transparent"
+            >
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeCategory}
@@ -715,15 +762,22 @@ const RoomViewer = () => {
                 </div>
 
                 {/* Horizontal Category Chips */}
-                <div className="p-3 border-b border-white/10 overflow-x-auto no-scrollbar shrink-0">
-                  <div className="flex gap-2">
+                <div className="p-3 border-b border-white/10 flex items-center gap-1.5 shrink-0 bg-[#0A0908]/50">
+                  <div
+                    ref={mobileNavRef}
+                    data-lenis-prevent
+                    onWheel={(e) => {
+                      if (e.deltaY) e.currentTarget.scrollLeft += e.deltaY;
+                    }}
+                    className="overflow-x-auto no-scrollbar flex gap-2 scroll-smooth py-1 w-full"
+                  >
                     {CATEGORIES.map((cat) => {
                       const isSel = activeCategory === cat.id;
                       return (
                         <button
                           key={cat.id}
                           onClick={() => setActiveCategory(cat.id)}
-                          className={`px-3 py-1.5 rounded-full text-[10px] uppercase font-bold tracking-wider whitespace-nowrap transition-all ${
+                          className={`px-3 py-1.5 rounded-full text-[10px] uppercase font-bold tracking-wider whitespace-nowrap transition-all shrink-0 ${
                             isSel
                               ? 'bg-[#C9A55A] text-[#0A0908]'
                               : 'text-white/60 bg-white/5 hover:text-white'
@@ -737,7 +791,7 @@ const RoomViewer = () => {
                 </div>
 
                 {/* Drawer Content */}
-                <div className="flex-1 overflow-y-auto p-4 min-h-[220px]">
+                <div data-lenis-prevent className="flex-1 min-h-0 overflow-y-auto p-4 min-h-[220px]">
                   {renderCategoryContent()}
                 </div>
 

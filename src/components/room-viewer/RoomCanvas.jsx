@@ -11,8 +11,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { 
   OrbitControls, 
   PerspectiveCamera, 
-  ContactShadows, 
-  useTexture 
+  ContactShadows 
 } from '@react-three/drei';
 import * as THREE from 'three';
 
@@ -191,7 +190,12 @@ const RoomSunbeamMotes = () => {
 // 1. HERO ARCHITECTURAL WINDOW WITH REAL NATURE DEPTH
 // ─────────────────────────────────────────────────────────────────────────────
 const HeroWindow = ({ blindType, curtainColor, curtainOpen }) => {
-  const gardenTex = useTexture('/assets/imgs/home/window-garden-bg.jpg');
+  const gardenTex = useMemo(() => {
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load('/assets/imgs/home/window-garden-bg.jpg');
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+  }, []);
 
   // Physical Float Glass Pane
   const glassMat = useMemo(() => new THREE.MeshPhysicalMaterial({

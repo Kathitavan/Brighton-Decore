@@ -209,7 +209,8 @@ const Navbar = () => {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 8, scale: 0.98 }}
                           transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                          className="absolute top-full -left-48 w-[720px] pt-3 z-50 pointer-events-auto"
+                          className="absolute top-full -left-48 w-[720px] pt-3 z-50 max-h-[82vh] overflow-y-auto pointer-events-auto overscroll-contain scrollbar-thin scrollbar-thumb-[#C9A55A]/30 hover:scrollbar-thumb-[#C9A55A] scrollbar-track-transparent"
+                          data-lenis-prevent
                         >
                           <div className="bg-[#12100E]/98 backdrop-blur-2xl border border-[#C9A55A]/30 rounded-2xl p-6 shadow-[0_25px_60px_rgba(0,0,0,0.85)] text-white">
                             {/* Header */}

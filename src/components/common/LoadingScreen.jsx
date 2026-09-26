@@ -5,25 +5,35 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { company } from '../../config/company';
 
 const LoadingScreen = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(() => {
+    try {
+      return !sessionStorage.getItem('brighton_intro_seen');
+    } catch {
+      return true;
+    }
+  });
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const interval = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            setTimeout(() => setIsLoading(false), 200);
-            return 100;
-          }
-          return prev + Math.random() * 18 + 8;
-        });
-      }, 80);
-      return () => clearInterval(interval);
-    }, 100);
-    return () => clearTimeout(timer);
-  }, []);
+    if (!isLoading) return;
+
+    try {
+      sessionStorage.setItem('brighton_intro_seen', 'true');
+    } catch {}
+
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setTimeout(() => setIsLoading(false), 120);
+          return 100;
+        }
+        return prev + Math.random() * 25 + 20;
+      });
+    }, 45);
+
+    return () => clearInterval(interval);
+  }, [isLoading]);
 
   return (
     <AnimatePresence>

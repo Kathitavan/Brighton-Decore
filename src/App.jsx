@@ -53,6 +53,12 @@ function App() {
       },
     });
 
+    if (isRoomViewer) {
+      lenis.stop();
+    } else {
+      lenis.start();
+    }
+
     function raf(time) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -63,7 +69,7 @@ function App() {
     return () => {
       lenis.destroy();
     };
-  }, []);
+  }, [isRoomViewer]);
 
   return (
     <div className="min-h-screen w-full">
