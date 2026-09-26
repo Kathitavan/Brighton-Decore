@@ -28,6 +28,7 @@ const ProductsSection = () => {
 
   return (
     <section
+      id="products-section"
       ref={ref}
       className="py-12 md:py-16 bg-[#0A0908] text-white relative overflow-hidden border-t border-white/10"
       aria-label="Our window blinds collection"

@@ -5,7 +5,7 @@ import Hero from '../components/home/Hero';
 import Stats from '../components/home/Stats';
 import ServicesTeaser from '../components/home/ServicesTeaser';
 import Immersive3DShowcase from '../components/home/Immersive3DShowcase';
-import TransformationSection from '../components/home/TransformationSection';
+import ProductsSection from '../components/home/ProductsSection';
 import WhyBrighton from '../components/home/WhyBrighton';
 import AboutSnippet from '../components/home/AboutSnippet';
 import ProcessSection from '../components/home/ProcessSection';
@@ -27,11 +27,11 @@ const Home = () => {
         {/* 3. Services — architectural offerings */}
         <ServicesTeaser />
 
-        {/* 4. Immersive 3D Room Experience — Scroll-driven architectural showcase */}
+        {/* 4. "The Window" — Cinematic Scroll-Driven Hero Experience */}
         <Immersive3DShowcase />
 
-        {/* 5. Transformation Showcase — Before & After V2 */}
-        <TransformationSection />
+        {/* 5. Products Section — Bespoke Blinds Collection */}
+        <ProductsSection />
 
         {/* 6. Why Brighton Decor */}
         <WhyBrighton />
