@@ -146,6 +146,11 @@ const RoomViewer = () => {
                     <span className={`text-[11px] font-bold block truncate ${isSelected ? 'text-[#C9A55A]' : 'text-white'}`}>
                       {b.name}
                     </span>
+                    {b.materialBadge && (
+                      <span className="text-[8px] uppercase tracking-wider text-[#C9A55A] font-semibold block mt-0.5">
+                        {b.materialBadge}
+                      </span>
+                    )}
                     <span className="text-[9px] text-white/50 block mt-0.5 line-clamp-1">
                       {b.shortDesc}
                     </span>

@@ -1,10 +1,13 @@
 // src/components/common/Navbar.jsx
-// Brighton Decor Canada — Dynamic Route-Aware Architectural Navigation with Official Logo
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+// Brighton Decor Canada — Dynamic Route-Aware Architectural Navigation
+// Includes interactive "Window Blinds Collection" Mega-Menu with photorealistic imagery and 3D Studio integration.
+
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X, Phone, ChevronDown, Sparkles, Box, ArrowRight, Check } from 'lucide-react';
 import { company } from '../../config/company';
+import { BLIND_PRODUCTS } from '../../data/roomProducts';
 import useModalScroll from '../../hooks/useModalScroll';
 
 const navLinks = [
@@ -12,19 +15,18 @@ const navLinks = [
   { name: 'About', path: '/about' },
   { name: 'Services', path: '/services' },
   { name: 'Portfolio', path: '/portfolio' },
-  { name: 'Products', path: '/products' },
+  { name: 'Products', path: '/products', hasMegaMenu: true },
   { name: '3D Room Studio', path: '/room-viewer' },
   { name: 'Design Ideas', path: '/blog' },
   { name: 'Contact', path: '/contact' },
 ];
 
-// Returns page-specific navbar color theme settings based on active path
 const getNavbarTheme = (pathname, scrolled) => {
   switch (pathname) {
     case '/products':
       return {
         isLight: true,
-        bgScrolled: 'bg-[#FAF8F5]/92 backdrop-blur-xl border-b border-[#2B1F17]/15 shadow-md',
+        bgScrolled: 'bg-[#FAF8F5]/94 backdrop-blur-xl border-b border-[#2B1F17]/15 shadow-md',
         bgTop: 'bg-transparent',
         textLink: 'text-[#2B1F17]/80 hover:text-[#B89656]',
         textLinkActive: 'text-[#B89656]',
@@ -37,7 +39,7 @@ const getNavbarTheme = (pathname, scrolled) => {
     case '/blog':
       return {
         isLight: true,
-        bgScrolled: 'bg-[#FBF9F4]/92 backdrop-blur-xl border-b border-[#261C14]/15 shadow-md',
+        bgScrolled: 'bg-[#FBF9F4]/94 backdrop-blur-xl border-b border-[#261C14]/15 shadow-md',
         bgTop: 'bg-transparent',
         textLink: 'text-[#261C14]/80 hover:text-[#D96B43]',
         textLinkActive: 'text-[#D96B43]',
@@ -50,7 +52,7 @@ const getNavbarTheme = (pathname, scrolled) => {
     case '/contact':
       return {
         isLight: false,
-        bgScrolled: 'bg-[#0A120E]/92 backdrop-blur-xl border-b border-[#52B788]/20 shadow-2xl',
+        bgScrolled: 'bg-[#0A120E]/94 backdrop-blur-xl border-b border-[#52B788]/20 shadow-2xl',
         bgTop: 'bg-transparent',
         textLink: 'text-[#E8F5E9]/80 hover:text-[#52B788]',
         textLinkActive: 'text-[#52B788]',
@@ -63,7 +65,7 @@ const getNavbarTheme = (pathname, scrolled) => {
     case '/about':
       return {
         isLight: false,
-        bgScrolled: 'bg-[#1F1A14]/92 backdrop-blur-xl border-b border-[#D97736]/20 shadow-2xl',
+        bgScrolled: 'bg-[#1F1A14]/94 backdrop-blur-xl border-b border-[#D97736]/20 shadow-2xl',
         bgTop: 'bg-transparent',
         textLink: 'text-[#F5EBE1]/80 hover:text-[#D97736]',
         textLinkActive: 'text-[#D97736]',
@@ -76,7 +78,7 @@ const getNavbarTheme = (pathname, scrolled) => {
     case '/services':
       return {
         isLight: false,
-        bgScrolled: 'bg-[#0B0E14]/92 backdrop-blur-xl border-b border-[#C9A55A]/20 shadow-2xl',
+        bgScrolled: 'bg-[#0B0E14]/94 backdrop-blur-xl border-b border-[#C9A55A]/20 shadow-2xl',
         bgTop: 'bg-transparent',
         textLink: 'text-[#F2EFE9]/80 hover:text-[#C9A55A]',
         textLinkActive: 'text-[#C9A55A]',
@@ -87,10 +89,9 @@ const getNavbarTheme = (pathname, scrolled) => {
         mobileBg: 'bg-[#0B0E14] text-[#F2EFE9]',
       };
     default:
-      // Home & Portfolio — Dark Obsidian & Champagne Gold
       return {
         isLight: false,
-        bgScrolled: 'bg-[#0A0908]/92 backdrop-blur-xl border-b border-white/10 shadow-2xl',
+        bgScrolled: 'bg-[#0A0908]/94 backdrop-blur-xl border-b border-white/10 shadow-2xl',
         bgTop: 'bg-transparent',
         textLink: 'text-white/80 hover:text-[#C9A55A]',
         textLinkActive: 'text-[#C9A55A]',
@@ -105,6 +106,11 @@ const getNavbarTheme = (pathname, scrolled) => {
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showMegaMenu, setShowMegaMenu] = useState(false);
+  const [mobileBlindsOpen, setMobileBlindsOpen] = useState(false);
+  const megaMenuTimeout = useRef(null);
+  const navigate = useNavigate();
+
   useModalScroll(isOpen);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -113,12 +119,13 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
     setIsOpen(false);
+    setShowMegaMenu(false);
     document.body.classList.remove('menu-open');
   }, [location]);
 
@@ -128,6 +135,17 @@ const Navbar = () => {
       else document.body.classList.remove('menu-open');
       return !prev;
     });
+  };
+
+  const handleMouseEnterProducts = () => {
+    if (megaMenuTimeout.current) clearTimeout(megaMenuTimeout.current);
+    setShowMegaMenu(true);
+  };
+
+  const handleMouseLeaveProducts = () => {
+    megaMenuTimeout.current = setTimeout(() => {
+      setShowMegaMenu(false);
+    }, 200);
   };
 
   return (
@@ -157,6 +175,129 @@ const Navbar = () => {
           <div className="hidden lg:flex items-center gap-5 xl:gap-7">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;
+              if (link.hasMegaMenu) {
+                return (
+                  <div
+                    key={link.path}
+                    className="relative"
+                    onMouseEnter={handleMouseEnterProducts}
+                    onMouseLeave={handleMouseLeaveProducts}
+                  >
+                    <Link
+                      to={link.path}
+                      className={`text-[11px] uppercase tracking-[0.18em] font-sans font-semibold transition-colors duration-300 relative group py-1 inline-flex items-center gap-1 ${
+                        isActive || showMegaMenu ? theme.textLinkActive : theme.textLink
+                      }`}
+                    >
+                      <span>{link.name}</span>
+                      <ChevronDown
+                        size={12}
+                        className={`transition-transform duration-300 ${showMegaMenu ? 'rotate-180' : ''}`}
+                      />
+                      <span
+                        className={`absolute -bottom-0.5 left-0 h-[1.5px] transition-all duration-300 ${theme.lineActive} ${
+                          isActive || showMegaMenu ? 'w-full' : 'w-0 group-hover:w-full'
+                        }`}
+                      />
+                    </Link>
+
+                    {/* WINDOW BLINDS COLLECTION MEGA-MENU FLYOUT */}
+                    <AnimatePresence>
+                      {showMegaMenu && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                          className="absolute top-full -left-48 w-[720px] pt-3 z-50 pointer-events-auto"
+                        >
+                          <div className="bg-[#12100E]/98 backdrop-blur-2xl border border-[#C9A55A]/30 rounded-2xl p-6 shadow-[0_25px_60px_rgba(0,0,0,0.85)] text-white">
+                            {/* Header */}
+                            <div className="flex items-center justify-between pb-4 mb-5 border-b border-white/10">
+                              <div className="flex items-center gap-2.5">
+                                <Sparkles size={16} className="text-[#C9A55A]" />
+                                <div>
+                                  <h4 className="font-serif text-base text-white font-medium tracking-wide">
+                                    Window Blinds Collection
+                                  </h4>
+                                  <p className="text-[10px] text-white/50 font-sans tracking-wider uppercase">
+                                    6 Bespoke Architectural Styles · Canadian Craftsmanship
+                                  </p>
+                                </div>
+                              </div>
+                              <Link
+                                to="/products"
+                                onClick={() => setShowMegaMenu(false)}
+                                className="text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-[#C9A55A] hover:text-white transition-colors inline-flex items-center gap-1"
+                              >
+                                <span>All Products</span>
+                                <ArrowRight size={11} />
+                              </Link>
+                            </div>
+
+                            {/* 6 Photorealistic Product Cards */}
+                            <div className="grid grid-cols-3 gap-3.5">
+                              {BLIND_PRODUCTS.map((blind) => (
+                                <div
+                                  key={blind.id}
+                                  className="group/card rounded-xl p-2.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/5 hover:border-[#C9A55A]/50 transition-all duration-300 flex flex-col justify-between"
+                                >
+                                  <div>
+                                    <div className="aspect-[16/10] rounded-lg overflow-hidden bg-[#1A1816] mb-2 relative">
+                                      <img
+                                        src={blind.image}
+                                        alt={blind.name}
+                                        className="w-full h-full object-cover group-hover/card:scale-108 transition-transform duration-500"
+                                      />
+                                      <span className="absolute top-1.5 left-1.5 bg-black/60 backdrop-blur-md text-[8px] font-sans font-semibold text-[#C9A55A] px-2 py-0.5 rounded-full border border-[#C9A55A]/30">
+                                        {blind.materialBadge || 'Custom Fabric'}
+                                      </span>
+                                    </div>
+                                    <h5 className="font-serif text-sm text-white font-medium group-hover/card:text-[#C9A55A] transition-colors mb-1 leading-snug">
+                                      {blind.name}
+                                    </h5>
+                                    <p className="text-[10px] text-white/60 font-sans font-light line-clamp-2 leading-relaxed mb-2.5">
+                                      {blind.shortDesc}
+                                    </p>
+                                  </div>
+
+                                  {/* Quick Action to 3D Room Studio */}
+                                  <button
+                                    onClick={() => {
+                                      setShowMegaMenu(false);
+                                      navigate('/room-viewer', { state: { preselect: blind.id } });
+                                    }}
+                                    className="w-full py-1.5 rounded-md bg-white/10 hover:bg-[#C9A55A] hover:text-[#0A0908] text-[9px] uppercase tracking-wider font-bold text-white transition-all flex items-center justify-center gap-1.5"
+                                  >
+                                    <Box size={10} />
+                                    <span>Test in 3D</span>
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+
+                            {/* Bottom Consultation Ribbon */}
+                            <div className="mt-5 pt-3.5 border-t border-white/10 flex items-center justify-between text-[11px] text-white/70">
+                              <span className="font-sans font-light">
+                                Serving Saskatoon & Area · Laser Precision Guaranteed
+                              </span>
+                              <Link
+                                to="/contact"
+                                onClick={() => setShowMegaMenu(false)}
+                                className="text-[#C9A55A] hover:text-white font-bold uppercase tracking-wider flex items-center gap-1"
+                              >
+                                <span>Book In-Home Consultation</span>
+                                <ArrowRight size={11} />
+                              </Link>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={link.path}
@@ -240,16 +381,74 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Nav Links */}
-            <div className="flex-1 flex flex-col justify-center px-8 space-y-1">
-              {navLinks.map((link, idx) => {
+            <div className="flex-1 flex flex-col justify-start px-8 pt-6 space-y-2">
+              {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
+
+                if (link.hasMegaMenu) {
+                  return (
+                    <div key={link.path} className="border-b border-current/10 pb-3">
+                      <div className="flex items-center justify-between py-2">
+                        <Link
+                          to={link.path}
+                          className={`text-2xl font-serif ${isActive ? theme.textLinkActive : theme.textLink}`}
+                          onClick={() => {
+                            setIsOpen(false);
+                            document.body.classList.remove('menu-open');
+                          }}
+                        >
+                          {link.name}
+                        </Link>
+                        <button
+                          onClick={() => setMobileBlindsOpen((prev) => !prev)}
+                          className="p-2 text-current/60"
+                        >
+                          <ChevronDown
+                            size={20}
+                            className={`transition-transform duration-300 ${mobileBlindsOpen ? 'rotate-180' : ''}`}
+                          />
+                        </button>
+                      </div>
+
+                      {/* Mobile Window Blinds Sub-Items */}
+                      <AnimatePresence>
+                        {mobileBlindsOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="grid grid-cols-2 gap-2.5 pt-2 pb-2 overflow-hidden"
+                          >
+                            {BLIND_PRODUCTS.map((b) => (
+                              <button
+                                key={b.id}
+                                onClick={() => {
+                                  setIsOpen(false);
+                                  document.body.classList.remove('menu-open');
+                                  navigate('/room-viewer', { state: { preselect: b.id } });
+                                }}
+                                className="flex items-center gap-2 p-2 rounded-lg bg-current/5 text-left"
+                              >
+                                <img
+                                  src={b.image}
+                                  alt={b.name}
+                                  className="w-10 h-8 rounded object-cover"
+                                />
+                                <div className="min-w-0">
+                                  <div className="text-xs font-serif font-medium truncate">{b.name}</div>
+                                  <div className="text-[9px] text-current/60 uppercase">3D Studio</div>
+                                </div>
+                              </button>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                }
+
                 return (
-                  <motion.div
-                    key={link.path}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.05 + idx * 0.03 }}
-                  >
+                  <div key={link.path}>
                     <Link
                       to={link.path}
                       className={`block text-2xl font-serif py-2.5 transition-colors border-b border-current/10 ${
@@ -262,37 +461,35 @@ const Navbar = () => {
                     >
                       {link.name}
                     </Link>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>
 
             {/* Mobile Footer */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-              className="px-8 pb-10 space-y-4"
-            >
+            <div className="px-8 pb-10 space-y-4 pt-6">
               <Link
                 to="/contact"
                 onClick={() => {
                   setIsOpen(false);
                   document.body.classList.remove('menu-open');
                 }}
+                className="block"
               >
-                <button className={`w-full py-4 rounded-full font-sans text-xs uppercase tracking-[0.2em] font-bold transition-all shadow-xl ${theme.ctaBtn}`}>
-                  Book Free Site Measurement
+                <button className={`w-full py-4 rounded-full font-sans text-xs uppercase tracking-[0.2em] font-bold shadow-lg ${theme.ctaBtn}`}>
+                  Book Free Measurement
                 </button>
               </Link>
-              <a
-                href={`tel:${company.phoneRaw}`}
-                className="flex items-center justify-center gap-2 text-current/60 text-sm font-sans"
-              >
-                <Phone size={15} className={theme.phoneIcon} />
-                {company.phone}
-              </a>
-            </motion.div>
+              <div className="text-center">
+                <a
+                  href={`tel:${company.phoneRaw}`}
+                  className="text-sm font-sans tracking-wide text-current/80 inline-flex items-center gap-2"
+                >
+                  <Phone size={14} className={theme.phoneIcon} />
+                  <span>{company.phone}</span>
+                </a>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

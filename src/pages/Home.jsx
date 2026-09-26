@@ -31,7 +31,7 @@ const Home = () => {
         <Immersive3DShowcase />
 
         {/* 5. Products Section — Bespoke Blinds Collection */}
-        <ProductsSection />
+        {/* <ProductsSection /> */}
 
         {/* 6. Why Brighton Decor */}
         <WhyBrighton />

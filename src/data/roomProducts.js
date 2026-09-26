@@ -2,12 +2,60 @@
 // Prices removed for Canada client — "Request Quote" CTA used instead.
 
 export const BLIND_PRODUCTS = [
-  { id: 'roller',    name: 'Roller Blinds',      color: '#E8E0D4', shortDesc: 'Clean & minimalist, excellent light filtering' },
-  { id: 'zebra',     name: 'Zebra Blinds',        color: '#D4CFC8', shortDesc: 'Dual-layer alternating sheer & opaque strips' },
-  { id: 'honeycomb', name: 'Honeycomb Blinds',    color: '#D4C8B0', shortDesc: 'Cellular insulation — energy efficient' },
-  { id: 'vertical',  name: 'Vertical Blinds',     color: '#C8C0B4', shortDesc: 'Ideal for large windows & patio doors' },
-  { id: 'wooden',    name: 'Wooden / Faux Wood',  color: '#8B6914', shortDesc: 'Warm natural look, moisture resistant' },
-  { id: 'pvc',       name: 'PVC Blinds',          color: '#F0F0F0', shortDesc: 'Waterproof, easy to clean, highly durable' },
+  { 
+    id: 'roller',    
+    name: 'Roller Blinds',      
+    color: '#E8E0D4', 
+    shortDesc: 'Solar screen micro-weave, sleek minimal cassette headbox',
+    materialBadge: 'Solar Screen Weave',
+    lightControl: 'Light Filtering & Blackout',
+    image: '/assets/imgs/products/roller-blinds.jpg',
+  },
+  { 
+    id: 'zebra',     
+    name: 'Zebra Blinds',        
+    color: '#D4CFC8', 
+    shortDesc: 'Dual-layer alternating sheer & room-darkening fabric vanes',
+    materialBadge: 'Dual-Layer Voile',
+    lightControl: 'Precision Day/Night',
+    image: '/assets/imgs/products/zebra-blinds.jpg',
+  },
+  { 
+    id: 'honeycomb', 
+    name: 'Honeycomb Blinds',    
+    color: '#D4C8B0', 
+    shortDesc: 'Cellular hexagonal pleats for superior Canadian climate insulation',
+    materialBadge: 'Double-Cell Thermal',
+    lightControl: 'Thermal Energy Saver',
+    image: '/assets/imgs/products/honeycomb-blinds.jpg',
+  },
+  { 
+    id: 'wooden',    
+    name: 'Wooden Blinds',  
+    color: '#8B6914', 
+    shortDesc: 'Canadian hardwood horizontal slats with woven decorative ladder tapes',
+    materialBadge: 'Hardwood & Tapes',
+    lightControl: 'Warm Ambient Grain',
+    image: '/assets/imgs/products/wooden-blinds.jpg',
+  },
+  { 
+    id: 'vertical',  
+    name: 'Vertical Blinds',     
+    color: '#C8C0B4', 
+    shortDesc: 'Floor-to-ceiling architectural vanes for patio and sliding doors',
+    materialBadge: 'Architectural Fabric',
+    lightControl: 'Wide Angled Control',
+    image: '/assets/imgs/products/vertical-blinds.jpg',
+  },
+  { 
+    id: 'pvc',       
+    name: 'PVC Faux Wood',          
+    color: '#F0F0F0', 
+    shortDesc: '100% waterproof luxury slats engineered for bathrooms & kitchens',
+    materialBadge: 'Waterproof Polymer',
+    lightControl: 'Moisture Resistant',
+    image: '/assets/imgs/products/pvc-blinds.jpg',
+  },
 ];
 
 export const WALL_COLORS = [
