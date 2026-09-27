@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, MapPin, Sparkles, Ruler, Award, ShieldCheck } from 'lucide-react';
 import PageTransition from '../components/common/PageTransition';
+import SEO from '../components/common/SEO';
 import BrandStory from '../components/about/BrandStory';
 import VisionMission from '../components/about/VisionMission';
 import Timeline from '../components/about/Timeline';
@@ -141,6 +142,10 @@ const About = () => {
 
   return (
     <PageTransition>
+      <SEO
+        title="About Our Artisans & Canadian Heritage"
+        description="Discover the craftsmanship and vision behind Brighton Decor Ltd. Providing Canadian homeowners with custom window treatments and precision flooring in Saskatoon, Saskatchewan."
+      />
       <div className={styles.aboutPage}>
         
         {/* 1. Cinematic Ambient Video Hero */}

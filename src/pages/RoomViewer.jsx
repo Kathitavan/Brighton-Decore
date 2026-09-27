@@ -28,6 +28,7 @@ import {
   Ruler
 } from 'lucide-react';
 import PageTransition from '../components/common/PageTransition';
+import SEO from '../components/common/SEO';
 import RoomCanvas from '../components/room-viewer/RoomCanvas';
 import { TEMPLATES } from '../data/roomTemplates';
 import { BLIND_PRODUCTS, WALL_COLORS, FLOOR_OPTIONS } from '../data/roomProducts';
@@ -860,6 +861,10 @@ const RoomViewer = () => {
 
   return (
     <PageTransition>
+      <SEO
+        title="3D Room Studio — Interactive Window & Flooring Configurator"
+        description="Experience your dream Canadian living room in photorealistic 3D. Customize roller, zebra, honeycomb, and vertical blinds with flooring, walls, and lighting in real time."
+      />
       <div className="flex flex-col h-screen w-full overflow-hidden bg-[#0A0908] text-white">
         {/* Top Header Bar */}
         <header className="h-[56px] w-full bg-[#0D0C0A] border-b border-white/10 flex items-center justify-between px-4 md:px-6 z-[100] shrink-0">
@@ -886,7 +891,7 @@ const RoomViewer = () => {
               Save Look
             </button>
             <button
-              onClick={() => navigate('/contact')}
+              onClick={() => navigate('/contact', { state: { roomLook: roomState } })}
               className="bg-[#C9A55A] hover:bg-white text-[#0A0908] px-4 md:px-5 py-1.5 rounded-full text-[10px] uppercase font-bold tracking-[0.18em] transition-all"
             >
               Get This Look
@@ -1152,7 +1157,7 @@ const RoomViewer = () => {
                   <button
                     onClick={() => {
                       setMobileDrawerOpen(false);
-                      navigate('/contact');
+                      navigate('/contact', { state: { roomLook: roomState } });
                     }}
                     className="flex-1 bg-[#C9A55A] text-[#0A0908] py-3 rounded-xl text-xs font-bold uppercase tracking-wider"
                   >

@@ -1,14 +1,16 @@
-// src/pages/Contact.jsx
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { Phone, Mail, MapPin, Send, Clock, ChevronDown, Ruler, Sparkles, CheckCircle2, ShieldCheck, Navigation } from 'lucide-react';
 import PageTransition from '../components/common/PageTransition';
+import SEO from '../components/common/SEO';
 import WorldGlobe from '../components/contact/WorldGlobe';
 import ModernMap from '../components/contact/ModernMap';
 import { company, faqItems } from '../config/company';
 import styles from '../styles/pages/contact.module.css';
 
 const Contact = () => {
+  const location = useLocation();
   const [formState, setFormState] = useState({
     name: '', email: '', phone: '', service: '', message: '',
   });
@@ -16,6 +18,17 @@ const Contact = () => {
   const [expandedFaq, setExpandedFaq] = useState(null);
   const formRef = useRef(null);
   const isInView = useInView(formRef, { once: true, margin: '-50px' });
+
+  useEffect(() => {
+    if (location.state?.roomLook) {
+      const { blindType, curtainColor, floorType } = location.state.roomLook;
+      setFormState((prev) => ({
+        ...prev,
+        service: 'Window Blinds & Flooring Measurement',
+        message: `Inquiry from 3D Room Studio: Blinds: ${blindType}, Drapery: ${curtainColor !== 'none' ? 'Yes' : 'None'}, Flooring: ${floorType}. Looking for a free site measurement and quote.`,
+      }));
+    }
+  }, [location.state]);
 
   const handleChange = (e) => setFormState({ ...formState, [e.target.name]: e.target.value });
   const handleSubmit = (e) => {
@@ -25,6 +38,10 @@ const Contact = () => {
 
   return (
     <PageTransition>
+      <SEO
+        title="Book a Free Site Measurement & Consultation"
+        description="Schedule your complimentary zero-cost, no-obligation window measurement and flooring consultation with Brighton Decor Ltd in Saskatoon, SK. Call +1 (306) 580-6476."
+      />
       <div className={styles.contactPage}>
         
         {/* Ambient Radial Emerald Mesh Orbs */}

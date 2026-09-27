@@ -1,13 +1,17 @@
-// src/pages/NotFound.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Home, ArrowRight, Compass } from 'lucide-react';
+import SEO from '../components/common/SEO';
 import { company } from '../config/company';
 import styles from '../styles/pages/notFound.module.css';
 
 const NotFound = () => {
   return (
     <div className={styles.pageWrapper}>
+      <SEO
+        title="Page Not Found (404)"
+        description="The requested page could not be found. Return to Brighton Decor Ltd to explore our window blinds and flooring collections."
+      />
       {/* 404 Watermark Background */}
       <div className={styles.watermark404} aria-hidden="true">
         404

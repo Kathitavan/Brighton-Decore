@@ -10,7 +10,7 @@
 //   - Living botanical olive tree with organic multi-stem branching and gentle wind sway physics.
 //   - 2048px high-fidelity contact shadows, ACESFilmic tone mapping, and 60fps performance budget.
 
-import React, { Suspense, useMemo, useRef } from 'react';
+import React, { Suspense, useMemo, useRef, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { 
   OrbitControls, 
@@ -696,10 +696,6 @@ const LivingSofa = ({ style = 'modern', color = '#ECE7DE' }) => {
         <mesh rotation={[0, 0, Math.PI / 4.2]} position={[0, 0.78, -0.28]} material={upholsteryMat} castShadow receiveShadow>
           <torusGeometry args={[1.8, 0.40, 24, 64, Math.PI / 1.55]} />
         </mesh>
-        <mesh position={[0, 0.005, -0.1]} rotation-x={-Math.PI / 2}>
-          <planeGeometry args={[3.6, 1.4]} />
-          <meshBasicMaterial color="#0A0908" transparent opacity={0.3} />
-        </mesh>
       </group>
     );
   }
@@ -752,12 +748,6 @@ const LivingSofa = ({ style = 'modern', color = '#ECE7DE' }) => {
           </mesh>
         ))
       )}
-
-      {/* Grounding Contact Shadow */}
-      <mesh position={[0, 0.005, 0]} rotation-x={-Math.PI / 2}>
-        <planeGeometry args={[3.4, 1.2]} />
-        <meshBasicMaterial color="#0A0908" transparent opacity={0.35} />
-      </mesh>
     </group>
   );
 };
@@ -806,10 +796,6 @@ const CoffeeTableAndRug = ({ floorType, rugColor = '#D8D4CC', rugPattern = 'soli
           <mesh rotation-x={-Math.PI / 2} material={rugMat} receiveShadow>
             <planeGeometry args={[3.8, 2.6]} />
           </mesh>
-          <mesh position={[0, 0.002, 0]} rotation-x={-Math.PI / 2}>
-            <planeGeometry args={[3.84, 2.64]} />
-            <meshBasicMaterial color="#0A0908" transparent opacity={0.2} />
-          </mesh>
           {rugPattern === 'striped' && (
             <group position={[0, 0.001, 0]} rotation-x={-Math.PI / 2}>
               {[-1.2, -0.6, 0, 0.6, 1.2].map((x) => (
@@ -846,10 +832,6 @@ const CoffeeTableAndRug = ({ floorType, rugColor = '#D8D4CC', rugPattern = 'soli
         </mesh>
         <mesh position={[-0.14, 0.38, -0.06]} rotation-y={0.3} material={bookMat} castShadow>
           <boxGeometry args={[0.26, 0.025, 0.34]} />
-        </mesh>
-        <mesh position={[0, 0.008, 0]} rotation-x={-Math.PI / 2}>
-          <circleGeometry args={[0.68, 28]} />
-          <meshBasicMaterial color="#0A0908" transparent opacity={0.3} />
         </mesh>
       </group>
     </group>
@@ -1140,14 +1122,21 @@ const MasterRoom = ({ roomState }) => {
     metalness: 0.08,
   }), []);
 
-  // Soft Radial Sunlight Pool on Floor streaming through the hero window
-  const lightPoolMat = useMemo(() => new THREE.MeshBasicMaterial({
-    color: '#FFF2DF',
-    transparent: true,
-    opacity: 0.26,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-  }), []);
+  // Dedicated target for directional sun to lock orientation across camera orbit
+  const targetObj = useMemo(() => {
+    const obj = new THREE.Object3D();
+    obj.position.set(0, 0.8, 0);
+    return obj;
+  }, []);
+
+  const dirLightRef = useRef();
+
+  useEffect(() => {
+    if (dirLightRef.current) {
+      dirLightRef.current.target = targetObj;
+      dirLightRef.current.shadow.camera.updateProjectionMatrix();
+    }
+  }, [targetObj]);
 
   return (
     <group>
@@ -1156,17 +1145,12 @@ const MasterRoom = ({ roomState }) => {
         <planeGeometry args={[10, 10]} />
       </mesh>
 
-      {/* 2. Natural Sunbeam Light Pool on Floor */}
-      <mesh position={[0.4, 0.008, -1.6]} rotation-x={-Math.PI / 2} rotation-z={0.14} material={lightPoolMat}>
-        <planeGeometry args={[4.2, 4.6]} />
-      </mesh>
-
-      {/* 3. Ceiling */}
+      {/* 2. Ceiling */}
       <mesh rotation-x={Math.PI / 2} position={[0, 4.8, 0]} material={ceilingMat}>
         <planeGeometry args={[10, 10]} />
       </mesh>
 
-      {/* 4. Architectural Luxury Baseboard / Skirting Molding (Elevates ArchViz Realism) */}
+      {/* 3. Architectural Luxury Baseboard / Skirting Molding (Elevates ArchViz Realism) */}
       <mesh position={[-3.1, 0.07, -3.88]} material={baseboardMat} receiveShadow>
         <boxGeometry args={[2.2, 0.14, 0.04]} />
       </mesh>
@@ -1180,7 +1164,7 @@ const MasterRoom = ({ roomState }) => {
         <boxGeometry args={[10, 0.14, 0.04]} />
       </mesh>
 
-      {/* 5. Back Wall with Window Opening */}
+      {/* 4. Back Wall with Window Opening */}
       <group position={[0, 0, -4.0]}>
         <mesh position={[-3.1, 2.4, 0]} material={wallMat} receiveShadow>
           <boxGeometry args={[2.2, 4.8, 0.2]} />
@@ -1206,7 +1190,7 @@ const MasterRoom = ({ roomState }) => {
         <planeGeometry args={[10, 4.8]} />
       </mesh>
 
-      {/* 6. Hero Window with Independent Blinds & Curtains */}
+      {/* 5. Hero Window with Independent Blinds & Curtains */}
       <HeroWindow
         blindType={roomState.blindType}
         curtainColor={roomState.curtainColor}
@@ -1214,21 +1198,21 @@ const MasterRoom = ({ roomState }) => {
         blindOpen={roomState.blindOpen ?? 0.2}
       />
 
-      {/* 7. Architectural Living Room Furniture */}
+      {/* 6. Architectural Living Room Furniture */}
       <LivingSofa style={roomState.sofaStyle} color={roomState.sofaColor} />
       <CoffeeTableAndRug floorType={roomState.floorType} rugColor={roomState.rugColor} rugPattern={roomState.rugPattern} />
 
-      {/* 8. Living Botanical Olive Tree with Breeze Physics */}
+      {/* 7. Living Botanical Olive Tree with Breeze Physics */}
       <LivingPottedPlant active={roomState.plantOn} />
       <RoomSunbeamMotes />
 
-      {/* 9. Lighting & Ceiling Fan */}
+      {/* 8. Lighting & Ceiling Fan */}
       <CeilingPendant active={roomState.ceilingLightOn} mood={mood} />
       <FloorLamp active={roomState.floorLampOn} mood={mood} />
       <RotatingCeilingFan active={roomState.fanOn} />
       <BookshelfDecor active={roomState.decorOn} />
 
-      {/* 10. Soft Global Illumination Lighting Rig */}
+      {/* 9. Soft Global Illumination Lighting Rig */}
       <hemisphereLight
         color={mood.hemiSky}
         groundColor={mood.hemiGround}
@@ -1236,21 +1220,23 @@ const MasterRoom = ({ roomState }) => {
       />
       <ambientLight intensity={mood.ambI * 0.58} color="#FFFBF5" />
 
-      {/* Cinematic Directional Sunlight streaming through the hero window */}
+      {/* 10. Cinematic Directional Sunlight streaming through the hero window */}
+      <primitive object={targetObj} />
       <directionalLight
-        position={[2.4, 4.6, -4.8]}
-        target-position={[0, 1.2, 0]}
+        ref={dirLightRef}
+        position={[2.4, 4.8, -4.6]}
         intensity={mood.sunI}
         color={mood.sunC}
         castShadow
         shadow-mapSize={[2048, 2048]}
-        shadow-bias={-0.00012}
+        shadow-bias={-0.00008}
+        shadow-normalBias={0.03}
         shadow-camera-near={0.5}
-        shadow-camera-far={16}
-        shadow-camera-left={-5}
-        shadow-camera-right={5}
-        shadow-camera-top={5}
-        shadow-camera-bottom={-3}
+        shadow-camera-far={18}
+        shadow-camera-left={-5.5}
+        shadow-camera-right={5.5}
+        shadow-camera-top={5.5}
+        shadow-camera-bottom={-4}
       />
     </group>
   );
@@ -1263,7 +1249,7 @@ const MasterRoom = ({ roomState }) => {
 const RoomCanvas = ({ roomState }) => {
   return (
     <Canvas
-      shadows
+      shadows={{ type: THREE.PCFSoftShadowMap }}
       dpr={[1, 2]}
       gl={{
         toneMapping: THREE.ACESFilmicToneMapping,

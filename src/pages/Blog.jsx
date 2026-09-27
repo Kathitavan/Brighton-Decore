@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import PageTransition from '../components/common/PageTransition';
+import SEO from '../components/common/SEO';
 import { blogPosts, blogCategories } from '../data/blogPosts';
 import { ArrowRight, Clock, Tag, BookOpen, Sparkles } from 'lucide-react';
 import styles from '../styles/pages/blog.module.css';
@@ -20,6 +21,10 @@ const Blog = () => {
 
   return (
     <PageTransition>
+      <SEO
+        title="Interior Design Ideas & Window Covering Trends"
+        description="Read expert guides, Canadian design trends, light-control tips, and hardwood flooring advice from the master artisans at Brighton Decor Ltd."
+      />
       <div className={styles.blogPage}>
         {/* Header */}
         <section className="relative pt-36 pb-20 px-6 md:px-12 border-b border-[#261C14]/10 bg-[#FBF9F4]">

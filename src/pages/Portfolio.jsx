@@ -4,6 +4,7 @@ import React, { useState, useRef, useMemo } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import PageTransition from '../components/common/PageTransition';
+import SEO from '../components/common/SEO';
 import { projects, portfolioCategories } from '../data/projects';
 import ProjectCard from '../components/portfolio/ProjectCard';
 import ProjectModal from '../components/portfolio/ProjectModal';
@@ -92,6 +93,10 @@ const Portfolio = () => {
 
   return (
     <PageTransition>
+      <SEO
+        title="Portfolio of Luxury Living Spaces Across Canada"
+        description="Browse our curated showcase of completed window blind installations, architectural drapery, and hardwood flooring transformations across Saskatoon and Canada."
+      />
       <div className={styles.portfolioPage}>
         
         {/* 1. CINEMATIC SCROLL HERO SECTION */}

@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import PageTransition from '../components/common/PageTransition';
+import SEO from '../components/common/SEO';
 import { testimonials } from '../data/testimonials';
 import { Star, ArrowRight, Quote, Sparkles } from 'lucide-react';
 import styles from '../styles/pages/testimonials.module.css';
@@ -15,6 +16,10 @@ const Testimonials = () => {
 
   return (
     <PageTransition>
+      <SEO
+        title="Client Reviews & Testimonials — 100% Satisfaction Record"
+        description="Read authentic verified reviews from homeowners across Saskatchewan and Canada who trusted Brighton Decor Ltd for custom blinds and hardwood flooring."
+      />
       <div className={styles.testimonialsPage}>
         {/* Header */}
         <section className="relative pt-36 pb-20 px-6 md:px-12 border-b border-[#F5B83D]/20">

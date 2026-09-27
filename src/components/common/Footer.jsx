@@ -171,6 +171,7 @@ const Footer = () => {
                 { label: 'Portfolio', path: '/portfolio' },
                 { label: 'Products', path: '/products' },
                 { label: '3D Room Studio', path: '/room-viewer' },
+                { label: 'Client Reviews', path: '/testimonials' },
                 { label: 'Design Ideas', path: '/blog' },
                 { label: 'Contact', path: '/contact' },
               ].map((link) => (

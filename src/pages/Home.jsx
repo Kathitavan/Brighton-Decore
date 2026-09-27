@@ -1,6 +1,7 @@
 // src/pages/Home.jsx
 import React from 'react';
 import PageTransition from '../components/common/PageTransition';
+import SEO from '../components/common/SEO';
 import Hero from '../components/home/Hero';
 import Stats from '../components/home/Stats';
 import ServicesTeaser from '../components/home/ServicesTeaser';
@@ -17,6 +18,11 @@ import styles from '../styles/pages/home.module.css';
 const Home = () => {
   return (
     <PageTransition>
+      <SEO
+        title="Luxury Window Blinds, Custom Coverings & Flooring — Saskatoon & Canada"
+        description="Elevate your Canadian living space with Brighton Decor Ltd. Master-crafted roller, zebra, honeycomb, and wooden blinds alongside professional flooring installation in Saskatoon, Saskatchewan."
+        ogImage="https://brightondecor.co/assets/imgs/main%20logo.png"
+      />
       <div className={styles.homePage}>
         {/* 1. Hero — cinematic video introduction */}
         <Hero />

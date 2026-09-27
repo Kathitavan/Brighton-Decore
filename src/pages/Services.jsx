@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import PageTransition from '../components/common/PageTransition';
+import SEO from '../components/common/SEO';
 import { services, processSteps } from '../data/services';
 import ServiceDrawer from '../components/services/ServiceDrawer';
 import { ArrowRight, Layers, Grid, Hammer, Ruler, Frame, Lightbulb, CheckCircle2, Sparkles, ShieldCheck, FileText, ArrowUpRight, Sun, Shield, Box } from 'lucide-react';
@@ -155,6 +156,10 @@ const Services = () => {
 
   return (
     <PageTransition>
+      <SEO
+        title="Bespoke Window Coverings & Flooring Services"
+        description="Explore custom window blinds, motorized coverings, and professional flooring supply & installation services tailored for Canadian homes by Brighton Decor Ltd."
+      />
       <div className={styles.servicesPage}>
         
         {/* 1. CINEMATIC EDITORIAL HERO SECTION WITH SUPER DISPLAY TYPOGRAPHY */}

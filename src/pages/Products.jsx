@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import PageTransition from '../components/common/PageTransition';
+import SEO from '../components/common/SEO';
 import { BLIND_PRODUCTS } from '../data/roomProducts';
 import WindowCurtainShowcase from '../components/products/WindowCurtainShowcase';
 import { ArrowRight, Tag, Sparkles, Box, Eye, Layers, Check } from 'lucide-react';
@@ -202,6 +203,28 @@ const Products = () => {
 
   return (
     <PageTransition>
+      <SEO
+        title="Custom Window Blinds & Canadian Hardwood Flooring Collection"
+        description="Shop custom roller blinds, zebra shades, honeycomb thermal blinds, wooden venetians, and premium hardwood and vinyl plank flooring across Canada."
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'ItemList',
+          'name': 'Brighton Decor Window Blinds & Flooring Collection',
+          'itemListElement': allProducts.map((p, idx) => ({
+            '@type': 'Product',
+            'position': idx + 1,
+            'name': p.name,
+            'description': p.desc,
+            'category': p.category,
+            'image': `https://brightondecor.co${p.image}`,
+            'offers': {
+              '@type': 'Offer',
+              'priceCurrency': 'CAD',
+              'availability': 'https://schema.org/InStock',
+            }
+          }))
+        }}
+      />
       <div className={`${styles.productsPage} ${styles.gridPattern}`}>
         
         {/* 1. Refined Architectural Header */}
