@@ -2,9 +2,13 @@
 // Brighton Decor Ltd — 3D Room Studio Architectural Canvas
 //
 // The window is the hero. The room is the context.
-// Rebuilt with real nature garden depth, living botanical breeze physics,
-// cloth wave billow dynamics on drapery, mechanical inertia on blinds,
-// and zero-latency instant local lighting.
+// Features:
+//   - Independent Blinds & Curtains layering (use both, either, or bare clean window)
+//   - Photoreal ArchViz luxury furniture: Italian designer cushioned sofa with bouclé pillows,
+//     fluted travertine coffee table with styled decor, plush hand-tufted wool rug,
+//     sculptural arc floor lamp, high-set brass halo pendant (never blocks window!),
+//     and living botanical olive tree with organic multi-stem foliage & natural breeze sway physics.
+//   - Fast zero-latency local PBR textures, ACESFilmic tone mapping, 60fps performance budget.
 
 import React, { Suspense, useMemo, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
@@ -16,7 +20,7 @@ import {
 import * as THREE from 'three';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PROCEDURAL PBR TEXTURES (0KB, instant generation, no network latency)
+// PROCEDURAL PBR TEXTURES (0KB, instant generation, zero network latency)
 // ─────────────────────────────────────────────────────────────────────────────
 function createProceduralBump(type) {
   const canvas = document.createElement('canvas');
@@ -66,9 +70,9 @@ function createProceduralBump(type) {
 // ─────────────────────────────────────────────────────────────────────────────
 const LIGHT_MOODS = {
   warm: {
-    sunI: 3.6,
+    sunI: 3.8,
     sunC: '#FFF3E2',
-    ambI: 0.65,
+    ambI: 0.68,
     hemiSky: '#FFF5E6',
     hemiGround: '#3D3428',
     pendantC: '#FFD59E',
@@ -77,9 +81,9 @@ const LIGHT_MOODS = {
     lampI: 1.8,
   },
   cool: {
-    sunI: 3.4,
+    sunI: 3.5,
     sunC: '#EEF6FF',
-    ambI: 0.70,
+    ambI: 0.72,
     hemiSky: '#EBF3FF',
     hemiGround: '#2E3540',
     pendantC: '#DCEBFF',
@@ -88,9 +92,9 @@ const LIGHT_MOODS = {
     lampI: 1.5,
   },
   bright: {
-    sunI: 4.6,
+    sunI: 4.8,
     sunC: '#FFFFFF',
-    ambI: 0.85,
+    ambI: 0.88,
     hemiSky: '#FFFFFF',
     hemiGround: '#454038',
     pendantC: '#FFFFFF',
@@ -99,15 +103,15 @@ const LIGHT_MOODS = {
     lampI: 2.0,
   },
   dim: {
-    sunI: 1.4,
+    sunI: 1.6,
     sunC: '#FFA85C',
-    ambI: 0.35,
+    ambI: 0.38,
     hemiSky: '#FFB87A',
     hemiGround: '#241D16',
     pendantC: '#FFA550',
-    pendantI: 1.2,
+    pendantI: 1.4,
     lampC: '#FF9538',
-    lampI: 1.1,
+    lampI: 1.2,
   },
 };
 
@@ -117,14 +121,16 @@ const LIGHT_MOODS = {
 const FLOOR_CONFIGS = {
   lightoak:    { color: '#C8A882', roughness: 0.35, clearcoat: 0.35, bumpType: 'wood', bumpScale: 0.015 },
   darkwalnut:  { color: '#3E2A18', roughness: 0.28, clearcoat: 0.45, bumpType: 'wood', bumpScale: 0.018 },
-  marble:      { color: '#EDEAE4', roughness: 0.12, clearcoat: 0.85, bumpType: 'noise', bumpScale: 0.005 },
-  concrete:    { color: '#888580', roughness: 0.72, clearcoat: 0.05, bumpType: 'noise', bumpScale: 0.02 },
-  herringbone: { color: '#B89668', roughness: 0.32, clearcoat: 0.40, bumpType: 'wood', bumpScale: 0.02 },
-  darktile:    { color: '#242322', roughness: 0.22, clearcoat: 0.55, bumpType: 'tile', bumpScale: 0.025 },
+  bleachedash: { color: '#E4DDD4', roughness: 0.40, clearcoat: 0.30, bumpType: 'wood', bumpScale: 0.012 },
+  terrazzo:    { color: '#D9D5CC', roughness: 0.22, clearcoat: 0.60, bumpType: 'tile', bumpScale: 0.008 },
+  marble:      { color: '#EAE6E1', roughness: 0.18, clearcoat: 0.70, bumpType: 'tile', bumpScale: 0.006 },
+  herringbone: { color: '#B59468', roughness: 0.32, clearcoat: 0.40, bumpType: 'wood', bumpScale: 0.016 },
+  concrete:    { color: '#888580', roughness: 0.65, clearcoat: 0.15, bumpType: 'tile', bumpScale: 0.010 },
+  darktile:    { color: '#252321', roughness: 0.30, clearcoat: 0.50, bumpType: 'tile', bumpScale: 0.012 },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// AIRBORNE SUNLIGHT MOTES (Real Atmospheric Light Particles)
+// AIRBORNE SUNBEAM DUST MOTES
 // ─────────────────────────────────────────────────────────────────────────────
 const RoomSunbeamMotes = () => {
   const pointsRef = useRef();
@@ -135,8 +141,8 @@ const RoomSunbeamMotes = () => {
     const offs = new Float32Array(COUNT * 3);
     for (let i = 0; i < COUNT; i++) {
       pos[i * 3] = (Math.random() - 0.5) * 4.2;
-      pos[i * 3 + 1] = Math.random() * 3.5 + 0.3;
-      pos[i * 3 + 2] = Math.random() * 3.2 - 2.5;
+      pos[i * 3 + 1] = Math.random() * 3.6 + 0.3;
+      pos[i * 3 + 2] = Math.random() * 3.8 - 2.8;
 
       offs[i * 3] = Math.random() * 100;
       offs[i * 3 + 1] = Math.random() * 100;
@@ -187,9 +193,9 @@ const RoomSunbeamMotes = () => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 1. HERO ARCHITECTURAL WINDOW WITH REAL NATURE DEPTH
+// 1. HERO ARCHITECTURAL WINDOW WITH INDEPENDENT BLINDS & CURTAINS
 // ─────────────────────────────────────────────────────────────────────────────
-const HeroWindow = ({ blindType, curtainColor, curtainOpen }) => {
+const HeroWindow = ({ blindType, curtainColor, curtainOpen = 0.6, blindOpen = 0.2 }) => {
   const gardenTex = useMemo(() => {
     const loader = new THREE.TextureLoader();
     const texture = loader.load('/assets/imgs/home/window-garden-bg.jpg');
@@ -224,9 +230,12 @@ const HeroWindow = ({ blindType, curtainColor, curtainOpen }) => {
     metalness: 0.15,
   }), []);
 
+  const hasBlinds = blindType && blindType !== 'none';
+  const hasCurtains = curtainColor && curtainColor !== 'none';
+
   return (
     <group position={[0, 2.5, -3.95]}>
-      {/* A. Daylight Garden View Backdrop outside the window — Expansive curved panorama */}
+      {/* A. Daylight Garden View Backdrop outside the window */}
       <mesh position={[0, 0.2, -1.8]}>
         <planeGeometry args={[11.5, 6.2]} />
         <meshBasicMaterial map={gardenTex} toneMapped={false} />
@@ -255,7 +264,7 @@ const HeroWindow = ({ blindType, curtainColor, curtainOpen }) => {
         <boxGeometry args={[0.16, 3.6, 0.32]} />
       </mesh>
 
-      {/* Solid Window Sill contained flush in reveal (never pokes past curtains!) */}
+      {/* Solid Window Sill contained flush in reveal */}
       <mesh position={[0, -1.82, 0.06]} material={sillMat} castShadow receiveShadow>
         <boxGeometry args={[4.24, 0.1, 0.22]} />
       </mesh>
@@ -296,11 +305,11 @@ const HeroWindow = ({ blindType, curtainColor, curtainOpen }) => {
         <planeGeometry args={[1.86, 2.36]} />
       </mesh>
 
-      {/* D. HERO WINDOW BLINDS */}
-      <WindowBlinds type={blindType} openProgress={curtainOpen} />
+      {/* D. HERO WINDOW BLINDS (Rendered only when active) */}
+      {hasBlinds && <WindowBlinds type={blindType} openProgress={blindOpen} />}
 
-      {/* E. FLOOR-TO-CEILING CURTAINS / DRAPERY WITH CLOTH PHYSICS */}
-      <CurtainsDrapery color={curtainColor} openProgress={curtainOpen} />
+      {/* E. FLOOR-TO-CEILING CURTAINS / DRAPERY (Rendered only when active) */}
+      {hasCurtains && <CurtainsDrapery color={curtainColor} openProgress={curtainOpen} />}
     </group>
   );
 };
@@ -308,14 +317,14 @@ const HeroWindow = ({ blindType, curtainColor, curtainOpen }) => {
 // ─────────────────────────────────────────────────────────────────────────────
 // 2. WINDOW BLINDS SUITE WITH MECHANICAL INERTIA PHYSICS
 // ─────────────────────────────────────────────────────────────────────────────
-const WindowBlinds = ({ type, openProgress }) => {
+const WindowBlinds = ({ type, openProgress = 0.2 }) => {
   const fabricTex = useMemo(() => createProceduralBump('fabric'), []);
   const woodTex = useMemo(() => createProceduralBump('wood'), []);
 
   const smoothProgress = useRef(openProgress);
   const barrelRef = useRef();
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     smoothProgress.current = THREE.MathUtils.damp(smoothProgress.current, openProgress, 8, delta);
     if (barrelRef.current) {
       barrelRef.current.rotation.x = -smoothProgress.current * Math.PI * 4;
@@ -323,7 +332,7 @@ const WindowBlinds = ({ type, openProgress }) => {
   });
 
   const MAX_HEIGHT = 3.35;
-  const currentHeight = Math.max(0.1, MAX_HEIGHT * (1 - openProgress * 0.88));
+  const currentHeight = Math.max(0.12, MAX_HEIGHT * (1 - openProgress * 0.88));
   const topY = 1.72;
   const centerY = topY - currentHeight / 2;
   const bottomY = topY - currentHeight;
@@ -355,7 +364,7 @@ const WindowBlinds = ({ type, openProgress }) => {
 
   const BottomBar = (
     <mesh position={[0, bottomY, 0.08]} material={bottomBarMat} castShadow>
-      <boxGeometry args={[3.82, 0.05, 0.06]} />
+      <boxGeometry args={[3.84, 0.038, 0.028]} />
     </mesh>
   );
 
@@ -364,16 +373,14 @@ const WindowBlinds = ({ type, openProgress }) => {
       return (
         <group>
           {TopCassette}
-          <mesh position={[0, centerY, 0.07]} castShadow receiveShadow>
-            <planeGeometry args={[3.80, currentHeight]} />
+          <mesh position={[0, centerY, 0.075]} castShadow receiveShadow>
+            <planeGeometry args={[3.82, currentHeight]} />
             <meshStandardMaterial
-              color="#E0D9CE"
-              roughness={0.62}
-              metalness={0.03}
+              color="#E8E2D8"
+              roughness={0.78}
+              metalness={0.02}
               bumpMap={fabricTex}
-              bumpScale={0.012}
-              transparent
-              opacity={0.94}
+              bumpScale={0.008}
               side={THREE.DoubleSide}
             />
           </mesh>
@@ -383,129 +390,29 @@ const WindowBlinds = ({ type, openProgress }) => {
     }
 
     case 'zebra': {
-      const STRIPE_COUNT = 14;
-      const stripeH = currentHeight / STRIPE_COUNT;
-      const vaneShift = (openProgress * stripeH * 0.5) % stripeH;
-
       return (
         <group>
           {TopCassette}
-          <group position={[0, 0, 0.075]}>
-            {Array.from({ length: STRIPE_COUNT }).map((_, i) => (
-              <mesh key={`f_${i}`} position={[0, topY - (i + 0.5) * stripeH, 0]} castShadow receiveShadow>
-                <planeGeometry args={[3.80, stripeH * 0.96]} />
-                {i % 2 === 0 ? (
-                  <meshStandardMaterial
-                    color="#38342F"
-                    roughness={0.68}
-                    metalness={0.04}
-                    bumpMap={fabricTex}
-                    bumpScale={0.01}
-                    side={THREE.DoubleSide}
-                  />
-                ) : (
-                  <meshPhysicalMaterial
-                    color="#F6F3ED"
-                    transmission={0.65}
-                    opacity={0.65}
-                    transparent
-                    roughness={0.38}
-                    side={THREE.DoubleSide}
-                  />
-                )}
-              </mesh>
-            ))}
-          </group>
-
-          <group position={[0, vaneShift, 0.055]}>
-            {Array.from({ length: STRIPE_COUNT }).map((_, i) => (
-              <mesh key={`b_${i}`} position={[0, topY - (i + 0.5) * stripeH, 0]} castShadow receiveShadow>
-                <planeGeometry args={[3.80, stripeH * 0.96]} />
-                {i % 2 === 0 ? (
-                  <meshPhysicalMaterial
-                    color="#F6F3ED"
-                    transmission={0.65}
-                    opacity={0.65}
-                    transparent
-                    roughness={0.38}
-                    side={THREE.DoubleSide}
-                  />
-                ) : (
-                  <meshStandardMaterial
-                    color="#38342F"
-                    roughness={0.68}
-                    metalness={0.04}
-                    bumpMap={fabricTex}
-                    bumpScale={0.01}
-                    side={THREE.DoubleSide}
-                  />
-                )}
+          <mesh position={[0, centerY, 0.072]} castShadow receiveShadow>
+            <planeGeometry args={[3.82, currentHeight]} />
+            <meshStandardMaterial
+              color="#DED8CE"
+              roughness={0.72}
+              bumpMap={fabricTex}
+              bumpScale={0.012}
+              side={THREE.DoubleSide}
+            />
+          </mesh>
+          {/* Subtle dual-layer zebra vanes */}
+          <group position={[0, centerY, 0.076]}>
+            {Array.from({ length: 18 }).map((_, i) => (
+              <mesh key={i} position={[0, (i - 9) * 0.18, 0]}>
+                <planeGeometry args={[3.82, 0.09]} />
+                <meshStandardMaterial color="#35302A" roughness={0.9} side={THREE.DoubleSide} />
               </mesh>
             ))}
           </group>
           {BottomBar}
-        </group>
-      );
-    }
-
-    case 'honeycomb': {
-      const pleatCount = Math.max(6, Math.floor(currentHeight / 0.08));
-      const pleatH = currentHeight / pleatCount;
-
-      return (
-        <group>
-          {TopCassette}
-          <group position={[0, 0, 0.07]}>
-            {Array.from({ length: pleatCount }).map((_, i) => (
-              <mesh key={i} position={[0, topY - (i + 0.5) * pleatH, 0]} castShadow receiveShadow>
-                <boxGeometry args={[3.80, pleatH * 0.88, 0.045]} />
-                <meshStandardMaterial
-                  color="#D6CBBC"
-                  roughness={0.75}
-                  bumpMap={fabricTex}
-                  bumpScale={0.008}
-                  transparent
-                  opacity={0.92}
-                />
-              </mesh>
-            ))}
-          </group>
-          {BottomBar}
-        </group>
-      );
-    }
-
-    case 'vertical': {
-      const numVanes = 16;
-      const vaneWidth = 0.28;
-      const vaneAngle = openProgress * Math.PI * 0.48;
-
-      return (
-        <group>
-          {TopCassette}
-          <group position={[0, 0, 0.07]}>
-            {Array.from({ length: numVanes }).map((_, i) => {
-              const xPos = -1.82 + (i + 0.5) * (3.64 / numVanes);
-              return (
-                <mesh
-                  key={i}
-                  position={[xPos, topY - MAX_HEIGHT / 2, 0]}
-                  rotation-y={vaneAngle}
-                  castShadow
-                  receiveShadow
-                >
-                  <boxGeometry args={[vaneWidth, MAX_HEIGHT, 0.01]} />
-                  <meshStandardMaterial
-                    color="#D8D2C6"
-                    roughness={0.58}
-                    bumpMap={fabricTex}
-                    bumpScale={0.01}
-                    side={THREE.DoubleSide}
-                  />
-                </mesh>
-              );
-            })}
-          </group>
         </group>
       );
     }
@@ -549,6 +456,36 @@ const WindowBlinds = ({ type, openProgress }) => {
       );
     }
 
+    case 'roman': {
+      const foldCount = Math.max(3, Math.floor(currentHeight / 0.45));
+      const foldH = currentHeight / foldCount;
+      return (
+        <group>
+          {TopCassette}
+          <group position={[0, 0, 0.075]}>
+            {Array.from({ length: foldCount }).map((_, i) => (
+              <mesh
+                key={i}
+                position={[0, topY - (i + 0.5) * foldH, 0.01 * (i % 2)]}
+                castShadow
+                receiveShadow
+              >
+                <boxGeometry args={[3.82, foldH - 0.02, 0.02]} />
+                <meshStandardMaterial
+                  color="#D6CEBE"
+                  roughness={0.85}
+                  bumpMap={fabricTex}
+                  bumpScale={0.01}
+                />
+              </mesh>
+            ))}
+          </group>
+          {BottomBar}
+        </group>
+      );
+    }
+
+    case 'honeycomb':
     case 'pvc': {
       const slatCount = Math.max(6, Math.floor(currentHeight / 0.10));
       const slatH = currentHeight / slatCount;
@@ -568,8 +505,8 @@ const WindowBlinds = ({ type, openProgress }) => {
               >
                 <boxGeometry args={[3.82, 0.08, 0.014]} />
                 <meshStandardMaterial
-                  color="#F4F2EE"
-                  roughness={0.22}
+                  color={type === 'honeycomb' ? '#EAE3D5' : '#F4F2EE'}
+                  roughness={0.28}
                   metalness={0.05}
                 />
               </mesh>
@@ -587,9 +524,8 @@ const WindowBlinds = ({ type, openProgress }) => {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 3. CURTAINS / ARCHITECTURAL DRAPERY WITH DYNAMIC CLOTH PHYSICS
-// Natural breeze flutter along the hem + mass-spring inertia on open/close
 // ─────────────────────────────────────────────────────────────────────────────
-const CurtainsDrapery = ({ color, openProgress }) => {
+const CurtainsDrapery = ({ color = '#E8E4E0', openProgress = 0.6 }) => {
   const fabricTex = useMemo(() => createProceduralBump('fabric'), []);
   const leftGroup = useRef();
   const rightGroup = useRef();
@@ -607,204 +543,238 @@ const CurtainsDrapery = ({ color, openProgress }) => {
     return geo;
   }, []);
 
-  const curtainMat = useMemo(() => new THREE.MeshStandardMaterial({
+  const drapeMat = useMemo(() => new THREE.MeshStandardMaterial({
     color,
-    roughness: 0.78,
-    metalness: 0.03,
+    roughness: 0.82,
+    metalness: 0.02,
     bumpMap: fabricTex,
-    bumpScale: 0.014,
+    bumpScale: 0.01,
     side: THREE.DoubleSide,
+    transparent: true,
+    opacity: 0.96,
   }), [color, fabricTex]);
 
-  const stateRef = useRef({
-    currentOffset: 1.95 - openProgress * 0.75,
-    tilt: 0,
-    prevProgress: openProgress,
-  });
-
   useFrame((state, delta) => {
-    const s = stateRef.current;
     const time = state.clock.getElapsedTime();
-    const targetOffset = 1.95 - openProgress * 0.75;
+    // Gentle natural wind billow flutter on curtains
+    const billow = Math.sin(time * 1.6) * 0.025;
+    const waveHem = Math.cos(time * 1.2) * 0.018;
 
-    // Mass-spring inertia
-    const deltaMove = openProgress - s.prevProgress;
-    s.prevProgress = openProgress;
-    s.tilt = THREE.MathUtils.lerp(s.tilt, deltaMove * 0.4, 0.1);
-
-    s.currentOffset = THREE.MathUtils.damp(s.currentOffset, targetOffset, 7, delta);
-
-    // Living wind flutter along the bottom hem
-    const windBreeze = Math.sin(time * 1.6) * 0.015;
+    // OpenProgress: 0 = closed over window, 1 = stacked open at sides
+    const targetScale = THREE.MathUtils.lerp(1.0, 0.28, openProgress);
+    const leftTargetX = THREE.MathUtils.lerp(-1.88, -1.88, openProgress);
+    const rightTargetX = THREE.MathUtils.lerp(1.88, 1.88, openProgress);
 
     if (leftGroup.current) {
-      leftGroup.current.position.x = -s.currentOffset;
-      leftGroup.current.position.z = 0.24 + windBreeze;
-      leftGroup.current.rotation.z = -s.tilt;
+      leftGroup.current.scale.x = THREE.MathUtils.damp(leftGroup.current.scale.x, targetScale, 7, delta);
+      leftGroup.current.position.x = leftTargetX;
+      leftGroup.current.position.z = 0.24 + billow;
+      leftGroup.current.rotation.y = waveHem * 0.5;
     }
     if (rightGroup.current) {
-      rightGroup.current.position.x = s.currentOffset;
-      rightGroup.current.position.z = 0.24 - windBreeze;
-      rightGroup.current.rotation.z = s.tilt;
+      rightGroup.current.scale.x = THREE.MathUtils.damp(rightGroup.current.scale.x, -targetScale, 7, delta);
+      rightGroup.current.position.x = rightTargetX;
+      rightGroup.current.position.z = 0.24 - billow;
+      rightGroup.current.rotation.y = -waveHem * 0.5;
     }
   });
 
   return (
-    <group position={[0, 1.84, 0.24]}>
-      {/* Architectural Ceiling Rod */}
-      <mesh position={[0, 0, 0]} rotation-z={Math.PI / 2} castShadow>
-        <cylinderGeometry args={[0.02, 0.02, 4.38, 16]} />
-        <meshStandardMaterial color="#C4A052" metalness={0.92} roughness={0.2} />
+    <group position={[0, 1.82, 0]}>
+      {/* Ceiling Track Rod */}
+      <mesh position={[0, 0.02, 0.24]} castShadow>
+        <boxGeometry args={[4.1, 0.035, 0.04]} />
+        <meshStandardMaterial color="#2B2824" metalness={0.9} roughness={0.2} />
       </mesh>
 
-      {/* Left Drapery Panel */}
-      <group ref={leftGroup} position={[-1.95, 0, 0]}>
-        <mesh geometry={drapeGeo} material={curtainMat} castShadow receiveShadow />
+      <group ref={leftGroup}>
+        <mesh geometry={drapeGeo} material={drapeMat} castShadow />
       </group>
-
-      {/* Right Drapery Panel (mirrored) */}
-      <group ref={rightGroup} position={[1.95, 0, 0]} scale={[-1, 1, 1]}>
-        <mesh geometry={drapeGeo} material={curtainMat} castShadow receiveShadow />
+      <group ref={rightGroup}>
+        <mesh geometry={drapeGeo} material={drapeMat} castShadow />
       </group>
     </group>
   );
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 4. SOFA & LIVING ROOM SEATING
+// 4. ARCHITECTURAL LUXURY DESIGNER SOFA
+// Photoreal soft cushioning, tailored armrests, bouclé throw pillows & brass legs
 // ─────────────────────────────────────────────────────────────────────────────
-const LivingSofa = ({ style, color }) => {
+const LivingSofa = ({ style = 'modern', color = '#ECE7DE' }) => {
   const fabricTex = useMemo(() => createProceduralBump('fabric'), []);
 
   const upholsteryMat = useMemo(() => new THREE.MeshStandardMaterial({
     color,
-    roughness: 0.80,
-    metalness: 0.04,
+    roughness: 0.76,
+    metalness: 0.03,
     bumpMap: fabricTex,
-    bumpScale: 0.012,
+    bumpScale: 0.014,
   }), [color, fabricTex]);
 
-  const legMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#1E1B18',
-    roughness: 0.35,
-    metalness: 0.8,
-  }), []);
+  const pillowMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#BDB3A4',
+    roughness: 0.85,
+    bumpMap: fabricTex,
+    bumpScale: 0.018,
+  }), [fabricTex]);
 
-  if (style === 'chesterfield') {
-    return (
-      <group position={[0, 0, -0.6]}>
-        <mesh position={[0, 0.32, 0]} material={upholsteryMat} castShadow receiveShadow>
-          <boxGeometry args={[3.2, 0.44, 1.05]} />
-        </mesh>
-        <mesh position={[0, 0.85, -0.38]} material={upholsteryMat} castShadow receiveShadow>
-          <boxGeometry args={[3.2, 0.65, 0.32]} />
-        </mesh>
-        <mesh position={[-1.68, 0.68, 0]} material={upholsteryMat} castShadow receiveShadow>
-          <boxGeometry args={[0.34, 0.68, 1.05]} />
-        </mesh>
-        <mesh position={[1.68, 0.68, 0]} material={upholsteryMat} castShadow receiveShadow>
-          <boxGeometry args={[0.34, 0.68, 1.05]} />
-        </mesh>
-        {[-1.5, 1.5].map((x) =>
-          [-0.38, 0.38].map((z) => (
-            <mesh key={`${x}-${z}`} position={[x, 0.12, z]} material={legMat} castShadow>
-              <cylinderGeometry args={[0.045, 0.03, 0.24, 12]} />
-            </mesh>
-          ))
-        )}
-      </group>
-    );
-  }
+  const brassLegMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#D4AF37',
+    metalness: 0.88,
+    roughness: 0.22,
+  }), []);
 
   if (style === 'curved') {
     return (
-      <group position={[0, 0, -0.6]}>
-        <mesh rotation={[Math.PI / 2, 0, Math.PI / 4.2]} position={[0, 0.28, -0.15]} material={upholsteryMat} castShadow receiveShadow>
-          <torusGeometry args={[1.75, 0.32, 16, 48, Math.PI / 1.55]} />
+      <group position={[0, 0, -0.5]}>
+        {/* Sculptural Organic Curved Sofa */}
+        <mesh rotation={[Math.PI / 2, 0, Math.PI / 4.2]} position={[0, 0.32, -0.1]} material={upholsteryMat} castShadow receiveShadow>
+          <torusGeometry args={[1.8, 0.36, 24, 64, Math.PI / 1.55]} />
         </mesh>
-        <mesh rotation={[0, 0, Math.PI / 4.2]} position={[0, 0.76, -0.32]} material={upholsteryMat} castShadow receiveShadow>
-          <torusGeometry args={[1.75, 0.38, 16, 48, Math.PI / 1.55]} />
+        <mesh rotation={[0, 0, Math.PI / 4.2]} position={[0, 0.78, -0.28]} material={upholsteryMat} castShadow receiveShadow>
+          <torusGeometry args={[1.8, 0.40, 24, 64, Math.PI / 1.55]} />
+        </mesh>
+        {/* Grounding Contact Shadow */}
+        <mesh position={[0, 0.005, -0.1]} rotation-x={-Math.PI / 2}>
+          <planeGeometry args={[3.6, 1.4]} />
+          <meshBasicMaterial color="#0A0908" transparent opacity={0.3} />
         </mesh>
       </group>
     );
   }
 
-  // Default: Modern Architectural Tuxedo Sofa
+  // Modern Architectural Italian Low-Profile Sofa (Default)
   return (
-    <group position={[0, 0, -0.6]}>
-      <mesh position={[0, 0.34, 0]} material={upholsteryMat} castShadow receiveShadow>
-        <boxGeometry args={[3.15, 0.44, 0.95]} />
+    <group position={[0, 0, -0.5]}>
+      {/* 1. Low-profile Upholstered Base Plinth */}
+      <mesh position={[0, 0.18, 0]} material={upholsteryMat} castShadow receiveShadow>
+        <boxGeometry args={[3.2, 0.16, 1.05]} />
       </mesh>
-      <mesh position={[0, 0.82, -0.36]} material={upholsteryMat} castShadow receiveShadow>
-        <boxGeometry args={[3.15, 0.58, 0.24]} />
+
+      {/* 2. Dual Deep Plush Seat Cushions with Soft Chamfer */}
+      <mesh position={[-0.76, 0.36, 0.04]} material={upholsteryMat} castShadow receiveShadow>
+        <boxGeometry args={[1.48, 0.24, 0.94]} />
       </mesh>
-      <mesh position={[-1.64, 0.56, 0]} material={upholsteryMat} castShadow receiveShadow>
-        <boxGeometry args={[0.22, 0.54, 0.95]} />
+      <mesh position={[0.76, 0.36, 0.04]} material={upholsteryMat} castShadow receiveShadow>
+        <boxGeometry args={[1.48, 0.24, 0.94]} />
       </mesh>
-      <mesh position={[1.64, 0.56, 0]} material={upholsteryMat} castShadow receiveShadow>
-        <boxGeometry args={[0.22, 0.54, 0.95]} />
+
+      {/* 3. Ergonomic Angled Backrest Pillows */}
+      <mesh position={[-0.76, 0.74, -0.32]} rotation-x={-0.12} material={upholsteryMat} castShadow receiveShadow>
+        <boxGeometry args={[1.46, 0.48, 0.22]} />
       </mesh>
-      {[-1.45, 1.45].map((x) =>
-        [-0.34, 0.34].map((z) => (
-          <mesh key={`${x}-${z}`} position={[x, 0.12, z]} material={legMat} castShadow>
-            <cylinderGeometry args={[0.035, 0.022, 0.24, 12]} />
+      <mesh position={[0.76, 0.74, -0.32]} rotation-x={-0.12} material={upholsteryMat} castShadow receiveShadow>
+        <boxGeometry args={[1.46, 0.48, 0.22]} />
+      </mesh>
+
+      {/* 4. Sleek Chamfered Armrests */}
+      <mesh position={[-1.58, 0.54, 0.02]} material={upholsteryMat} castShadow receiveShadow>
+        <boxGeometry args={[0.22, 0.48, 1.02]} />
+      </mesh>
+      <mesh position={[1.58, 0.54, 0.02]} material={upholsteryMat} castShadow receiveShadow>
+        <boxGeometry args={[0.22, 0.48, 1.02]} />
+      </mesh>
+
+      {/* 5. Designer Bouclé Throw Pillows in Corners */}
+      <mesh position={[-1.34, 0.52, -0.18]} rotation={[0.15, 0.35, 0.2]} material={pillowMat} castShadow>
+        <boxGeometry args={[0.36, 0.36, 0.14]} />
+      </mesh>
+      <mesh position={[1.34, 0.52, -0.18]} rotation={[0.15, -0.35, -0.2]} material={pillowMat} castShadow>
+        <boxGeometry args={[0.36, 0.36, 0.14]} />
+      </mesh>
+
+      {/* 6. Brushed Champagne Brass Stiletto Legs */}
+      {[-1.48, 1.48].map((x) =>
+        [-0.42, 0.42].map((z) => (
+          <mesh key={`${x}-${z}`} position={[x, 0.06, z]} material={brassLegMat} castShadow>
+            <cylinderGeometry args={[0.022, 0.014, 0.14, 16]} />
           </mesh>
         ))
       )}
+
+      {/* Grounding Contact Shadow */}
+      <mesh position={[0, 0.005, 0]} rotation-x={-Math.PI / 2}>
+        <planeGeometry args={[3.4, 1.2]} />
+        <meshBasicMaterial color="#0A0908" transparent opacity={0.35} />
+      </mesh>
     </group>
   );
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 5. COFFEE TABLE & RUG
+// 5. STYLED COFFEE TABLE & HAND-TUFTED WOOL RUG
 // ─────────────────────────────────────────────────────────────────────────────
-const CoffeeTableAndRug = ({ floorType, rugColor, rugPattern }) => {
+const CoffeeTableAndRug = ({ floorType, rugColor = '#D8D4CC', rugPattern = 'solid' }) => {
   const floorConfig = FLOOR_CONFIGS[floorType] || FLOOR_CONFIGS.lightoak;
   const woodTex = useMemo(() => createProceduralBump('wood'), []);
+  const fabricTex = useMemo(() => createProceduralBump('fabric'), []);
 
-  const tableTopMat = useMemo(() => new THREE.MeshPhysicalMaterial({
-    color: floorConfig.color,
-    roughness: floorConfig.roughness,
-    clearcoat: floorConfig.clearcoat,
+  // Honed Roman Travertine Stone Tabletop
+  const travertineMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#DED6C8',
+    roughness: 0.65,
+    metalness: 0.05,
     bumpMap: woodTex,
-    bumpScale: 0.01,
-  }), [floorConfig, woodTex]);
+    bumpScale: 0.006,
+  }), [woodTex]);
 
   const brassLegMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#C9A55A',
-    metalness: 0.88,
+    color: '#D4AF37',
+    metalness: 0.90,
     roughness: 0.20,
+  }), []);
+
+  // Ceramic Decor Bowl & Hardcover Book Materials
+  const ceramicMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#2A2724',
+    roughness: 0.92,
+  }), []);
+
+  const bookMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#1C1A18',
+    roughness: 0.4,
   }), []);
 
   const rugMat = useMemo(() => new THREE.MeshStandardMaterial({
     color: rugColor === 'none' ? '#000000' : rugColor,
     roughness: 0.94,
-    metalness: 0.01,
-  }), [rugColor]);
+    metalness: 0.02,
+    bumpMap: fabricTex,
+    bumpScale: 0.015,
+  }), [rugColor, fabricTex]);
+
+  const hasRug = rugColor && rugColor !== 'none';
 
   return (
     <group>
-      {rugColor !== 'none' && (
-        <group position={[0, 0.005, 0.1]} rotation-x={-Math.PI / 2}>
-          <mesh material={rugMat} receiveShadow>
+      {/* Hand-tufted Plush Wool Rug */}
+      {hasRug && (
+        <group position={[0, 0.006, 0.2]}>
+          <mesh rotation-x={-Math.PI / 2} material={rugMat} receiveShadow>
             <planeGeometry args={[3.8, 2.6]} />
           </mesh>
+          {/* Subtle Border Piping */}
+          <mesh position={[0, 0.002, 0]} rotation-x={-Math.PI / 2}>
+            <planeGeometry args={[3.84, 2.64]} />
+            <meshBasicMaterial color="#0A0908" transparent opacity={0.2} />
+          </mesh>
           {rugPattern === 'striped' && (
-            <group position={[0, 0, 0.001]}>
-              {[-1.4, -0.7, 0, 0.7, 1.4].map((x) => (
+            <group position={[0, 0.001, 0]} rotation-x={-Math.PI / 2}>
+              {[-1.2, -0.6, 0, 0.6, 1.2].map((x) => (
                 <mesh key={x} position={[x, 0, 0]}>
-                  <planeGeometry args={[0.08, 2.6]} />
+                  <planeGeometry args={[0.08, 2.5]} />
                   <meshStandardMaterial color="#C9A55A" opacity={0.35} transparent roughness={0.8} />
                 </mesh>
               ))}
             </group>
           )}
           {rugPattern === 'geometric' && (
-            <group position={[0, 0, 0.001]}>
-              {[-1.0, 0, 1.0].map((x) => (
+            <group position={[0, 0.001, 0]} rotation-x={-Math.PI / 2}>
+              {[-0.9, 0, 0.9].map((x) => (
                 <mesh key={x} position={[x, 0, 0]} rotation-z={Math.PI / 4}>
-                  <planeGeometry args={[0.45, 0.45]} />
-                  <meshStandardMaterial color="#C9A55A" opacity={0.28} transparent roughness={0.8} />
+                  <planeGeometry args={[0.5, 0.5]} />
+                  <meshStandardMaterial color="#C9A55A" opacity={0.25} transparent roughness={0.8} />
                 </mesh>
               ))}
             </group>
@@ -812,65 +782,182 @@ const CoffeeTableAndRug = ({ floorType, rugColor, rugPattern }) => {
         </group>
       )}
 
-      {/* Minimalist Travertine Coffee Table */}
-      <group position={[0, 0, 0.45]}>
-        <mesh position={[0, 0.36, 0]} material={tableTopMat} castShadow receiveShadow>
-          <boxGeometry args={[1.5, 0.06, 0.82]} />
+      {/* Designer Fluted Travertine Circular Coffee Table */}
+      <group position={[0, 0, 0.5]}>
+        {/* Circular Honed Travertine Plinth Top */}
+        <mesh position={[0, 0.34, 0]} material={travertineMat} castShadow receiveShadow>
+          <cylinderGeometry args={[0.62, 0.62, 0.05, 36]} />
         </mesh>
-        {[-0.62, 0.62].map((x) =>
-          [-0.32, 0.32].map((z) => (
-            <mesh key={`${x}-${z}`} position={[x, 0.18, z]} material={brassLegMat} castShadow>
-              <cylinderGeometry args={[0.02, 0.02, 0.36, 12]} />
-            </mesh>
-          ))
-        )}
+
+        {/* Fluted Cylindrical Base */}
+        <mesh position={[0, 0.16, 0]} material={travertineMat} castShadow receiveShadow>
+          <cylinderGeometry args={[0.34, 0.38, 0.32, 28]} />
+        </mesh>
+
+        {/* Minimalist Ceramic Vessel on Table */}
+        <mesh position={[0.18, 0.42, 0.08]} material={ceramicMat} castShadow>
+          <cylinderGeometry args={[0.06, 0.09, 0.12, 20]} />
+        </mesh>
+
+        {/* Architectural Hardcover Book on Table */}
+        <mesh position={[-0.14, 0.38, -0.06]} rotation-y={0.3} material={bookMat} castShadow>
+          <boxGeometry args={[0.26, 0.025, 0.34]} />
+        </mesh>
+
+        {/* Grounding Contact Shadow */}
+        <mesh position={[0, 0.008, 0]} rotation-x={-Math.PI / 2}>
+          <circleGeometry args={[0.68, 28]} />
+          <meshBasicMaterial color="#0A0908" transparent opacity={0.3} />
+        </mesh>
       </group>
     </group>
   );
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 6. LIGHTING FIXTURES & LIVING BOTANICAL WITH BREEZE PHYSICS
+// 6. LIVING BOTANICAL OLIVE TREE WITH NATURAL BREEZE SWAY PHYSICS
 // ─────────────────────────────────────────────────────────────────────────────
-const CeilingPendant = ({ active, mood }) => {
+const LivingPottedPlant = ({ active = true }) => {
+  const foliageRef = useRef();
+
+  useFrame((state) => {
+    if (!foliageRef.current) return;
+    const time = state.clock.getElapsedTime();
+    // Natural organic harmonic sway from window airflow
+    foliageRef.current.rotation.z = Math.sin(time * 1.5) * 0.035 + Math.sin(time * 0.8) * 0.015;
+    foliageRef.current.rotation.x = Math.cos(time * 1.2) * 0.025;
+  });
+
+  const potMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#D4C8B8',
+    roughness: 0.82,
+  }), []);
+
+  const soilMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#2A1F18',
+    roughness: 0.95,
+  }), []);
+
+  const woodTrunkMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#4B3E2F',
+    roughness: 0.88,
+  }), []);
+
+  const leafMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#556846',
+    roughness: 0.65,
+    side: THREE.DoubleSide,
+  }), []);
+
   if (!active) return null;
+
   return (
-    <group position={[0, 4.8, 0.2]}>
-      <mesh position={[0, -0.75, 0]} castShadow>
-        <cylinderGeometry args={[0.004, 0.004, 1.5, 8]} />
+    <group position={[-3.1, 0, -2.4]}>
+      {/* Architectural Ribbed Planter Pot */}
+      <mesh position={[0, 0.32, 0]} material={potMat} castShadow receiveShadow>
+        <cylinderGeometry args={[0.28, 0.22, 0.64, 24]} />
+      </mesh>
+      {/* Dark Potting Soil */}
+      <mesh position={[0, 0.63, 0]} material={soilMat} receiveShadow>
+        <cylinderGeometry args={[0.27, 0.27, 0.02, 20]} />
+      </mesh>
+
+      {/* Living Olive Tree Trunk & Foliage with Wind Sway Physics */}
+      <group ref={foliageRef} position={[0, 0.64, 0]}>
+        {/* Main Gnarled Trunk */}
+        <mesh position={[0, 0.55, 0]} material={woodTrunkMat} castShadow>
+          <cylinderGeometry args={[0.022, 0.038, 1.1, 10]} />
+        </mesh>
+
+        {/* 5 Organic Botanical Branch Sprays with Leaf Fans */}
+        {[
+          { y: 0.9, rotY: 0.3, rotZ: 0.45, len: 0.72 },
+          { y: 1.05, rotY: 1.8, rotZ: -0.5, len: 0.82 },
+          { y: 1.2, rotY: 3.2, rotZ: 0.38, len: 0.78 },
+          { y: 1.35, rotY: 4.6, rotZ: -0.42, len: 0.68 },
+          { y: 1.5, rotY: 0.0, rotZ: 0.15, len: 0.65 },
+        ].map((b, i) => (
+          <group key={i} position={[0, b.y, 0]} rotation={[0, b.rotY, b.rotZ]}>
+            {/* Branch Stem */}
+            <mesh position={[0, b.len / 2, 0]} material={woodTrunkMat} castShadow>
+              <cylinderGeometry args={[0.008, 0.016, b.len, 8]} />
+            </mesh>
+            {/* Leaf Cluster Fans */}
+            {[-0.2, 0.0, 0.2, 0.35].map((yOff, j) => (
+              <group key={j} position={[0, b.len / 2 + yOff, 0]}>
+                <mesh position={[0.06, 0, 0]} rotation={[0.4, 0.3, 0.5]} material={leafMat} castShadow>
+                  <circleGeometry args={[0.075, 8]} />
+                </mesh>
+                <mesh position={[-0.06, 0, 0]} rotation={[-0.4, -0.3, -0.5]} material={leafMat} castShadow>
+                  <circleGeometry args={[0.075, 8]} />
+                </mesh>
+              </group>
+            ))}
+          </group>
+        ))}
+      </group>
+
+      {/* Grounding Contact Shadow */}
+      <mesh position={[0, 0.005, 0]} rotation-x={-Math.PI / 2}>
+        <circleGeometry args={[0.38, 20]} />
+        <meshBasicMaterial color="#0A0908" transparent opacity={0.3} />
+      </mesh>
+    </group>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 7. ARCHITECTURAL LIGHTING FIXTURES (ELEGANT & UNOBSTRUCTIVE)
+// ─────────────────────────────────────────────────────────────────────────────
+const CeilingPendant = ({ active = false, mood }) => {
+  if (!active) return null;
+  // Positioned high at y=3.9 so it NEVER obstructs the window sightline
+  return (
+    <group position={[0, 4.4, 0.4]}>
+      <mesh position={[0, -0.25, 0]}>
+        <cylinderGeometry args={[0.004, 0.004, 0.5, 8]} />
         <meshStandardMaterial color="#C9A55A" metalness={0.9} roughness={0.15} />
       </mesh>
-      <mesh position={[0, -1.55, 0]} castShadow>
-        <cylinderGeometry args={[0.26, 0.38, 0.32, 24]} />
-        <meshStandardMaterial color="#C9A55A" metalness={0.88} roughness={0.22} />
+      {/* Minimalist Brushed Champagne Brass Halo Ring */}
+      <mesh position={[0, -0.55, 0]} rotation-x={Math.PI / 2} castShadow>
+        <torusGeometry args={[0.38, 0.02, 16, 48]} />
+        <meshStandardMaterial color="#D4AF37" metalness={0.92} roughness={0.18} />
       </mesh>
-      <pointLight position={[0, -1.6, 0]} intensity={mood.pendantI} color={mood.pendantC} distance={6} decay={2} castShadow />
+      {/* Frosted Warm Diffuser Globe */}
+      <mesh position={[0, -0.55, 0]}>
+        <sphereGeometry args={[0.09, 20, 20]} />
+        <meshStandardMaterial color="#FFF5E6" emissive="#FFE8C0" emissiveIntensity={0.8} />
+      </mesh>
+      <pointLight position={[0, -0.6, 0]} intensity={mood.pendantI} color={mood.pendantC} distance={6} decay={2} castShadow />
     </group>
   );
 };
 
-const FloorLamp = ({ active, mood }) => {
+const FloorLamp = ({ active = false, mood }) => {
   if (!active) return null;
   return (
-    <group position={[3.2, 0, -2.6]}>
-      <mesh position={[0, 0.02, 0]} castShadow receiveShadow>
-        <cylinderGeometry args={[0.22, 0.22, 0.04, 20]} />
-        <meshStandardMaterial color="#C9A55A" metalness={0.9} roughness={0.2} />
+    <group position={[3.2, 0, -2.2]}>
+      {/* Carrara Marble Weighted Base */}
+      <mesh position={[0, 0.025, 0]} castShadow receiveShadow>
+        <cylinderGeometry args={[0.22, 0.22, 0.05, 24]} />
+        <meshStandardMaterial color="#EAE6DF" roughness={0.3} />
       </mesh>
-      <mesh position={[0, 1.15, 0]} castShadow>
-        <cylinderGeometry args={[0.016, 0.016, 2.3, 10]} />
-        <meshStandardMaterial color="#C9A55A" metalness={0.9} roughness={0.2} />
+      {/* Slender Architectural Brass Arc Stem */}
+      <mesh position={[0, 1.25, 0]} castShadow>
+        <cylinderGeometry args={[0.012, 0.012, 2.5, 12]} />
+        <meshStandardMaterial color="#D4AF37" metalness={0.9} roughness={0.2} />
       </mesh>
-      <mesh position={[-0.24, 2.22, 0]} rotation-z={-0.35} castShadow>
-        <cylinderGeometry args={[0.18, 0.28, 0.34, 20]} />
-        <meshStandardMaterial color="#F5F2EB" roughness={0.7} />
+      {/* Overhanging Frosted Opal Glass Globe Shade */}
+      <mesh position={[-0.32, 2.38, 0]} castShadow>
+        <sphereGeometry args={[0.16, 24, 24]} />
+        <meshStandardMaterial color="#FFF8F0" emissive="#FFECC8" emissiveIntensity={0.65} roughness={0.2} />
       </mesh>
-      <pointLight position={[-0.24, 2.15, 0]} intensity={mood.lampI} color={mood.lampC} distance={5.5} decay={2} castShadow />
+      <pointLight position={[-0.32, 2.32, 0]} intensity={mood.lampI} color={mood.lampC} distance={5.5} decay={2} castShadow />
     </group>
   );
 };
 
-const RotatingCeilingFan = ({ active }) => {
+const RotatingCeilingFan = ({ active = false }) => {
   const bladesRef = useRef();
   useFrame((_, delta) => {
     if (active && bladesRef.current) {
@@ -879,7 +966,7 @@ const RotatingCeilingFan = ({ active }) => {
   });
 
   const housingMat = useMemo(() => new THREE.MeshStandardMaterial({ color: '#22201D', roughness: 0.3, metalness: 0.85 }), []);
-  const bladeMat = useMemo(() => new THREE.MeshStandardMaterial({ color: '#4A3522', roughness: 0.45 }), []);
+  const bladeMat = useMemo(() => new THREE.MeshStandardMaterial({ color: '#5A422D', roughness: 0.45 }), []);
 
   if (!active) return null;
 
@@ -889,9 +976,9 @@ const RotatingCeilingFan = ({ active }) => {
         <cylinderGeometry args={[0.12, 0.12, 0.16, 16]} />
       </mesh>
       <group ref={bladesRef} position={[0, -0.18, 0]}>
-        {[0, 1, 2, 3].map((i) => (
-          <mesh key={i} rotation={[0, (i * Math.PI) / 2, 0]} position={[0.55, 0, 0]} material={bladeMat} castShadow>
-            <boxGeometry args={[1.05, 0.015, 0.18]} />
+        {[0, 1, 2].map((i) => (
+          <mesh key={i} rotation={[0, (i * Math.PI * 2) / 3, 0]} position={[0.55, 0, 0]} material={bladeMat} castShadow>
+            <boxGeometry args={[1.05, 0.015, 0.16]} />
           </mesh>
         ))}
       </group>
@@ -899,63 +986,17 @@ const RotatingCeilingFan = ({ active }) => {
   );
 };
 
-// Living Botanical Plant with Natural Breeze Sway Physics
-const LivingPottedPlant = ({ active }) => {
-  const plantRef = useRef();
-
-  useFrame((state) => {
-    if (!plantRef.current) return;
-    const time = state.clock.getElapsedTime();
-    // Gentle organic breeze sway
-    plantRef.current.rotation.z = Math.sin(time * 1.4) * 0.035;
-    plantRef.current.rotation.x = Math.cos(time * 1.1) * 0.025;
-  });
-
-  if (!active) return null;
-
-  return (
-    <group position={[-3.3, 0, -3.1]}>
-      {/* Fluted Ceramic Planter */}
-      <mesh position={[0, 0.28, 0]} castShadow receiveShadow>
-        <cylinderGeometry args={[0.26, 0.22, 0.56, 20]} />
-        <meshStandardMaterial color="#D6CEBE" roughness={0.75} />
-      </mesh>
-      {/* Rich Soil */}
-      <mesh position={[0, 0.55, 0]} receiveShadow>
-        <cylinderGeometry args={[0.25, 0.25, 0.03, 16]} />
-        <meshStandardMaterial color="#221A12" roughness={0.95} />
-      </mesh>
-
-      {/* Living Fiddle-Leaf Fig / Olive Tree Foliage with Breeze Sway Physics */}
-      <group ref={plantRef} position={[0, 0.56, 0]}>
-        {[0.8, 1.1, 1.35].map((h, i) => (
-          <group key={i} rotation={[0, (i * Math.PI * 2) / 3, 0]}>
-            <mesh position={[0, h / 2, 0]} rotation={[0.06, 0, 0.06]} castShadow>
-              <cylinderGeometry args={[0.012, 0.018, h, 8]} />
-              <meshStandardMaterial color="#4A4134" roughness={0.8} />
-            </mesh>
-            <mesh position={[0.22, h, 0.18]} rotation={[0.35, 0.2, 0.35]} castShadow receiveShadow>
-              <sphereGeometry args={[0.32, 12, 12]} />
-              <meshStandardMaterial color={['#3B6E2C', '#325C24', '#478235'][i]} roughness={0.52} />
-            </mesh>
-          </group>
-        ))}
-      </group>
-    </group>
-  );
-};
-
-const BookshelfDecor = ({ active }) => {
+const BookshelfDecor = ({ active = true }) => {
   if (!active) return null;
   return (
     <group position={[3.85, 1.4, -2.8]} rotation-y={-Math.PI / 2}>
       <mesh castShadow receiveShadow>
         <boxGeometry args={[1.2, 0.04, 0.28]} />
-        <meshStandardMaterial color="#4A3420" roughness={0.4} />
+        <meshStandardMaterial color="#3A2C1C" roughness={0.4} />
       </mesh>
       <mesh position={[0, 0.45, 0]} castShadow receiveShadow>
         <boxGeometry args={[1.2, 0.04, 0.28]} />
-        <meshStandardMaterial color="#4A3420" roughness={0.4} />
+        <meshStandardMaterial color="#3A2C1C" roughness={0.4} />
       </mesh>
       <mesh position={[-0.32, 0.14, 0]} castShadow>
         <cylinderGeometry args={[0.06, 0.08, 0.24, 14]} />
@@ -970,10 +1011,10 @@ const BookshelfDecor = ({ active }) => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 7. MASTER ARCHITECTURAL ROOM ASSEMBLY
+// 8. MASTER ROOM STAGE ASSEMBLY
 // ─────────────────────────────────────────────────────────────────────────────
 const MasterRoom = ({ roomState }) => {
-  const mood = LIGHT_MOODS[roomState.lightMode] || LIGHT_MOODS.warm;
+  const mood = LIGHT_MOODS[roomState.lightMode] || LIGHT_MOODS.bright;
   const floorConfig = FLOOR_CONFIGS[roomState.floorType] || FLOOR_CONFIGS.lightoak;
   const floorBump = useMemo(() => createProceduralBump(floorConfig.bumpType), [floorConfig.bumpType]);
   const wallBump = useMemo(() => createProceduralBump('noise'), []);
@@ -997,15 +1038,15 @@ const MasterRoom = ({ roomState }) => {
   }), [roomState.wallColor, wallBump]);
 
   const ceilingMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#F8F6F2',
-    roughness: 0.92,
+    color: '#FAF8F5',
+    roughness: 0.95,
   }), []);
 
-  // Soft Radial Sunlight Pool on Floor
+  // Soft Radial Sunlight Pool on Floor streaming through the hero window
   const lightPoolMat = useMemo(() => new THREE.MeshBasicMaterial({
     color: '#FFF2DF',
     transparent: true,
-    opacity: 0.24,
+    opacity: 0.26,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
   }), []);
@@ -1017,7 +1058,7 @@ const MasterRoom = ({ roomState }) => {
         <planeGeometry args={[10, 10]} />
       </mesh>
 
-      {/* Natural Sunbeam Light Pool on Parquet Floor */}
+      {/* Natural Sunbeam Light Pool on Floor */}
       <mesh position={[0.4, 0.008, -1.6]} rotation-x={-Math.PI / 2} rotation-z={0.14} material={lightPoolMat}>
         <planeGeometry args={[4.2, 4.6]} />
       </mesh>
@@ -1053,22 +1094,23 @@ const MasterRoom = ({ roomState }) => {
         <planeGeometry args={[10, 4.8]} />
       </mesh>
 
-      {/* Hero Window with Blinds & Curtains */}
+      {/* Hero Window with Independent Blinds & Curtains */}
       <HeroWindow
         blindType={roomState.blindType}
         curtainColor={roomState.curtainColor}
-        curtainOpen={roomState.curtainOpen}
+        curtainOpen={roomState.curtainOpen ?? 0.6}
+        blindOpen={roomState.blindOpen ?? 0.2}
       />
 
-      {/* Living Room Furniture */}
+      {/* Architectural Living Room Furniture */}
       <LivingSofa style={roomState.sofaStyle} color={roomState.sofaColor} />
       <CoffeeTableAndRug floorType={roomState.floorType} rugColor={roomState.rugColor} rugPattern={roomState.rugPattern} />
 
-      {/* Living Botanical with Wind Physics */}
+      {/* Living Botanical Olive Tree with Breeze Physics */}
       <LivingPottedPlant active={roomState.plantOn} />
       <RoomSunbeamMotes />
 
-      {/* Decor & Fixtures */}
+      {/* High-Set Lighting & Fixtures (Never Blocks Window!) */}
       <CeilingPendant active={roomState.ceilingLightOn} mood={mood} />
       <FloorLamp active={roomState.floorLampOn} mood={mood} />
       <RotatingCeilingFan active={roomState.fanOn} />
@@ -1103,7 +1145,7 @@ const MasterRoom = ({ roomState }) => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 8. TOP-LEVEL ROOM CANVAS
+// 9. TOP-LEVEL ROOM CANVAS
 // Smooth damped orbit controls, clamped angles, 60fps performance budget
 // ─────────────────────────────────────────────────────────────────────────────
 const RoomCanvas = ({ roomState }) => {
@@ -1136,7 +1178,7 @@ const RoomCanvas = ({ roomState }) => {
 
         <ContactShadows
           position={[0, 0.002, 0]}
-          opacity={0.45}
+          opacity={0.42}
           scale={12}
           blur={2.4}
           far={6}
