@@ -1,14 +1,14 @@
 // src/components/room-viewer/RoomCanvas.jsx
 // Brighton Decor Ltd — 3D Room Studio Architectural Canvas
 //
-// The window is the hero. The room is the context.
-// Features:
-//   - Independent Blinds & Curtains layering (use both, either, or bare clean window)
-//   - Photoreal ArchViz luxury furniture: Italian designer cushioned sofa with bouclé pillows,
-//     fluted travertine coffee table with styled decor, plush hand-tufted wool rug,
-//     sculptural arc floor lamp, high-set brass halo pendant (never blocks window!),
-//     and living botanical olive tree with organic multi-stem foliage & natural breeze sway physics.
-//   - Fast zero-latency local PBR textures, ACESFilmic tone mapping, 60fps performance budget.
+// Cinematic ArchViz Quality:
+//   - Full Window Blinds Suite including Vertical Blinds with rotating/traversing fabric vanes.
+//   - High-end aerodynamic 3-blade architectural ceiling fan with natural momentum & spin physics.
+//   - Italian luxury designer sofa with deep cushioned bevels, bouclé throw pillows & brass legs.
+//   - Architectural room trims: luxury baseboards/skirting, deep window sill, and warm limewash walls.
+//   - Fluted Roman travertine coffee table with styled art books and ceramic vessel.
+//   - Living botanical olive tree with organic multi-stem branching and gentle wind sway physics.
+//   - 2048px high-fidelity contact shadows, ACESFilmic tone mapping, and 60fps performance budget.
 
 import React, { Suspense, useMemo, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
@@ -70,9 +70,9 @@ function createProceduralBump(type) {
 // ─────────────────────────────────────────────────────────────────────────────
 const LIGHT_MOODS = {
   warm: {
-    sunI: 3.8,
+    sunI: 4.0,
     sunC: '#FFF3E2',
-    ambI: 0.68,
+    ambI: 0.72,
     hemiSky: '#FFF5E6',
     hemiGround: '#3D3428',
     pendantC: '#FFD59E',
@@ -81,9 +81,9 @@ const LIGHT_MOODS = {
     lampI: 1.8,
   },
   cool: {
-    sunI: 3.5,
+    sunI: 3.6,
     sunC: '#EEF6FF',
-    ambI: 0.72,
+    ambI: 0.75,
     hemiSky: '#EBF3FF',
     hemiGround: '#2E3540',
     pendantC: '#DCEBFF',
@@ -92,20 +92,20 @@ const LIGHT_MOODS = {
     lampI: 1.5,
   },
   bright: {
-    sunI: 4.8,
+    sunI: 5.0,
     sunC: '#FFFFFF',
-    ambI: 0.88,
+    ambI: 0.90,
     hemiSky: '#FFFFFF',
-    hemiGround: '#454038',
+    hemiGround: '#48423A',
     pendantC: '#FFFFFF',
     pendantI: 2.6,
     lampC: '#FFF8F0',
     lampI: 2.0,
   },
   dim: {
-    sunI: 1.6,
+    sunI: 1.8,
     sunC: '#FFA85C',
-    ambI: 0.38,
+    ambI: 0.42,
     hemiSky: '#FFB87A',
     hemiGround: '#241D16',
     pendantC: '#FFA550',
@@ -134,7 +134,7 @@ const FLOOR_CONFIGS = {
 // ─────────────────────────────────────────────────────────────────────────────
 const RoomSunbeamMotes = () => {
   const pointsRef = useRef();
-  const COUNT = 32;
+  const COUNT = 36;
 
   const [positions, offsets] = useMemo(() => {
     const pos = new Float32Array(COUNT * 3);
@@ -195,7 +195,7 @@ const RoomSunbeamMotes = () => {
 // ─────────────────────────────────────────────────────────────────────────────
 // 1. HERO ARCHITECTURAL WINDOW WITH INDEPENDENT BLINDS & CURTAINS
 // ─────────────────────────────────────────────────────────────────────────────
-const HeroWindow = ({ blindType, curtainColor, curtainOpen = 0.6, blindOpen = 0.2 }) => {
+const HeroWindow = ({ blindType, curtainColor, curtainOpen = 0.65, blindOpen = 0.2 }) => {
   const gardenTex = useMemo(() => {
     const loader = new THREE.TextureLoader();
     const texture = loader.load('/assets/imgs/home/window-garden-bg.jpg');
@@ -206,28 +206,28 @@ const HeroWindow = ({ blindType, curtainColor, curtainOpen = 0.6, blindOpen = 0.
   // Physical Float Glass Pane
   const glassMat = useMemo(() => new THREE.MeshPhysicalMaterial({
     color: '#FFFFFF',
-    transmission: 0.95,
-    opacity: 0.2,
+    transmission: 0.96,
+    opacity: 0.16,
     transparent: true,
-    roughness: 0.02,
+    roughness: 0.015,
     ior: 1.52,
     thickness: 0.08,
     clearcoat: 1.0,
-    clearcoatRoughness: 0.03,
+    clearcoatRoughness: 0.02,
   }), []);
 
   // Architectural Charcoal Anodized Aluminum Frame
   const frameMat = useMemo(() => new THREE.MeshStandardMaterial({
     color: '#1A1816',
-    metalness: 0.85,
-    roughness: 0.22,
+    metalness: 0.88,
+    roughness: 0.20,
   }), []);
 
   // Deep Natural Sill Material
   const sillMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#2E2B27',
+    color: '#2A2724',
     roughness: 0.45,
-    metalness: 0.15,
+    metalness: 0.12,
   }), []);
 
   const hasBlinds = blindType && blindType !== 'none';
@@ -315,7 +315,7 @@ const HeroWindow = ({ blindType, curtainColor, curtainOpen = 0.6, blindOpen = 0.
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 2. WINDOW BLINDS SUITE WITH MECHANICAL INERTIA PHYSICS
+// 2. WINDOW BLINDS SUITE (INCLUDING PHOTOREAL VERTICAL BLINDS)
 // ─────────────────────────────────────────────────────────────────────────────
 const WindowBlinds = ({ type, openProgress = 0.2 }) => {
   const fabricTex = useMemo(() => createProceduralBump('fabric'), []);
@@ -369,6 +369,67 @@ const WindowBlinds = ({ type, openProgress = 0.2 }) => {
   );
 
   switch (type) {
+    // 1. VERTICAL ARCHITECTURAL FABRIC BLINDS
+    case 'vertical': {
+      const VANE_COUNT = 26;
+      const TRACK_WIDTH = 3.82;
+      const vaneWidth = 0.16;
+      const vaneHeight = 3.38;
+      // Rotation angle from 0 (closed) to 80 deg (open sunlight tilt)
+      const slatAngle = openProgress * Math.PI * 0.44;
+      // Traverse stack factor when opened past 50%
+      const traverseProgress = Math.max(0, (openProgress - 0.4) / 0.6);
+
+      return (
+        <group>
+          {/* Slim Architectural Aluminum Top Headrail Track */}
+          <group position={[0, topY + 0.04, 0.08]}>
+            <mesh material={cassetteMat} castShadow>
+              <boxGeometry args={[3.86, 0.05, 0.08]} />
+            </mesh>
+          </group>
+
+          {/* 26 Rotating & Traversing Vertical Louver Vanes */}
+          <group position={[0, 0, 0.08]}>
+            {Array.from({ length: VANE_COUNT }).map((_, i) => {
+              const baseNorm = (i / (VANE_COUNT - 1)) * 2 - 1; // -1 to 1
+              // When traversing open, vanes smoothly stack towards the left reveal (-1.75)
+              const stackX = -1.75 + i * 0.025;
+              const defaultX = (baseNorm * (TRACK_WIDTH - 0.2)) / 2;
+              const currentX = THREE.MathUtils.lerp(defaultX, stackX, traverseProgress);
+
+              return (
+                <group key={i} position={[currentX, topY - vaneHeight / 2, 0]} rotation-y={slatAngle}>
+                  {/* Top Carrier Clip */}
+                  <mesh position={[0, vaneHeight / 2, 0]} material={cassetteMat}>
+                    <boxGeometry args={[0.02, 0.03, 0.02]} />
+                  </mesh>
+
+                  {/* Vertical Fabric Vane */}
+                  <mesh castShadow receiveShadow>
+                    <boxGeometry args={[vaneWidth, vaneHeight, 0.003]} />
+                    <meshStandardMaterial
+                      color="#E6E0D6"
+                      roughness={0.78}
+                      metalness={0.02}
+                      bumpMap={fabricTex}
+                      bumpScale={0.012}
+                    />
+                  </mesh>
+
+                  {/* Bottom Stabilizer Weight */}
+                  <mesh position={[0, -vaneHeight / 2 + 0.02, 0]} material={cassetteMat}>
+                    <boxGeometry args={[vaneWidth - 0.01, 0.035, 0.008]} />
+                  </mesh>
+                </group>
+              );
+            })}
+          </group>
+        </group>
+      );
+    }
+
+    // 2. ROLLER BLINDS
     case 'roller': {
       return (
         <group>
@@ -389,6 +450,7 @@ const WindowBlinds = ({ type, openProgress = 0.2 }) => {
       );
     }
 
+    // 3. ZEBRA BLINDS
     case 'zebra': {
       return (
         <group>
@@ -403,7 +465,6 @@ const WindowBlinds = ({ type, openProgress = 0.2 }) => {
               side={THREE.DoubleSide}
             />
           </mesh>
-          {/* Subtle dual-layer zebra vanes */}
           <group position={[0, centerY, 0.076]}>
             {Array.from({ length: 18 }).map((_, i) => (
               <mesh key={i} position={[0, (i - 9) * 0.18, 0]}>
@@ -417,6 +478,7 @@ const WindowBlinds = ({ type, openProgress = 0.2 }) => {
       );
     }
 
+    // 4. WOODEN VENETIAN BLINDS
     case 'wooden': {
       const slatCount = Math.max(6, Math.floor(currentHeight / 0.11));
       const slatH = currentHeight / slatCount;
@@ -456,6 +518,7 @@ const WindowBlinds = ({ type, openProgress = 0.2 }) => {
       );
     }
 
+    // 5. ROMAN SHADES
     case 'roman': {
       const foldCount = Math.max(3, Math.floor(currentHeight / 0.45));
       const foldH = currentHeight / foldCount;
@@ -485,6 +548,7 @@ const WindowBlinds = ({ type, openProgress = 0.2 }) => {
       );
     }
 
+    // 6. HONEYCOMB & PVC
     case 'honeycomb':
     case 'pvc': {
       const slatCount = Math.max(6, Math.floor(currentHeight / 0.10));
@@ -525,7 +589,7 @@ const WindowBlinds = ({ type, openProgress = 0.2 }) => {
 // ─────────────────────────────────────────────────────────────────────────────
 // 3. CURTAINS / ARCHITECTURAL DRAPERY WITH DYNAMIC CLOTH PHYSICS
 // ─────────────────────────────────────────────────────────────────────────────
-const CurtainsDrapery = ({ color = '#E8E4E0', openProgress = 0.6 }) => {
+const CurtainsDrapery = ({ color = '#E8E4E0', openProgress = 0.65 }) => {
   const fabricTex = useMemo(() => createProceduralBump('fabric'), []);
   const leftGroup = useRef();
   const rightGroup = useRef();
@@ -556,11 +620,9 @@ const CurtainsDrapery = ({ color = '#E8E4E0', openProgress = 0.6 }) => {
 
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
-    // Gentle natural wind billow flutter on curtains
     const billow = Math.sin(time * 1.6) * 0.025;
     const waveHem = Math.cos(time * 1.2) * 0.018;
 
-    // OpenProgress: 0 = closed over window, 1 = stacked open at sides
     const targetScale = THREE.MathUtils.lerp(1.0, 0.28, openProgress);
     const leftTargetX = THREE.MathUtils.lerp(-1.88, -1.88, openProgress);
     const rightTargetX = THREE.MathUtils.lerp(1.88, 1.88, openProgress);
@@ -598,8 +660,8 @@ const CurtainsDrapery = ({ color = '#E8E4E0', openProgress = 0.6 }) => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 4. ARCHITECTURAL LUXURY DESIGNER SOFA
-// Photoreal soft cushioning, tailored armrests, bouclé throw pillows & brass legs
+// 4. ITALIAN LUXURY ARCHITECTURAL DESIGNER SOFA
+// Realistic cushioned curvature, soft fabric specular, bouclé pillows & brass legs
 // ─────────────────────────────────────────────────────────────────────────────
 const LivingSofa = ({ style = 'modern', color = '#ECE7DE' }) => {
   const fabricTex = useMemo(() => createProceduralBump('fabric'), []);
@@ -628,14 +690,12 @@ const LivingSofa = ({ style = 'modern', color = '#ECE7DE' }) => {
   if (style === 'curved') {
     return (
       <group position={[0, 0, -0.5]}>
-        {/* Sculptural Organic Curved Sofa */}
         <mesh rotation={[Math.PI / 2, 0, Math.PI / 4.2]} position={[0, 0.32, -0.1]} material={upholsteryMat} castShadow receiveShadow>
           <torusGeometry args={[1.8, 0.36, 24, 64, Math.PI / 1.55]} />
         </mesh>
         <mesh rotation={[0, 0, Math.PI / 4.2]} position={[0, 0.78, -0.28]} material={upholsteryMat} castShadow receiveShadow>
           <torusGeometry args={[1.8, 0.40, 24, 64, Math.PI / 1.55]} />
         </mesh>
-        {/* Grounding Contact Shadow */}
         <mesh position={[0, 0.005, -0.1]} rotation-x={-Math.PI / 2}>
           <planeGeometry args={[3.6, 1.4]} />
           <meshBasicMaterial color="#0A0908" transparent opacity={0.3} />
@@ -710,7 +770,6 @@ const CoffeeTableAndRug = ({ floorType, rugColor = '#D8D4CC', rugPattern = 'soli
   const woodTex = useMemo(() => createProceduralBump('wood'), []);
   const fabricTex = useMemo(() => createProceduralBump('fabric'), []);
 
-  // Honed Roman Travertine Stone Tabletop
   const travertineMat = useMemo(() => new THREE.MeshStandardMaterial({
     color: '#DED6C8',
     roughness: 0.65,
@@ -719,13 +778,6 @@ const CoffeeTableAndRug = ({ floorType, rugColor = '#D8D4CC', rugPattern = 'soli
     bumpScale: 0.006,
   }), [woodTex]);
 
-  const brassLegMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#D4AF37',
-    metalness: 0.90,
-    roughness: 0.20,
-  }), []);
-
-  // Ceramic Decor Bowl & Hardcover Book Materials
   const ceramicMat = useMemo(() => new THREE.MeshStandardMaterial({
     color: '#2A2724',
     roughness: 0.92,
@@ -754,7 +806,6 @@ const CoffeeTableAndRug = ({ floorType, rugColor = '#D8D4CC', rugPattern = 'soli
           <mesh rotation-x={-Math.PI / 2} material={rugMat} receiveShadow>
             <planeGeometry args={[3.8, 2.6]} />
           </mesh>
-          {/* Subtle Border Piping */}
           <mesh position={[0, 0.002, 0]} rotation-x={-Math.PI / 2}>
             <planeGeometry args={[3.84, 2.64]} />
             <meshBasicMaterial color="#0A0908" transparent opacity={0.2} />
@@ -784,27 +835,18 @@ const CoffeeTableAndRug = ({ floorType, rugColor = '#D8D4CC', rugPattern = 'soli
 
       {/* Designer Fluted Travertine Circular Coffee Table */}
       <group position={[0, 0, 0.5]}>
-        {/* Circular Honed Travertine Plinth Top */}
         <mesh position={[0, 0.34, 0]} material={travertineMat} castShadow receiveShadow>
           <cylinderGeometry args={[0.62, 0.62, 0.05, 36]} />
         </mesh>
-
-        {/* Fluted Cylindrical Base */}
         <mesh position={[0, 0.16, 0]} material={travertineMat} castShadow receiveShadow>
           <cylinderGeometry args={[0.34, 0.38, 0.32, 28]} />
         </mesh>
-
-        {/* Minimalist Ceramic Vessel on Table */}
         <mesh position={[0.18, 0.42, 0.08]} material={ceramicMat} castShadow>
           <cylinderGeometry args={[0.06, 0.09, 0.12, 20]} />
         </mesh>
-
-        {/* Architectural Hardcover Book on Table */}
         <mesh position={[-0.14, 0.38, -0.06]} rotation-y={0.3} material={bookMat} castShadow>
           <boxGeometry args={[0.26, 0.025, 0.34]} />
         </mesh>
-
-        {/* Grounding Contact Shadow */}
         <mesh position={[0, 0.008, 0]} rotation-x={-Math.PI / 2}>
           <circleGeometry args={[0.68, 28]} />
           <meshBasicMaterial color="#0A0908" transparent opacity={0.3} />
@@ -823,7 +865,6 @@ const LivingPottedPlant = ({ active = true }) => {
   useFrame((state) => {
     if (!foliageRef.current) return;
     const time = state.clock.getElapsedTime();
-    // Natural organic harmonic sway from window airflow
     foliageRef.current.rotation.z = Math.sin(time * 1.5) * 0.035 + Math.sin(time * 0.8) * 0.015;
     foliageRef.current.rotation.x = Math.cos(time * 1.2) * 0.025;
   });
@@ -853,23 +894,18 @@ const LivingPottedPlant = ({ active = true }) => {
 
   return (
     <group position={[-3.1, 0, -2.4]}>
-      {/* Architectural Ribbed Planter Pot */}
       <mesh position={[0, 0.32, 0]} material={potMat} castShadow receiveShadow>
         <cylinderGeometry args={[0.28, 0.22, 0.64, 24]} />
       </mesh>
-      {/* Dark Potting Soil */}
       <mesh position={[0, 0.63, 0]} material={soilMat} receiveShadow>
         <cylinderGeometry args={[0.27, 0.27, 0.02, 20]} />
       </mesh>
 
-      {/* Living Olive Tree Trunk & Foliage with Wind Sway Physics */}
       <group ref={foliageRef} position={[0, 0.64, 0]}>
-        {/* Main Gnarled Trunk */}
         <mesh position={[0, 0.55, 0]} material={woodTrunkMat} castShadow>
           <cylinderGeometry args={[0.022, 0.038, 1.1, 10]} />
         </mesh>
 
-        {/* 5 Organic Botanical Branch Sprays with Leaf Fans */}
         {[
           { y: 0.9, rotY: 0.3, rotZ: 0.45, len: 0.72 },
           { y: 1.05, rotY: 1.8, rotZ: -0.5, len: 0.82 },
@@ -878,11 +914,9 @@ const LivingPottedPlant = ({ active = true }) => {
           { y: 1.5, rotY: 0.0, rotZ: 0.15, len: 0.65 },
         ].map((b, i) => (
           <group key={i} position={[0, b.y, 0]} rotation={[0, b.rotY, b.rotZ]}>
-            {/* Branch Stem */}
             <mesh position={[0, b.len / 2, 0]} material={woodTrunkMat} castShadow>
               <cylinderGeometry args={[0.008, 0.016, b.len, 8]} />
             </mesh>
-            {/* Leaf Cluster Fans */}
             {[-0.2, 0.0, 0.2, 0.35].map((yOff, j) => (
               <group key={j} position={[0, b.len / 2 + yOff, 0]}>
                 <mesh position={[0.06, 0, 0]} rotation={[0.4, 0.3, 0.5]} material={leafMat} castShadow>
@@ -897,7 +931,6 @@ const LivingPottedPlant = ({ active = true }) => {
         ))}
       </group>
 
-      {/* Grounding Contact Shadow */}
       <mesh position={[0, 0.005, 0]} rotation-x={-Math.PI / 2}>
         <circleGeometry args={[0.38, 20]} />
         <meshBasicMaterial color="#0A0908" transparent opacity={0.3} />
@@ -907,23 +940,20 @@ const LivingPottedPlant = ({ active = true }) => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 7. ARCHITECTURAL LIGHTING FIXTURES (ELEGANT & UNOBSTRUCTIVE)
+// 7. ARCHITECTURAL LIGHTING & SCANDINAVIAN CEILING FAN
 // ─────────────────────────────────────────────────────────────────────────────
 const CeilingPendant = ({ active = false, mood }) => {
   if (!active) return null;
-  // Positioned high at y=3.9 so it NEVER obstructs the window sightline
   return (
     <group position={[0, 4.4, 0.4]}>
       <mesh position={[0, -0.25, 0]}>
         <cylinderGeometry args={[0.004, 0.004, 0.5, 8]} />
         <meshStandardMaterial color="#C9A55A" metalness={0.9} roughness={0.15} />
       </mesh>
-      {/* Minimalist Brushed Champagne Brass Halo Ring */}
       <mesh position={[0, -0.55, 0]} rotation-x={Math.PI / 2} castShadow>
         <torusGeometry args={[0.38, 0.02, 16, 48]} />
         <meshStandardMaterial color="#D4AF37" metalness={0.92} roughness={0.18} />
       </mesh>
-      {/* Frosted Warm Diffuser Globe */}
       <mesh position={[0, -0.55, 0]}>
         <sphereGeometry args={[0.09, 20, 20]} />
         <meshStandardMaterial color="#FFF5E6" emissive="#FFE8C0" emissiveIntensity={0.8} />
@@ -937,17 +967,14 @@ const FloorLamp = ({ active = false, mood }) => {
   if (!active) return null;
   return (
     <group position={[3.2, 0, -2.2]}>
-      {/* Carrara Marble Weighted Base */}
       <mesh position={[0, 0.025, 0]} castShadow receiveShadow>
         <cylinderGeometry args={[0.22, 0.22, 0.05, 24]} />
         <meshStandardMaterial color="#EAE6DF" roughness={0.3} />
       </mesh>
-      {/* Slender Architectural Brass Arc Stem */}
       <mesh position={[0, 1.25, 0]} castShadow>
         <cylinderGeometry args={[0.012, 0.012, 2.5, 12]} />
         <meshStandardMaterial color="#D4AF37" metalness={0.9} roughness={0.2} />
       </mesh>
-      {/* Overhanging Frosted Opal Glass Globe Shade */}
       <mesh position={[-0.32, 2.38, 0]} castShadow>
         <sphereGeometry args={[0.16, 24, 24]} />
         <meshStandardMaterial color="#FFF8F0" emissive="#FFECC8" emissiveIntensity={0.65} roughness={0.2} />
@@ -957,29 +984,93 @@ const FloorLamp = ({ active = false, mood }) => {
   );
 };
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AERODYNAMIC ARCHITECTURAL CEILING FAN WITH NATURAL INERTIA MOMENTUM
+// ─────────────────────────────────────────────────────────────────────────────
 const RotatingCeilingFan = ({ active = false }) => {
   const bladesRef = useRef();
+  const speedRef = useRef(0);
+
   useFrame((_, delta) => {
-    if (active && bladesRef.current) {
-      bladesRef.current.rotation.y += delta * 3.5;
+    // Natural angular acceleration / deceleration momentum physics
+    const targetSpeed = active ? 4.6 : 0;
+    speedRef.current = THREE.MathUtils.damp(speedRef.current, targetSpeed, 1.6, delta);
+
+    if (bladesRef.current && Math.abs(speedRef.current) > 0.01) {
+      bladesRef.current.rotation.y += delta * speedRef.current;
     }
   });
 
-  const housingMat = useMemo(() => new THREE.MeshStandardMaterial({ color: '#22201D', roughness: 0.3, metalness: 0.85 }), []);
-  const bladeMat = useMemo(() => new THREE.MeshStandardMaterial({ color: '#5A422D', roughness: 0.45 }), []);
+  const woodTex = useMemo(() => createProceduralBump('wood'), []);
+
+  const housingMat = useMemo(() => new THREE.MeshStandardMaterial({ 
+    color: '#1C1A18', 
+    roughness: 0.32, 
+    metalness: 0.88 
+  }), []);
+
+  const brassTrimMat = useMemo(() => new THREE.MeshStandardMaterial({ 
+    color: '#D4AF37', 
+    metalness: 0.90, 
+    roughness: 0.22 
+  }), []);
+
+  const bladeMat = useMemo(() => new THREE.MeshStandardMaterial({ 
+    color: '#523A25', 
+    roughness: 0.45,
+    metalness: 0.05,
+    bumpMap: woodTex,
+    bumpScale: 0.012,
+  }), [woodTex]);
+
+  const lightLensMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#FFF8EB',
+    emissive: active ? '#FFE6B8' : '#000000',
+    emissiveIntensity: active ? 0.6 : 0,
+    roughness: 0.2,
+  }), [active]);
 
   if (!active) return null;
 
+  // Located in central ceiling area (never cramped into the window reveal!)
   return (
-    <group position={[0, 4.65, -0.6]}>
-      <mesh position={[0, -0.08, 0]} material={housingMat} castShadow>
-        <cylinderGeometry args={[0.12, 0.12, 0.16, 16]} />
+    <group position={[0, 4.68, 0.4]}>
+      {/* 1. Flush Ceiling Canopy */}
+      <mesh position={[0, 0.1, 0]} material={housingMat} castShadow>
+        <cylinderGeometry args={[0.09, 0.11, 0.04, 24]} />
       </mesh>
-      <group ref={bladesRef} position={[0, -0.18, 0]}>
+
+      {/* 2. Slender Architectural Matte Drop Rod */}
+      <mesh position={[0, -0.05, 0]} material={housingMat}>
+        <cylinderGeometry args={[0.014, 0.014, 0.26, 16]} />
+      </mesh>
+
+      {/* 3. Aerodynamic Teardrop Motor Housing with Polished Brass Bezel */}
+      <mesh position={[0, -0.19, 0]} material={housingMat} castShadow>
+        <cylinderGeometry args={[0.16, 0.20, 0.11, 32]} />
+      </mesh>
+      <mesh position={[0, -0.24, 0]} material={brassTrimMat}>
+        <cylinderGeometry args={[0.18, 0.18, 0.02, 32]} />
+      </mesh>
+
+      {/* 4. Integrated Frosted Ambient Downlight Lens */}
+      <mesh position={[0, -0.26, 0]} material={lightLensMat}>
+        <cylinderGeometry args={[0.15, 0.15, 0.02, 28]} />
+      </mesh>
+
+      {/* 5. 3 Contoured Airfoil Blades with Contoured Pitch & Smooth Physics Rotation */}
+      <group ref={bladesRef} position={[0, -0.21, 0]}>
         {[0, 1, 2].map((i) => (
-          <mesh key={i} rotation={[0, (i * Math.PI * 2) / 3, 0]} position={[0.55, 0, 0]} material={bladeMat} castShadow>
-            <boxGeometry args={[1.05, 0.015, 0.16]} />
-          </mesh>
+          <group key={i} rotation={[0, (i * Math.PI * 2) / 3, 0]}>
+            {/* Blade Iron Hub Connector */}
+            <mesh position={[0.22, 0, 0]} material={brassTrimMat} castShadow>
+              <boxGeometry args={[0.16, 0.015, 0.04]} />
+            </mesh>
+            {/* Aerodynamic Contoured Blade with Pitch Angle */}
+            <mesh position={[0.76, 0, 0]} rotation-x={0.22} material={bladeMat} castShadow>
+              <boxGeometry args={[0.96, 0.014, 0.17]} />
+            </mesh>
+          </group>
         ))}
       </group>
     </group>
@@ -1011,7 +1102,7 @@ const BookshelfDecor = ({ active = true }) => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 8. MASTER ROOM STAGE ASSEMBLY
+// 8. MASTER ROOM STAGE ASSEMBLY WITH ARCHITECTURAL BASEBOARDS & LIGHTING
 // ─────────────────────────────────────────────────────────────────────────────
 const MasterRoom = ({ roomState }) => {
   const mood = LIGHT_MOODS[roomState.lightMode] || LIGHT_MOODS.bright;
@@ -1042,6 +1133,13 @@ const MasterRoom = ({ roomState }) => {
     roughness: 0.95,
   }), []);
 
+  // Luxury Architectural Baseboard / Skirting Trim Material
+  const baseboardMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#282420',
+    roughness: 0.55,
+    metalness: 0.08,
+  }), []);
+
   // Soft Radial Sunlight Pool on Floor streaming through the hero window
   const lightPoolMat = useMemo(() => new THREE.MeshBasicMaterial({
     color: '#FFF2DF',
@@ -1053,22 +1151,36 @@ const MasterRoom = ({ roomState }) => {
 
   return (
     <group>
-      {/* Floor */}
+      {/* 1. Hardwood / Tile Floor */}
       <mesh rotation-x={-Math.PI / 2} position={[0, 0, 0]} material={floorMat} receiveShadow>
         <planeGeometry args={[10, 10]} />
       </mesh>
 
-      {/* Natural Sunbeam Light Pool on Floor */}
+      {/* 2. Natural Sunbeam Light Pool on Floor */}
       <mesh position={[0.4, 0.008, -1.6]} rotation-x={-Math.PI / 2} rotation-z={0.14} material={lightPoolMat}>
         <planeGeometry args={[4.2, 4.6]} />
       </mesh>
 
-      {/* Ceiling */}
+      {/* 3. Ceiling */}
       <mesh rotation-x={Math.PI / 2} position={[0, 4.8, 0]} material={ceilingMat}>
         <planeGeometry args={[10, 10]} />
       </mesh>
 
-      {/* Back Wall with Window Opening */}
+      {/* 4. Architectural Luxury Baseboard / Skirting Molding (Elevates ArchViz Realism) */}
+      <mesh position={[-3.1, 0.07, -3.88]} material={baseboardMat} receiveShadow>
+        <boxGeometry args={[2.2, 0.14, 0.04]} />
+      </mesh>
+      <mesh position={[3.1, 0.07, -3.88]} material={baseboardMat} receiveShadow>
+        <boxGeometry args={[2.2, 0.14, 0.04]} />
+      </mesh>
+      <mesh position={[-4.08, 0.07, 0]} rotation-y={Math.PI / 2} material={baseboardMat} receiveShadow>
+        <boxGeometry args={[10, 0.14, 0.04]} />
+      </mesh>
+      <mesh position={[4.08, 0.07, 0]} rotation-y={-Math.PI / 2} material={baseboardMat} receiveShadow>
+        <boxGeometry args={[10, 0.14, 0.04]} />
+      </mesh>
+
+      {/* 5. Back Wall with Window Opening */}
       <group position={[0, 0, -4.0]}>
         <mesh position={[-3.1, 2.4, 0]} material={wallMat} receiveShadow>
           <boxGeometry args={[2.2, 4.8, 0.2]} />
@@ -1094,45 +1206,45 @@ const MasterRoom = ({ roomState }) => {
         <planeGeometry args={[10, 4.8]} />
       </mesh>
 
-      {/* Hero Window with Independent Blinds & Curtains */}
+      {/* 6. Hero Window with Independent Blinds & Curtains */}
       <HeroWindow
         blindType={roomState.blindType}
         curtainColor={roomState.curtainColor}
-        curtainOpen={roomState.curtainOpen ?? 0.6}
+        curtainOpen={roomState.curtainOpen ?? 0.65}
         blindOpen={roomState.blindOpen ?? 0.2}
       />
 
-      {/* Architectural Living Room Furniture */}
+      {/* 7. Architectural Living Room Furniture */}
       <LivingSofa style={roomState.sofaStyle} color={roomState.sofaColor} />
       <CoffeeTableAndRug floorType={roomState.floorType} rugColor={roomState.rugColor} rugPattern={roomState.rugPattern} />
 
-      {/* Living Botanical Olive Tree with Breeze Physics */}
+      {/* 8. Living Botanical Olive Tree with Breeze Physics */}
       <LivingPottedPlant active={roomState.plantOn} />
       <RoomSunbeamMotes />
 
-      {/* High-Set Lighting & Fixtures (Never Blocks Window!) */}
+      {/* 9. Lighting & Ceiling Fan */}
       <CeilingPendant active={roomState.ceilingLightOn} mood={mood} />
       <FloorLamp active={roomState.floorLampOn} mood={mood} />
       <RotatingCeilingFan active={roomState.fanOn} />
       <BookshelfDecor active={roomState.decorOn} />
 
-      {/* Fast, Zero-Latency Physical Lighting Rig */}
+      {/* 10. Soft Global Illumination Lighting Rig */}
       <hemisphereLight
         color={mood.hemiSky}
         groundColor={mood.hemiGround}
         intensity={mood.ambI * 0.9}
       />
-      <ambientLight intensity={mood.ambI * 0.55} color="#FFFBF5" />
+      <ambientLight intensity={mood.ambI * 0.58} color="#FFFBF5" />
 
-      {/* Directional sunlight streaming into the room through the hero window */}
+      {/* Cinematic Directional Sunlight streaming through the hero window */}
       <directionalLight
         position={[2.4, 4.6, -4.8]}
         target-position={[0, 1.2, 0]}
         intensity={mood.sunI}
         color={mood.sunC}
         castShadow
-        shadow-mapSize={[1024, 1024]}
-        shadow-bias={-0.00015}
+        shadow-mapSize={[2048, 2048]}
+        shadow-bias={-0.00012}
         shadow-camera-near={0.5}
         shadow-camera-far={16}
         shadow-camera-left={-5}
@@ -1155,7 +1267,7 @@ const RoomCanvas = ({ roomState }) => {
       dpr={[1, 2]}
       gl={{
         toneMapping: THREE.ACESFilmicToneMapping,
-        toneMappingExposure: 1.15,
+        toneMappingExposure: 1.18,
         outputColorSpace: THREE.SRGBColorSpace,
         antialias: true,
         powerPreference: 'high-performance',
@@ -1182,7 +1294,7 @@ const RoomCanvas = ({ roomState }) => {
           scale={12}
           blur={2.4}
           far={6}
-          resolution={512}
+          resolution={1024}
         />
       </Suspense>
     </Canvas>

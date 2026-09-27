@@ -7,7 +7,6 @@ import PageTransition from '../components/common/PageTransition';
 import BrandStory from '../components/about/BrandStory';
 import VisionMission from '../components/about/VisionMission';
 import Timeline from '../components/about/Timeline';
-import TeamSection from '../components/about/TeamSection';
 import { company } from '../config/company';
 import styles from '../styles/pages/about.module.css';
 
@@ -297,10 +296,7 @@ const About = () => {
         {/* 5. Timeline */}
         <Timeline />
 
-        {/* 6. Team Section */}
-        <TeamSection />
-
-        {/* 7. Service Area Section */}
+        {/* 6. Service Area Section */}
         <section className="py-32 bg-[#0F0E0C] text-white relative overflow-hidden border-t border-white/10">
           <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
