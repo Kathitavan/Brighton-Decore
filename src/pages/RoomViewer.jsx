@@ -133,6 +133,16 @@ const RoomViewer = () => {
     }
   }, [location.state, isMobile]);
 
+  // Auto-scroll active category button into view on mobile
+  useEffect(() => {
+    if (mobileNavRef.current && mobileDrawerOpen) {
+      const activeBtn = mobileNavRef.current.querySelector(`[data-cat-id="${activeCategory}"]`);
+      if (activeBtn) {
+        activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+  }, [activeCategory, mobileDrawerOpen]);
+
   const updateRoom = (key, value) => {
     setRoomState((prev) => ({ ...prev, [key]: value }));
   };
@@ -1069,25 +1079,40 @@ const RoomViewer = () => {
                   </button>
                 </div>
 
-                {/* Horizontal Category Chips */}
-                <div className="p-2.5 border-b border-white/10 flex items-center gap-1.5 shrink-0 bg-[#0A0908]/70">
+                {/* Horizontal Category Chips with Navigation Chevrons */}
+                <div className="p-2 border-b border-white/10 flex items-center gap-1.5 shrink-0 bg-[#0A0908]/90 relative">
+                  <button
+                    type="button"
+                    onClick={() => scrollMobileNav(-140)}
+                    className="w-7 h-7 rounded-full bg-white/5 border border-white/15 text-white/70 hover:text-white flex items-center justify-center shrink-0 active:scale-95 transition-all"
+                    aria-label="Scroll categories left"
+                  >
+                    <ChevronLeft size={14} />
+                  </button>
+
                   <div
                     ref={mobileNavRef}
                     data-lenis-prevent
                     onWheel={(e) => {
                       if (e.deltaY) e.currentTarget.scrollLeft += e.deltaY;
                     }}
-                    className="overflow-x-auto no-scrollbar flex gap-1.5 scroll-smooth py-1 w-full"
+                    style={{
+                      WebkitOverflowScrolling: 'touch',
+                      touchAction: 'pan-x',
+                      overscrollBehaviorX: 'contain',
+                    }}
+                    className="overflow-x-auto no-scrollbar flex gap-1.5 scroll-smooth py-1 w-full touch-pan-x"
                   >
                     {CATEGORIES.map((cat) => {
                       const isSel = activeCategory === cat.id;
                       return (
                         <button
                           key={cat.id}
+                          data-cat-id={cat.id}
                           onClick={() => setActiveCategory(cat.id)}
                           className={`px-3 py-1.5 rounded-full text-[10px] uppercase font-bold tracking-wider whitespace-nowrap transition-all shrink-0 flex items-center gap-1 ${
                             isSel
-                              ? 'bg-gradient-to-r from-[#C9A55A] to-[#DFBA73] text-[#0A0908] shadow-md font-bold'
+                              ? 'bg-gradient-to-r from-[#C9A55A] to-[#DFBA73] text-[#0A0908] shadow-md font-bold ring-1 ring-[#C9A55A]'
                               : 'text-white/60 bg-white/5 hover:text-white border border-white/10'
                           }`}
                         >
@@ -1097,6 +1122,15 @@ const RoomViewer = () => {
                       );
                     })}
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={() => scrollMobileNav(140)}
+                    className="w-7 h-7 rounded-full bg-white/5 border border-white/15 text-white/70 hover:text-white flex items-center justify-center shrink-0 active:scale-95 transition-all"
+                    aria-label="Scroll categories right"
+                  >
+                    <ChevronRight size={14} />
+                  </button>
                 </div>
 
                 {/* Drawer Content */}

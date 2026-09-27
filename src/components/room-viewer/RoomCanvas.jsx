@@ -1081,19 +1081,19 @@ const BookshelfDecor = ({ active = true }) => {
   if (!active) return null;
   return (
     <group position={[3.85, 1.4, -2.8]} rotation-y={-Math.PI / 2}>
-      <mesh castShadow receiveShadow>
+      <mesh receiveShadow>
         <boxGeometry args={[1.2, 0.04, 0.28]} />
         <meshStandardMaterial color="#3A2C1C" roughness={0.4} />
       </mesh>
-      <mesh position={[0, 0.45, 0]} castShadow receiveShadow>
+      <mesh position={[0, 0.45, 0]} receiveShadow>
         <boxGeometry args={[1.2, 0.04, 0.28]} />
         <meshStandardMaterial color="#3A2C1C" roughness={0.4} />
       </mesh>
-      <mesh position={[-0.32, 0.14, 0]} castShadow>
+      <mesh position={[-0.32, 0.14, 0]}>
         <cylinderGeometry args={[0.06, 0.08, 0.24, 14]} />
         <meshStandardMaterial color="#C9A55A" metalness={0.88} roughness={0.22} />
       </mesh>
-      <mesh position={[0.3, 0.12, 0]} castShadow>
+      <mesh position={[0.3, 0.12, 0]}>
         <boxGeometry args={[0.22, 0.2, 0.16]} />
         <meshStandardMaterial color="#EAE4DA" roughness={0.6} />
       </mesh>
