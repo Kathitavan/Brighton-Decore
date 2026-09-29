@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
 
@@ -12,7 +12,6 @@ import LoadingScreen from './components/common/LoadingScreen';
 
 // Pages
 import Home from './pages/Home';
-import Portfolio from './pages/Portfolio';
 import About from './pages/About';
 import Services from './pages/Services';
 import RoomViewer from './pages/RoomViewer';
@@ -82,7 +81,7 @@ function App() {
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Home />} />
-            <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/portfolio" element={<Navigate to="/products" replace />} />
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
             <Route path="/room-viewer" element={<RoomViewer />} />

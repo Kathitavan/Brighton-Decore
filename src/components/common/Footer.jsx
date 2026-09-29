@@ -4,6 +4,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Phone, Mail, MapPin, Clock, Instagram, Facebook } from 'lucide-react';
 import { company } from '../../config/company';
+import InnovativeAddressBlock from './InnovativeAddressBlock';
 
 const getFooterTheme = (pathname) => {
   switch (pathname) {
@@ -168,7 +169,6 @@ const Footer = () => {
                 { label: 'Home', path: '/' },
                 { label: 'About Us', path: '/about' },
                 { label: 'Services', path: '/services' },
-                { label: 'Portfolio', path: '/portfolio' },
                 { label: 'Products', path: '/products' },
                 { label: '3D Room Studio', path: '/room-viewer' },
                 { label: 'Client Reviews', path: '/testimonials' },
@@ -213,15 +213,12 @@ const Footer = () => {
           {/* Contact Details */}
           <div className="space-y-5 font-sans">
             <h3 className={`font-serif text-lg font-medium ${theme.textHeading}`}>Contact</h3>
-            <ul className="space-y-4 text-xs">
-              <li className="flex items-start gap-3">
-                <MapPin size={15} className={`${theme.accentText} mt-0.5 flex-shrink-0`} />
-                <address className={`not-italic leading-relaxed font-light ${theme.textMuted}`}>
-                  {company.address.street}<br />
-                  {company.address.city}, {company.address.province} {company.address.postalCode}<br />
-                  {company.address.country}
-                </address>
-              </li>
+            <InnovativeAddressBlock
+              variant="footer"
+              accentColor={theme.accentText?.includes('#') ? '#' + theme.accentText.split('#')[1].replace(']', '') : '#C9A55A'}
+              isLight={theme.bgMain?.includes('FAF') || false}
+            />
+            <ul className="space-y-3 pt-1 text-xs">
               <li className="flex items-center gap-3">
                 <Phone size={15} className={`${theme.accentText} flex-shrink-0`} />
                 <a

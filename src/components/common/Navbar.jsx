@@ -14,7 +14,6 @@ const navLinks = [
   { name: 'Home', path: '/' },
   { name: 'About', path: '/about' },
   { name: 'Services', path: '/services' },
-  { name: 'Portfolio', path: '/portfolio' },
   { name: 'Products', path: '/products', hasMegaMenu: true },
   { name: '3D Room Studio', path: '/room-viewer' },
   { name: 'Design Ideas', path: '/blog' },

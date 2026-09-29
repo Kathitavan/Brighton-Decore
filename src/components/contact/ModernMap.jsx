@@ -20,8 +20,11 @@ const ModernMap = () => {
             <MapPin size={18} />
           </div>
           <div>
-            <div className="text-white text-xs font-serif font-bold">Saskatoon Office</div>
-            <div className="text-white/60 text-[10px] font-sans">Saskatchewan, Canada</div>
+            <div className="text-white text-xs font-serif font-bold">2911B Cleveland Ave</div>
+            <div className="text-white/70 text-[10px] font-sans flex items-center gap-1.5">
+              <span>Saskatoon, SK</span>
+              <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-semibold">S7K 8A9</span>
+            </div>
           </div>
         </div>
 
@@ -35,7 +38,7 @@ const ModernMap = () => {
           </button>
 
           <a
-            href="https://maps.google.com/?q=Saskatoon+Saskatchewan+Canada"
+            href="https://www.google.com/maps/search/?api=1&query=2911B+Cleveland+Ave%2C+Saskatoon%2C+SK+S7K+8A9"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#52B788] hover:bg-white text-[#0A120E] text-[11px] font-bold font-sans transition-all shadow-[0_0_18px_rgba(82,183,136,0.4)]"

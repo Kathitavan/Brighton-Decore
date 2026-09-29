@@ -23,6 +23,8 @@ export const company = {
   // Address
   address: {
     street: '2911B Cleveland Ave',
+    line1: '2911B Cleveland Ave',
+    line2: 'Saskatoon, SK S7K 8A9',
     city: 'Saskatoon',
     province: 'SK',
     postalCode: 'S7K 8A9',
@@ -39,7 +41,7 @@ export const company = {
   },
 
   // Maps
-  googleMapsUrl: 'https://maps.app.goo.gl/5iuFnetoc1zvR1oF7',
+  googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=2911B+Cleveland+Ave%2C+Saskatoon%2C+SK+S7K+8A9',
   googleMapsEmbed:
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2454.8!2d-106.6346!3d52.1332!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTLCsDA3JzU5LjUiTiAxMDbCsDM4JzA0LjYiVw!5e0!3m2!1sen!2sca!4v1697000000000!5m2!1sen!2sca',
 

@@ -9,6 +9,7 @@ import BrandStory from '../components/about/BrandStory';
 import VisionMission from '../components/about/VisionMission';
 import Timeline from '../components/about/Timeline';
 import { company } from '../config/company';
+import InnovativeAddressBlock from '../components/common/InnovativeAddressBlock';
 import styles from '../styles/pages/about.module.css';
 
 // Animated Kinetic CountUp Number Component
@@ -325,25 +326,11 @@ const About = () => {
                   Our primary design studio and distribution center is located at {company.address.street}, {company.address.city}, {company.address.province} {company.address.postalCode} — with nationwide logistical reach to deliver window treatments, custom blinds, and drapery anywhere in Canada.
                 </p>
 
-                <div className="p-6 rounded-xl backdrop-blur-xl bg-white/[0.02] border border-white/10 flex items-start gap-4">
-                  <MapPin size={22} className="text-[#C9A55A] mt-1 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-serif text-white font-bold text-lg mb-1">Brighton Decor Ltd Headquarters</h4>
-                    <address className="not-italic text-white/60 text-sm font-sans">
-                      {company.address.full}
-                    </address>
-                  </div>
-                </div>
-
-                <a
-                  href={company.googleMapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 text-[#C9A55A] text-[11px] uppercase tracking-[0.2em] font-bold font-sans hover:text-white transition-colors pt-2"
-                >
-                  <span>Open in Google Maps</span>
-                  <ArrowRight size={14} />
-                </a>
+                <InnovativeAddressBlock
+                  variant="feature"
+                  accentColor="#C9A55A"
+                  className="mt-6"
+                />
               </div>
 
               {/* Map Embed Card */}

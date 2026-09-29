@@ -167,15 +167,15 @@ function PhotorealisticEarth({ onPinClick }) {
             <div className="flex items-center gap-2 mb-1">
               <span className="w-2.5 h-2.5 rounded-full bg-[#52B788] animate-ping" />
               <span className="font-serif font-bold text-[#52B788] text-xs">
-                Brighton Decor — Saskatoon HQ
+                Brighton Decor — 2911B Cleveland Ave
               </span>
             </div>
             <div className="flex items-center justify-between gap-3">
-              <span className="text-[9px] uppercase tracking-wider text-white/70 font-mono">
-                52.1332° N, 106.6346° W
+              <span className="text-[10px] text-white/90 font-sans">
+                Saskatoon, SK <strong className="font-mono text-[#52B788] font-bold">S7K 8A9</strong>
               </span>
               <span className="text-[9px] font-bold uppercase tracking-wider bg-[#52B788]/20 text-[#52B788] px-2 py-0.5 rounded-full border border-[#52B788]/40">
-                Office & Studio ➔
+                Studio & Office ➔
               </span>
             </div>
           </div>
@@ -201,7 +201,7 @@ function GlobeSkeletonLoader() {
 // 5. Main Export Component
 const WorldGlobe = () => {
   const handleOpenGoogleMaps = () => {
-    window.open("https://maps.google.com/?q=Saskatoon,+SK,+Canada", "_blank", "noopener,noreferrer");
+    window.open("https://www.google.com/maps/search/?api=1&query=2911B+Cleveland+Ave%2C+Saskatoon%2C+SK+S7K+8A9", "_blank", "noopener,noreferrer");
   };
 
   return (

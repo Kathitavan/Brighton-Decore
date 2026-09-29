@@ -6,6 +6,7 @@ import PageTransition from '../components/common/PageTransition';
 import SEO from '../components/common/SEO';
 import WorldGlobe from '../components/contact/WorldGlobe';
 import ModernMap from '../components/contact/ModernMap';
+import InnovativeAddressBlock from '../components/common/InnovativeAddressBlock';
 import { company, faqItems } from '../config/company';
 import { submitLead } from '../services/leadService';
 import styles from '../styles/pages/contact.module.css';
@@ -233,21 +234,12 @@ const Contact = () => {
                   </div>
                 </div>
 
-                {/* Office Address */}
-                <div className={styles.infoCard}>
-                  <div className={styles.iconBox}>
-                    <MapPin size={20} />
-                  </div>
-                  <div>
-                    <div className="text-[10px] uppercase tracking-[0.2em] text-white/60 font-sans font-semibold mb-1">
-                      Flagship Office
-                    </div>
-                    <address className="font-serif text-white text-base not-italic leading-snug">
-                      {company.address.street}<br />
-                      {company.address.city}, {company.address.province} {company.address.postalCode}
-                    </address>
-                  </div>
-                </div>
+                {/* Office Address — Innovative Interactive Block */}
+                <InnovativeAddressBlock
+                  variant="card"
+                  accentColor="#52B788"
+                  className="mb-1"
+                />
 
                 {/* Hours */}
                 <div className={styles.infoCard}>

@@ -49,10 +49,10 @@ const FeaturedProjects = () => {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            onClick={() => navigate('/portfolio')}
+            onClick={() => navigate('/products')}
             className="group inline-flex items-center gap-3 border border-white/20 px-6 py-3.5 text-[11px] uppercase tracking-[0.2em] font-bold font-sans text-white hover:border-[#C9A55A] hover:text-[#C9A55A] transition-all duration-300 rounded-full"
           >
-            <span>Explore All Projects</span>
+            <span>Explore All Collections</span>
             <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </motion.button>
         </div>
@@ -66,7 +66,7 @@ const FeaturedProjects = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
               className="group cursor-pointer backdrop-blur-xl bg-white/[0.02] border border-white/10 p-6 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:border-[#C9A55A]/50 transition-all duration-500"
-              onClick={() => navigate('/portfolio')}
+              onClick={() => navigate('/products')}
             >
               {/* Image Frame */}
               <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-[#1A1814] mb-6">

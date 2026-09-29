@@ -301,11 +301,11 @@ const TransformationSection = () => {
             </button>
 
             <button
-              onClick={() => navigate('/portfolio')}
+              onClick={() => navigate('/products')}
               className="inline-flex items-center gap-2.5 border border-white/20 bg-white/5 text-white px-7 py-3.5 text-xs font-bold uppercase tracking-[0.2em] font-sans hover:border-[#C9A55A] hover:text-[#C9A55A] transition-all duration-300 rounded-full"
             >
               <LayoutGrid size={14} />
-              <span>EXPLORE OUR WORK</span>
+              <span>EXPLORE COLLECTIONS</span>
             </button>
           </div>
         </motion.div>

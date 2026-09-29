@@ -209,10 +209,10 @@ const Services = () => {
                 </button>
 
                 <button
-                  onClick={() => navigate('/portfolio')}
+                  onClick={() => navigate('/products')}
                   className="group inline-flex items-center gap-3 border border-white/20 bg-white/5 text-white px-8 py-4 text-xs uppercase font-bold tracking-[0.2em] font-sans hover:border-[#C9A55A] hover:text-[#C9A55A] transition-all duration-300 rounded-full"
                 >
-                  <span>Explore Portfolio</span>
+                  <span>Explore Collections</span>
                   <ArrowUpRight size={15} />
                 </button>
               </div>
@@ -535,10 +535,10 @@ const Services = () => {
               </button>
 
               <button
-                onClick={() => navigate('/portfolio')}
+                onClick={() => navigate('/products')}
                 className="group inline-flex items-center gap-3 border border-white/20 bg-white/5 text-white px-8 py-4 text-xs uppercase font-bold tracking-[0.2em] font-sans hover:border-[#C9A55A] hover:text-[#C9A55A] transition-all duration-300 rounded-full"
               >
-                <span>Explore Our Work</span>
+                <span>Explore Window Collections</span>
                 <ArrowUpRight size={15} />
               </button>
             </div>
