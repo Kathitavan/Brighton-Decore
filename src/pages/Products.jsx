@@ -19,11 +19,59 @@ const blindImages = {
   pvc: '/assets/imgs/products/pvc-blinds.jpg',
 };
 
-const flooringProducts = [
-  { id: 'hardwood',    name: 'Hardwood Flooring',        category: 'Flooring', desc: 'Classic beauty, natural warmth. Durable and timeless.', image: '/assets/imgs/products/hardwood-flooring.jpg' },
-  { id: 'laminate',   name: 'Laminate Flooring',         category: 'Flooring', desc: 'Realistic wood look with outstanding durability and easy care.', image: '/assets/imgs/products/laminate-flooring.jpg' },
-  { id: 'vinyl',      name: 'Vinyl Plank (LVP)',          category: 'Flooring', desc: '100% waterproof — ideal for basements, bathrooms, and kitchens.', image: '/assets/imgs/products/vinyl-plank.jpg' },
-  { id: 'engineered', name: 'Engineered Hardwood',        category: 'Flooring', desc: 'All the beauty of hardwood with superior stability and moisture resistance.', image: '/assets/imgs/products/engineered-hardwood.jpg' },
+const customDecorProducts = [
+  { 
+    id: 'pinch-pleat-drapery', 
+    name: 'Pinch-Pleat Tailored Drapes', 
+    category: 'Drapery', 
+    desc: 'Bespoke floor-to-ceiling drapery with crisp architectural pinch pleats and tailored blackout lining.', 
+    image: '/assets/imgs/decore/IMG_0057.JPG.jpeg',
+    swatches: [
+      { name: 'Slate Grey', hex: '#686B73' },
+      { name: 'Ivory Linen', hex: '#F4EFEA' },
+      { name: 'Oatmeal Tweed', hex: '#D6C7B2' },
+      { name: 'Charcoal Weave', hex: '#2C2E35' },
+    ]
+  },
+  { 
+    id: 'grand-sheer-suite', 
+    name: 'Bespoke Sheer & Drape Suite', 
+    category: 'Drapery', 
+    desc: 'Grand living room ceiling-recessed drapery with light-diffusing sheer accents for panoramic windows.', 
+    image: '/assets/imgs/decore/IMG_0052.JPG.jpeg',
+    swatches: [
+      { name: 'Midnight Slate', hex: '#3B4856' },
+      { name: 'Soft Pearl', hex: '#EBEAE6' },
+      { name: 'Mist Blue', hex: '#7C8A99' },
+      { name: 'Champagne Silk', hex: '#D8C6A5' },
+    ]
+  },
+  { 
+    id: 'motorized-zebra-shades', 
+    name: 'Smart Motorized Zebra Blinds', 
+    category: 'Motorized', 
+    desc: 'Motorized dual-transition sheer and solid bands with multi-window remote synchronisation.', 
+    image: '/assets/imgs/decore/IMG_0122.JPG.jpeg',
+    swatches: [
+      { name: 'Graphite Dual', hex: '#4B4D52' },
+      { name: 'Chalk White', hex: '#F7F7F7' },
+      { name: 'Espresso Bronze', hex: '#362D26' },
+      { name: 'Sandstone Grey', hex: '#C2B6A6' },
+    ]
+  },
+  { 
+    id: 'woven-textured-shades', 
+    name: 'Natural Woven Texture Shades', 
+    category: 'Drapery', 
+    desc: 'Artisanal organic bamboo and woven reed roller shades delivering rich organic textures.', 
+    image: '/assets/imgs/decore/IMG_0123.JPG.jpeg',
+    swatches: [
+      { name: 'Amber Woven', hex: '#C68E48' },
+      { name: 'Natural Reed', hex: '#E0BA7B' },
+      { name: 'Dark Walnut', hex: '#4F3824' },
+      { name: 'Bleached Jute', hex: '#DFD4BE' },
+    ]
+  },
 ];
 
 const allProducts = [
@@ -40,18 +88,10 @@ const allProducts = [
       { name: 'Slate Gray', hex: '#7A8288' }
     ]
   })),
-  ...flooringProducts.map(f => ({
-    ...f,
-    swatches: [
-      { name: 'Natural Oak', hex: '#C8A882' },
-      { name: 'Dark Timber', hex: '#3A2E20' },
-      { name: 'Smoked Ash', hex: '#8A8A8A' },
-      { name: 'Honey Amber', hex: '#D9A76A' }
-    ]
-  })),
+  ...customDecorProducts,
 ];
 
-const categories = ['All', 'Blinds', 'Flooring'];
+const categories = ['All', 'Blinds', 'Drapery', 'Motorized'];
 
 // Product Card Component with Subtle 3D Tilt Physics (Max ±4°), Sheen Beam & Swatches
 const ProductCard3D = ({ product, index, navigate }) => {
@@ -170,7 +210,15 @@ const ProductCard3D = ({ product, index, navigate }) => {
         {/* Action Buttons */}
         <div className="flex items-center gap-2 pt-2">
           <button
-            onClick={() => navigate('/contact')}
+            onClick={() => navigate('/contact', {
+              state: {
+                type: 'quote',
+                productName: product.name,
+                productId: product.id,
+                category: product.category,
+                finish: selectedSwatch?.name,
+              },
+            })}
             className={`${styles.primaryBtn} flex-1 text-[10px] uppercase font-bold tracking-widest font-sans py-3 rounded-xl transition-all flex items-center justify-center gap-1.5`}
           >
             <span>Request Quote</span>
@@ -204,12 +252,12 @@ const Products = () => {
   return (
     <PageTransition>
       <SEO
-        title="Custom Window Blinds & Canadian Hardwood Flooring Collection"
-        description="Shop custom roller blinds, zebra shades, honeycomb thermal blinds, wooden venetians, and premium hardwood and vinyl plank flooring across Canada."
+        title="Custom Window Blinds, Drapery & Architectural Shades Collection"
+        description="Shop custom roller blinds, zebra shades, honeycomb thermal blinds, tailored drapery, and motorized window coverings across Saskatoon and Canada."
         schema={{
           '@context': 'https://schema.org',
           '@type': 'ItemList',
-          'name': 'Brighton Decor Window Blinds & Flooring Collection',
+          'name': 'Brighton Decor Window Blinds & Drapery Collection',
           'itemListElement': allProducts.map((p, idx) => ({
             '@type': 'Product',
             'position': idx + 1,
@@ -245,10 +293,10 @@ const Products = () => {
                 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}
               >
                 Window Blinds &amp;<br />
-                <span className="italic text-[#B89656]">Flooring Collection</span>
+                <span className="italic text-[#B89656]">Drapery Collection</span>
               </h1>
               <p className="text-[#2B1F17]/75 text-lg md:text-xl font-sans font-light leading-relaxed">
-                Curated Canadian materials, tailored specs, and professional installation. Contact us for a free site measurement and personalized quote.
+                Curated Canadian window materials, tailored architectural specs, and professional installation. Contact us for a free site measurement and personalized quote.
               </p>
             </motion.div>
           </div>
@@ -338,7 +386,12 @@ const Products = () => {
               We supply custom fabrications. Reach out to our design team to explore bespoke specifications for your space.
             </p>
             <button
-              onClick={() => navigate('/contact')}
+              onClick={() => navigate('/contact', {
+                state: {
+                  type: 'team',
+                  message: 'Inquiry from Products catalog: Talk to Our Team about custom fabrications.'
+                }
+              })}
               className="group inline-flex items-center gap-3 bg-[#B89656] text-[#2B1F17] px-8 py-4 rounded-full text-xs uppercase tracking-[0.2em] font-bold font-sans hover:bg-white transition-all shadow-xl"
             >
               <span>Talk to Our Team</span>

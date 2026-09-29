@@ -18,7 +18,7 @@ const Testimonials = () => {
     <PageTransition>
       <SEO
         title="Client Reviews & Testimonials — 100% Satisfaction Record"
-        description="Read authentic verified reviews from homeowners across Saskatchewan and Canada who trusted Brighton Decor Ltd for custom blinds and hardwood flooring."
+        description="Read authentic verified reviews from homeowners across Saskatchewan and Canada who trusted Brighton Decor Ltd for custom blinds, drapery, and motorized shading."
       />
       <div className={styles.testimonialsPage}>
         {/* Header */}

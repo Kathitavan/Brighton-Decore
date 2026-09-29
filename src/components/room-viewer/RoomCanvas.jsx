@@ -1256,6 +1256,7 @@ const RoomCanvas = ({ roomState }) => {
         toneMappingExposure: 1.18,
         outputColorSpace: THREE.SRGBColorSpace,
         antialias: true,
+        preserveDrawingBuffer: true,
         powerPreference: 'high-performance',
       }}
     >

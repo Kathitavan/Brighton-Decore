@@ -10,7 +10,7 @@ export const company = {
   tagline: 'Brightening Your Home. Defining Your Space.',
   taglineShort: 'Brightening Your Home.',
   description:
-    'Thoughtfully selected interiors, expertly installed. From refined window coverings to beautifully finished floors, Brighton Decor helps Canadian homes feel considered from every angle.',
+    'Thoughtfully selected window decor, expertly installed. From refined window blinds to luxurious custom drapery and motorized shades, Brighton Decor helps Canadian homes feel considered from every angle.',
   established: 2022,
   businessType: 'Proprietorship',
 
@@ -22,12 +22,13 @@ export const company = {
 
   // Address
   address: {
-    street: '2911B Cleveland Avenue',
+    street: '2911B Cleveland Ave',
     city: 'Saskatoon',
-    province: 'Saskatchewan',
+    province: 'SK',
+    postalCode: 'S7K 8A9',
     country: 'Canada',
-    full: '2911B Cleveland Avenue, Saskatoon, Saskatchewan, Canada',
-    short: 'Saskatoon, SK',
+    full: '2911B Cleveland Ave, Saskatoon, SK S7K 8A9',
+    short: 'Saskatoon, SK S7K 8A9',
   },
 
   // Hours
@@ -74,23 +75,16 @@ export const canadaServices = [
   {
     id: 'window-coverings',
     name: 'Window Coverings',
-    shortDesc: 'Complete window solutions including curtains and custom treatments for any space.',
+    shortDesc: 'Complete window solutions including custom drapery, sheers, and blackout treatments.',
     icon: 'Frame',
     path: '/services#window-coverings',
   },
   {
-    id: 'flooring-supply',
-    name: 'Flooring Supply',
-    shortDesc: 'Quality flooring materials sourced to match your style, budget, and lifestyle.',
-    icon: 'Grid',
-    path: '/services#flooring',
-  },
-  {
-    id: 'flooring-installation',
-    name: 'Flooring Installation',
-    shortDesc: 'Professional installation by trained technicians — precise, clean, and lasting.',
-    icon: 'Hammer',
-    path: '/services#installation',
+    id: 'motorized-shading',
+    name: 'Smart Motorized Shading',
+    shortDesc: 'Automated blinds and motorized shade systems compatible with smart home and voice controls.',
+    icon: 'Sparkles',
+    path: '/services#motorized-shading',
   },
   {
     id: 'measurement',
@@ -111,7 +105,7 @@ export const canadaServices = [
 // Customer journey steps
 export const processSteps = [
   { step: '01', title: 'Contact Us', description: 'Reach out by phone, email, or our online form to get started.' },
-  { step: '02', title: 'Free Site Measurement', description: 'We visit your home at no charge and take precise measurements of every window and floor area.' },
+  { step: '02', title: 'Free Site Measurement', description: 'We visit your home at no charge and take precise measurements of every window and architectural opening.' },
   { step: '03', title: 'Understand Your Needs', description: 'We listen carefully to your preferences, lifestyle, and budget to understand exactly what you need.' },
   { step: '04', title: 'Product Recommendation', description: 'We present a curated selection of products that suit your space perfectly.' },
   { step: '05', title: 'Confirm Selection', description: 'You review samples, make your final choices, and we confirm the order details.' },
@@ -143,14 +137,14 @@ export const faqItems = [
   },
   {
     q: 'Can I try blinds in a 3D room before ordering?',
-    a: 'Yes! Our 3D Room Studio lets you visualize different blind styles, wall colours, and flooring options in a virtual room before making any decisions.',
+    a: 'Yes! Our 3D Room Studio lets you visualize different blind styles and wall colours in a virtual room before making any decisions.',
   },
   {
     q: 'What payment methods do you accept?',
     a: 'We accept cash, bank transfer, credit/debit cards, cheque, and EMI options.',
   },
   {
-    q: 'Do you supply and install flooring as well?',
-    a: 'Absolutely. We supply quality flooring materials and provide full professional installation services.',
+    q: 'Do you offer motorized and automated blinds?',
+    a: 'Yes! We specialize in smart motorized blinds and shades featuring Somfy and rechargeable wire-free motors, complete with remote, app, and voice integration.',
   },
 ];

@@ -175,7 +175,7 @@ function PhotorealisticEarth({ onPinClick }) {
                 52.1332° N, 106.6346° W
               </span>
               <span className="text-[9px] font-bold uppercase tracking-wider bg-[#52B788]/20 text-[#52B788] px-2 py-0.5 rounded-full border border-[#52B788]/40">
-                Showroom & Studio ➔
+                Office & Studio ➔
               </span>
             </div>
           </div>
@@ -256,7 +256,7 @@ const WorldGlobe = () => {
             SK
           </div>
           <div>
-            <div className="text-white text-xs font-serif font-bold">Flagship Showroom & HQ</div>
+            <div className="text-white text-xs font-serif font-bold">Flagship Office & HQ</div>
             <div className="text-white/60 text-[10px] font-sans">Click 3D Pin to Open Google Maps Directions</div>
           </div>
         </div>

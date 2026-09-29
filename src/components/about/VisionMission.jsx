@@ -113,11 +113,11 @@ const VisionMission = () => {
                 </span>
 
                 <h3 className="font-serif text-white text-2xl md:text-3xl leading-snug mb-6">
-                  The Premier Standard for Canadian Interior Coverings & Flooring.
+                  The Premier Standard for Canadian Window Coverings & Architectural Shading.
                 </h3>
 
                 <p className="text-white/70 font-sans font-light text-base leading-relaxed">
-                  We envision a Canada where every residence commands thoughtfully designed, flawlessly executed window treatments and premium flooring — delivered with complete pricing transparency, master craftsmanship, and genuine care from coast to coast.
+                  We envision a Canada where every residence commands thoughtfully designed, flawlessly executed window treatments and motorized shading — delivered with complete pricing transparency, master craftsmanship, and genuine care from coast to coast.
                 </p>
               </div>
 
@@ -151,7 +151,7 @@ const VisionMission = () => {
                 </h3>
 
                 <p className="text-white/80 font-sans font-light text-base leading-relaxed">
-                  Our daily mission is to provide homeowners with bespoke window blinds and flooring, expert zero-cost site measurement, and white-glove professional installation — executed with transparency, integrity, and single-minded focus on your total satisfaction.
+                  Our daily mission is to provide homeowners with bespoke window blinds, custom drapery, expert zero-cost site measurement, and white-glove professional installation — executed with transparency, integrity, and single-minded focus on your total satisfaction.
                 </p>
               </div>
 

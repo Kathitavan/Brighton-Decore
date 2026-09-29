@@ -19,7 +19,7 @@ export default function SEO({
   const canonicalUrl = canonical || fullUrl;
   const siteTitle = title 
     ? `${title} | Brighton Decor Ltd` 
-    : 'Brighton Decor Ltd | Blinds, Window Coverings & Flooring — Saskatoon, SK';
+    : 'Brighton Decor Ltd | Window Blinds, Custom Drapery & Motorized Shading — Saskatoon, SK';
 
   useEffect(() => {
     // 1. Page Title

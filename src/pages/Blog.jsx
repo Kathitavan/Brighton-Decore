@@ -23,7 +23,7 @@ const Blog = () => {
     <PageTransition>
       <SEO
         title="Interior Design Ideas & Window Covering Trends"
-        description="Read expert guides, Canadian design trends, light-control tips, and hardwood flooring advice from the master artisans at Brighton Decor Ltd."
+        description="Read expert guides, Canadian design trends, light-control tips, and custom window decor advice from the master artisans at Brighton Decor Ltd."
       />
       <div className={styles.blogPage}>
         {/* Header */}

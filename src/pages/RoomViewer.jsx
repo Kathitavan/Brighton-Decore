@@ -71,7 +71,7 @@ const CATEGORIES = [
   { id: 'window',   label: 'Window Decor', icon: '🪟', badge: '1st Focus' },
   { id: 'sofa',     label: 'Seating',      icon: '🛋️' },
   { id: 'walls',    label: 'Walls',        icon: '🎨' },
-  { id: 'floors',   label: 'Flooring',     icon: '🪵' },
+  { id: 'floors',   label: 'Room Floor',   icon: '🪵' },
   { id: 'rug',      label: 'Area Rug',     icon: '🧶' },
   { id: 'lighting', label: 'Lighting',     icon: '💡' },
   { id: 'decor',    label: 'Decor',        icon: '🌿' },
@@ -90,16 +90,103 @@ const CURTAIN_COLORS = [
   { label: 'Soft Sky',      hex: '#B8D4E8' },
 ];
 
+// ─────────────────────────────────────────────────────────────────────────────
+// SHAREABLE URL STATE: Encode & Decode helpers
+// ─────────────────────────────────────────────────────────────────────────────
+function encodeRoomState(state) {
+  const params = new URLSearchParams();
+  if (state.blindType && state.blindType !== 'none') params.set('blind', state.blindType);
+  if (state.blindOpen !== undefined && state.blindOpen !== 0.2) params.set('bOpen', state.blindOpen.toFixed(2));
+  if (state.curtainColor && state.curtainColor !== 'none') params.set('curtain', state.curtainColor);
+  if (state.curtainOpen !== undefined && state.curtainOpen !== 0.65) params.set('cOpen', state.curtainOpen.toFixed(2));
+  if (state.floorType && state.floorType !== 'lightoak') params.set('floor', state.floorType);
+  if (state.wallColor && state.wallColor !== '#F5F0E8') params.set('wall', state.wallColor.replace('#', ''));
+  if (state.sofaColor && state.sofaColor !== '#ECE7DE') params.set('sofa', state.sofaColor.replace('#', ''));
+  if (state.sofaStyle && state.sofaStyle !== 'modern') params.set('sofaStyle', state.sofaStyle);
+  if (state.rugColor && state.rugColor !== '#D8D4CC') params.set('rug', state.rugColor.replace('#', ''));
+  if (state.rugPattern && state.rugPattern !== 'solid') params.set('rugPat', state.rugPattern);
+  if (state.lightMode && state.lightMode !== 'bright') params.set('light', state.lightMode);
+  if (state.ceilingLightOn) params.set('ceil', '1');
+  if (state.floorLampOn) params.set('lamp', '1');
+  if (state.fanOn) params.set('fan', '1');
+  if (state.plantOn === false) params.set('plant', '0');
+  if (state.decorOn === false) params.set('decor', '0');
+  return params.toString();
+}
+
+function decodeRoomState(searchString, defaultState) {
+  if (!searchString) return defaultState;
+  try {
+    const params = new URLSearchParams(searchString);
+    const state = { ...defaultState };
+    if (params.has('blind')) state.blindType = params.get('blind');
+    if (params.has('bOpen')) state.blindOpen = parseFloat(params.get('bOpen')) || defaultState.blindOpen;
+    if (params.has('curtain')) state.curtainColor = params.get('curtain');
+    if (params.has('cOpen')) state.curtainOpen = parseFloat(params.get('cOpen')) || defaultState.curtainOpen;
+    if (params.has('floor')) state.floorType = params.get('floor');
+    if (params.has('wall')) state.wallColor = '#' + params.get('wall');
+    if (params.has('sofa')) state.sofaColor = '#' + params.get('sofa');
+    if (params.has('sofaStyle')) state.sofaStyle = params.get('sofaStyle');
+    if (params.has('rug')) state.rugColor = '#' + params.get('rug');
+    if (params.has('rugPat')) state.rugPattern = params.get('rugPat');
+    if (params.has('light')) state.lightMode = params.get('light');
+    if (params.has('ceil')) state.ceilingLightOn = params.get('ceil') === '1';
+    if (params.has('lamp')) state.floorLampOn = params.get('lamp') === '1';
+    if (params.has('fan')) state.fanOn = params.get('fan') === '1';
+    if (params.has('plant')) state.plantOn = params.get('plant') !== '0';
+    if (params.has('decor')) state.decorOn = params.get('decor') !== '0';
+    return state;
+  } catch (err) {
+    console.warn('Failed to parse URL room state:', err);
+    return defaultState;
+  }
+}
+
 const RoomViewer = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [roomState, setRoomState] = useState(DEFAULT_STATE);
+  // Initialize roomState from URL search query params on mount
+  const [roomState, setRoomState] = useState(() => {
+    return decodeRoomState(window.location.search, DEFAULT_STATE);
+  });
   const [activeCategory, setActiveCategory] = useState('window');
   const [windowSubTab, setWindowSubTab] = useState('blinds'); // 'blinds' | 'curtains'
   const [showSaveModal, setShowSaveModal] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+  // Capture canvas screenshot & transition to contact form
+  const handleGetThisLook = () => {
+    let screenshotBase64 = null;
+    try {
+      const canvas = document.querySelector('canvas');
+      if (canvas) {
+        screenshotBase64 = canvas.toDataURL('image/png');
+      }
+    } catch (err) {
+      console.warn('[Screenshot Capture] fallback without screenshot:', err.message);
+    }
+    navigate('/contact', {
+      state: {
+        type: '3d_studio',
+        roomLook: roomState,
+        screenshotBase64,
+      },
+    });
+  };
+
+  const getShareableUrl = () => {
+    const query = encodeRoomState(roomState);
+    return `${window.location.origin}${window.location.pathname}${query ? `?${query}` : ''}`;
+  };
+
+  const handleSaveLook = () => {
+    const shareUrl = getShareableUrl();
+    window.history.replaceState(null, '', shareUrl);
+    setShowSaveModal(true);
+  };
 
   const desktopNavRef = useRef(null);
   const mobileNavRef = useRef(null);
@@ -587,7 +674,7 @@ const RoomViewer = () => {
         return (
           <div className="space-y-5">
             <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-[#C9A55A] block">
-              Canadian Flooring Surfaces
+              Room Floor Finish
             </span>
             <div className="grid grid-cols-3 gap-2.5">
               {[
@@ -862,8 +949,8 @@ const RoomViewer = () => {
   return (
     <PageTransition>
       <SEO
-        title="3D Room Studio — Interactive Window & Flooring Configurator"
-        description="Experience your dream Canadian living room in photorealistic 3D. Customize roller, zebra, honeycomb, and vertical blinds with flooring, walls, and lighting in real time."
+        title="3D Room Studio — Interactive Window Blinds & Decor Studio"
+        description="Experience your dream Canadian living room in photorealistic 3D. Customize roller, zebra, honeycomb, and vertical blinds with drapery, walls, and lighting in real time."
       />
       <div className="flex flex-col h-screen w-full overflow-hidden bg-[#0A0908] text-white">
         {/* Top Header Bar */}
@@ -885,13 +972,13 @@ const RoomViewer = () => {
 
           <div className="flex items-center gap-2 md:gap-3">
             <button
-              onClick={() => setShowSaveModal(true)}
+              onClick={handleSaveLook}
               className="text-[#C9A55A] border border-[#C9A55A]/40 px-3.5 py-1.5 rounded-full text-[10px] uppercase font-bold tracking-widest hover:bg-[#C9A55A]/10 transition-all"
             >
               Save Look
             </button>
             <button
-              onClick={() => navigate('/contact', { state: { roomLook: roomState } })}
+              onClick={handleGetThisLook}
               className="bg-[#C9A55A] hover:bg-white text-[#0A0908] px-4 md:px-5 py-1.5 rounded-full text-[10px] uppercase font-bold tracking-[0.18em] transition-all"
             >
               Get This Look
@@ -1148,7 +1235,7 @@ const RoomViewer = () => {
                   <button
                     onClick={() => {
                       setMobileDrawerOpen(false);
-                      setShowSaveModal(true);
+                      handleSaveLook();
                     }}
                     className="flex-1 bg-white/10 text-white py-3 rounded-xl text-xs font-bold uppercase tracking-wider"
                   >
@@ -1157,7 +1244,7 @@ const RoomViewer = () => {
                   <button
                     onClick={() => {
                       setMobileDrawerOpen(false);
-                      navigate('/contact', { state: { roomLook: roomState } });
+                      handleGetThisLook();
                     }}
                     className="flex-1 bg-[#C9A55A] text-[#0A0908] py-3 rounded-xl text-xs font-bold uppercase tracking-wider"
                   >
@@ -1206,7 +1293,7 @@ const RoomViewer = () => {
                     <span className="font-bold text-[#C9A55A]">{roomState.curtainColor === 'none' ? 'None' : 'Custom'}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-white/50">Flooring:</span>
+                    <span className="text-white/50">Room Floor:</span>
                     <span className="font-bold">{roomState.floorType}</span>
                   </div>
                   <div className="flex justify-between">
@@ -1222,18 +1309,26 @@ const RoomViewer = () => {
                 <div className="flex gap-3">
                   <button
                     onClick={() => {
-                      navigator.clipboard?.writeText(window.location.href);
-                      alert('Custom configuration saved to clipboard!');
-                      setShowSaveModal(false);
+                      const shareUrl = getShareableUrl();
+                      navigator.clipboard?.writeText(shareUrl);
+                      setCopiedLink(true);
+                      setTimeout(() => setCopiedLink(false), 2500);
                     }}
-                    className="flex-1 bg-white/10 hover:bg-white/20 py-3 rounded-xl text-xs uppercase font-bold tracking-wider transition-all"
+                    className="flex-1 bg-white/10 hover:bg-white/20 py-3 rounded-xl text-xs uppercase font-bold tracking-wider transition-all text-center flex items-center justify-center gap-1.5"
                   >
-                    Copy Link
+                    {copiedLink ? (
+                      <>
+                        <Check size={14} className="text-[#52B788]" />
+                        <span className="text-[#52B788]">Link Copied!</span>
+                      </>
+                    ) : (
+                      <span>Copy Link</span>
+                    )}
                   </button>
                   <button
                     onClick={() => {
                       setShowSaveModal(false);
-                      navigate('/contact');
+                      handleGetThisLook();
                     }}
                     className="flex-1 bg-[#C9A55A] hover:bg-white text-[#0A0908] py-3 rounded-xl text-xs uppercase font-bold tracking-wider transition-all"
                   >

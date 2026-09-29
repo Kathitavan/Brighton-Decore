@@ -19,8 +19,8 @@ const Home = () => {
   return (
     <PageTransition>
       <SEO
-        title="Luxury Window Blinds, Custom Coverings & Flooring — Saskatoon & Canada"
-        description="Elevate your Canadian living space with Brighton Decor Ltd. Master-crafted roller, zebra, honeycomb, and wooden blinds alongside professional flooring installation in Saskatoon, Saskatchewan."
+        title="Luxury Window Blinds, Custom Drapery & Motorized Shading — Saskatoon & Canada"
+        description="Elevate your Canadian living space with Brighton Decor Ltd. Master-crafted roller, zebra, honeycomb, and wooden blinds alongside bespoke drapery and motorized window solutions in Saskatoon, Saskatchewan."
         ogImage="https://brightondecor.co/assets/imgs/main%20logo.png"
       />
       <div className={styles.homePage}>

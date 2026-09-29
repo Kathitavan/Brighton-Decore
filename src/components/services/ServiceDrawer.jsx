@@ -115,7 +115,7 @@ const ServiceDrawer = ({ service, isOpen, onClose }) => {
                 <div className="text-xs font-sans">
                   <strong className="text-white font-bold block mb-1">Brighton Decor Workmanship Guarantee</strong>
                   <span className="text-white/70 leading-relaxed font-light">
-                    All window treatments and flooring installations across Saskatoon & area come backed by our 1-Year Workmanship Guarantee.
+                    All custom window blinds, drapery, and motorized treatments across Saskatoon & area come backed by our 1-Year Workmanship Guarantee.
                   </span>
                 </div>
               </div>
@@ -126,7 +126,13 @@ const ServiceDrawer = ({ service, isOpen, onClose }) => {
               <button
                 onClick={() => {
                   onClose();
-                  navigate('/contact');
+                  navigate('/contact', {
+                    state: {
+                      type: 'measurement',
+                      serviceName: service.name,
+                      message: `Inquiry for Free Site Measurement & Consultation: ${service.name}.`,
+                    },
+                  });
                 }}
                 className="w-full sm:w-1/2 flex items-center justify-center gap-3 bg-[#C9A55A] text-[#0A0908] px-6 py-4 rounded-full text-xs font-bold uppercase tracking-widest font-sans hover:bg-white transition-all shadow-xl"
               >
@@ -137,7 +143,15 @@ const ServiceDrawer = ({ service, isOpen, onClose }) => {
               <button
                 onClick={() => {
                   onClose();
-                  navigate('/contact');
+                  navigate('/contact', {
+                    state: {
+                      type: 'quote',
+                      productName: service.name,
+                      productId: service.id,
+                      category: service.category || 'Service Inquiry',
+                      message: `Price quote inquiry for: ${service.name}.`,
+                    },
+                  });
                 }}
                 className="w-full sm:w-1/2 flex items-center justify-center gap-3 border border-white/20 bg-white/5 text-white px-6 py-4 rounded-full text-xs font-bold uppercase tracking-widest font-sans hover:border-[#C9A55A] hover:text-[#C9A55A] transition-all"
               >

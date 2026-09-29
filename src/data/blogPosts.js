@@ -15,14 +15,14 @@ export const blogPosts = [
   },
   {
     id: 2,
-    title: 'The Best Flooring Options for Saskatchewan Homes',
-    slug: 'best-flooring-options-saskatchewan-homes',
+    title: 'The Best Window Shading Options for Saskatchewan Winters',
+    slug: 'best-window-shading-options-saskatchewan-homes',
     excerpt:
-      'Saskatchewan winters are tough on floors. We compare hardwood, laminate, vinyl plank, and engineered wood to help you choose the most durable and beautiful option.',
-    category: 'Flooring',
+      'Saskatchewan winters are tough on heat retention. We compare cellular honeycomb blinds, double draperies, and motorized solar shades to help keep your heating bills low.',
+    category: 'Window Coverings',
     date: '2024-10-20',
     readTime: '6 min read',
-    image: '/assets/imgs/products/hardwood-flooring.jpg',
+    image: '/assets/imgs/decore/IMG_0054.JPG.jpeg',
   },
   {
     id: 3,
@@ -59,15 +59,15 @@ export const blogPosts = [
   },
   {
     id: 6,
-    title: 'Hardwood vs Laminate Flooring: A Canadian Homeowner\'s Guide',
-    slug: 'hardwood-vs-laminate-flooring-canada',
+    title: 'Motorized Zebra Blinds: A Canadian Homeowner\'s Guide',
+    slug: 'motorized-zebra-blinds-canada-guide',
     excerpt:
-      'Both options have their place in a Canadian home. We break down cost, durability, installation, and appearance to help you decide.',
-    category: 'Flooring',
+      'Discover how smart motorized zebra shades and Somfy automation deliver effortless glare control, timer schedules, and complete evening privacy across prairie homes.',
+    category: 'Blinds',
     date: '2024-06-18',
     readTime: '7 min read',
-    image: '/assets/imgs/products/laminate-flooring.jpg',
+    image: '/assets/imgs/decore/IMG_0122.JPG.jpeg',
   },
 ];
 
-export const blogCategories = ['All', 'Blinds', 'Flooring', 'Window Coverings', 'Design Inspiration', 'Home Improvement'];
+export const blogCategories = ['All', 'Blinds', 'Window Coverings', 'Design Inspiration', 'Home Improvement'];

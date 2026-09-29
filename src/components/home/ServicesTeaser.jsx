@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Layers, Grid, Frame, Sparkles, X, FileText, Box, CheckCircle2 } from 'lucide-react';
 import useModalScroll from '../../hooks/useModalScroll';
 
-const icons = { Layers, Grid, Frame };
+const icons = { Layers, Grid, Frame, Sparkles };
 
 const services = [
   {
@@ -23,10 +23,10 @@ const services = [
     path: '/services',
   },
   {
-    id: 'flooring',
-    icon: 'Grid',
-    name: 'Flooring',
-    desc: 'Hardwood, laminate, vinyl plank, and carpet tile.',
+    id: 'motorized-shading',
+    icon: 'Sparkles',
+    name: 'Smart Motorized Shading',
+    desc: 'Automated blinds, Somfy integration & rechargeable wireless control.',
     path: '/services',
   },
 ];
@@ -71,51 +71,51 @@ const blindsDetails = [
   },
 ];
 
-const flooringDetails = [
+const motorizedDetails = [
   {
-    id: 'hardwood',
-    name: 'Hardwood',
-    desc: 'Rich solid and engineered hardwood timber planks, precision milled for natural grain warmth and long-lasting durability.',
-    image: '/assets/imgs/products/hardwood-flooring.jpg',
+    id: 'motorized-zebra',
+    name: 'Automated Zebra Blinds',
+    desc: 'Motorized dual-transition sheer and blackout zebra shades with multi-window remote sync.',
+    image: '/assets/imgs/decore/IMG_0122.JPG.jpeg',
   },
   {
-    id: 'laminate',
-    name: 'Laminate',
-    desc: 'High-density scratch-resistant laminate flooring replicating real timber aesthetics with effortless maintenance and water resilience.',
-    image: '/assets/imgs/products/laminate-flooring.jpg',
+    id: 'sunroom-shading',
+    name: 'Panoramic Solarium Shading',
+    desc: 'Custom multi-panel shading engineered for cathedral sunrooms and high architectural glass.',
+    image: '/assets/imgs/decore/IMG_0054.JPG.jpeg',
   },
   {
-    id: 'vinyl',
-    name: 'Vinyl Plank',
-    desc: '100% waterproof luxury vinyl plank (LVP) flooring engineered for high-traffic family zones, basements, kitchens, and moisture-prone areas.',
-    image: '/assets/imgs/products/vinyl-plank.jpg',
+    id: 'commercial-blinds',
+    name: 'Commercial Executive Blinds',
+    desc: 'Uniform high-durability window coverings engineered for executive boardrooms and offices.',
+    image: '/assets/imgs/decore/IMG_0055.JPG.jpeg',
   },
   {
-    id: 'carpet-tile',
-    name: 'Carpet Tile',
-    desc: 'Modular, comfortable carpet tiles providing soft underfoot warmth, acoustic insulation, and simple individual tile stain replacement.',
-    image: '/assets/imgs/products/engineered-hardwood.jpg',
+    id: 'woven-shades',
+    name: 'Natural Woven Texture Shades',
+    desc: 'Artisanal organic bamboo and woven wood roller shades delivering warm ambient daylight.',
+    image: '/assets/imgs/decore/IMG_0123.JPG.jpeg',
   },
 ];
 
 const coveringsDetails = [
   {
     id: 'drapes',
-    name: 'Custom Drapery & Curtains',
-    desc: 'Bespoke floor-to-ceiling drapery in Belgian linen, velvet, and blackout fabrics tailored to your exact window dimensions.',
-    image: '/assets/imgs/products/zebra-blinds.jpg',
+    name: 'Custom Pinch-Pleat Drapery',
+    desc: 'Bespoke floor-to-ceiling drapery with tailored pleats framing French doors and grand windows.',
+    image: '/assets/imgs/decore/IMG_0057.JPG.jpeg',
   },
   {
     id: 'sheers',
-    name: 'Architectural Sheer Panels',
-    desc: 'Light-diffusing sheer paneling filtering glare while creating an elegant atmosphere in living spaces.',
-    image: '/assets/imgs/products/roller-blinds.jpg',
+    name: 'Architectural Sheer & Drape Suite',
+    desc: 'Light-diffusing sheer paneling paired with luxury drapes to create an airy, elevated living atmosphere.',
+    image: '/assets/imgs/decore/IMG_0052.JPG.jpeg',
   },
   {
-    id: 'motorized',
-    name: 'Smart Motorized Controls',
-    desc: 'Somfy & Lutron automated remote control systems integrated with home automation.',
-    image: '/assets/imgs/products/honeycomb-blinds.jpg',
+    id: 'kitchen-shades',
+    name: 'Tailored Accent & Kitchen Shades',
+    desc: 'Precision-measured moisture-resistant fabric shades recessed cleanly into architectural millwork.',
+    image: '/assets/imgs/decore/IMG_0056.JPG.jpeg',
   },
 ];
 
@@ -209,7 +209,7 @@ const ServicesTeaser = () => {
   const navigate = useNavigate();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-60px' });
-  const [activeModal, setActiveModal] = useState(null); // 'blinds' | 'flooring' | 'window-coverings' | null
+  const [activeModal, setActiveModal] = useState(null); // 'blinds' | 'window-coverings' | 'motorized-shading' | null
 
   // Manage body scroll locking cleanly via global hook
   useModalScroll(!!activeModal);
@@ -265,7 +265,7 @@ const ServicesTeaser = () => {
           </motion.button>
         </div>
 
-        {/* Services Grid (3 Cards: Window Blinds, Window Coverings, Flooring) */}
+        {/* Services Grid (3 Cards: Window Blinds, Window Coverings, Smart Motorized Shading) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, i) => (
             <ServiceTiltCard
@@ -312,15 +312,15 @@ const ServicesTeaser = () => {
                   <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-[#C9A55A] block mb-1 font-sans">
                     {activeModal === 'blinds'
                       ? 'WINDOW COVERINGS SUITE'
-                      : activeModal === 'flooring'
-                      ? 'CANADIAN FLOORING SUITE'
+                      : activeModal === 'motorized-shading'
+                      ? 'SMART MOTORIZED SUITE'
                       : 'CUSTOM DRAPERY & COVERINGS'}
                   </span>
                   <h3 className="font-serif text-white text-2xl sm:text-3xl font-light">
                     {activeModal === 'blinds'
                       ? 'Bespoke Blinds Collection'
-                      : activeModal === 'flooring'
-                      ? 'Flooring Collection'
+                      : activeModal === 'motorized-shading'
+                      ? 'Smart Motorized Shading Suite'
                       : 'Window Coverings Suite'}
                   </h3>
                 </div>
@@ -400,34 +400,34 @@ const ServicesTeaser = () => {
                   </div>
                 )}
 
-                {/* 2. FLOORING COLLECTION MODAL (PDF Page 1: Hardwood, laminate, vinyl, carpet tile) */}
-                {activeModal === 'flooring' && (
+                {/* 2. SMART MOTORIZED SHADING MODAL */}
+                {activeModal === 'motorized-shading' && (
                   <div>
                     <p className="text-white/70 font-sans font-light text-sm md:text-base mb-8 max-w-2xl">
-                      Explore our complete range of Canadian-rated flooring options — Hardwood, Laminate, Vinyl Plank, and Carpet Tile.
+                      Experience automated living with smart motorized blinds, solarium shading, and organic textured treatments across Saskatoon and Canada.
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      {flooringDetails.map((floor) => (
+                      {motorizedDetails.map((item) => (
                         <div
-                          key={floor.id}
+                          key={item.id}
                           className="bg-white/[0.03] border border-white/10 hover:border-[#C9A55A]/50 rounded-xl p-5 transition-all duration-300 flex flex-col justify-between group"
                         >
                           <div>
                             <div className="aspect-[16/10] rounded-lg overflow-hidden bg-[#1A1814] mb-4">
                               <img
-                                src={floor.image}
-                                alt={floor.name}
+                                src={item.image}
+                                alt={item.name}
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                               />
                             </div>
                             <span className="text-[9px] uppercase font-bold tracking-[0.2em] text-[#C9A55A] block mb-1 font-sans">
-                              Flooring Type
+                              Motorized & Architectural Shading
                             </span>
                             <h4 className="font-serif text-white text-xl font-bold mb-2 group-hover:text-[#C9A55A] transition-colors">
-                              {floor.name}
+                              {item.name}
                             </h4>
                             <p className="text-xs text-white/70 font-sans font-light leading-relaxed mb-4">
-                              {floor.desc}
+                              {item.desc}
                             </p>
                           </div>
 

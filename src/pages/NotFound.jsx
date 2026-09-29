@@ -10,7 +10,7 @@ const NotFound = () => {
     <div className={styles.pageWrapper}>
       <SEO
         title="Page Not Found (404)"
-        description="The requested page could not be found. Return to Brighton Decor Ltd to explore our window blinds and flooring collections."
+        description="The requested page could not be found. Return to Brighton Decor Ltd to explore our window blinds and custom drapery collections."
       />
       {/* 404 Watermark Background */}
       <div className={styles.watermark404} aria-hidden="true">

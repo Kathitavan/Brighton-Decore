@@ -284,6 +284,7 @@ const Navbar = () => {
                               </span>
                               <Link
                                 to="/contact"
+                                state={{ type: 'measurement' }}
                                 onClick={() => setShowMegaMenu(false)}
                                 className="text-[#C9A55A] hover:text-white font-bold uppercase tracking-wider flex items-center gap-1"
                               >
@@ -328,7 +329,7 @@ const Navbar = () => {
               <Phone size={13} className={theme.phoneIcon} />
               {company.phone}
             </a>
-            <Link to="/contact">
+            <Link to="/contact" state={{ type: 'measurement' }}>
               <button
                 id="nav-cta-measurement"
                 className={`px-5 py-2.5 rounded-full font-sans text-[11px] uppercase tracking-[0.18em] font-bold transition-all duration-300 shadow-md ${theme.ctaBtn}`}
@@ -471,6 +472,7 @@ const Navbar = () => {
             <div className="px-8 pb-10 space-y-4 pt-6">
               <Link
                 to="/contact"
+                state={{ type: 'measurement' }}
                 onClick={() => {
                   setIsOpen(false);
                   document.body.classList.remove('menu-open');

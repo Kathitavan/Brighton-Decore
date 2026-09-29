@@ -11,6 +11,10 @@ const FeaturedProjects = () => {
   const isInView = useInView(ref, { once: true, margin: '-60px' });
   const featured = projects.slice(0, 4);
 
+  if (!featured || featured.length === 0) {
+    return null;
+  }
+
   return (
     <section
       ref={ref}

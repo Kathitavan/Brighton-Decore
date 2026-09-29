@@ -20,23 +20,23 @@ const milestones = [
   },
   {
     year: '2023',
-    title: 'Architectural Flooring Launch',
-    subtitle: 'Expanding the Palette',
-    desc: 'Introduced luxury hardwood, engineered wood, and waterproof LVP flooring solutions to deliver complete interior harmony.',
+    title: 'Architectural Drapery & Motorization',
+    subtitle: 'Elevating Window Living',
+    desc: 'Introduced custom luxury drapery, tailored pinch pleats, and whisper-quiet smart motorized shades to deliver complete window harmony.',
     icon: Layers,
   },
   {
     year: '2023',
     title: 'Interactive 3D Room Studio',
     subtitle: 'Digital Innovation',
-    desc: 'Unveiled our proprietary WebGL 3D Room Visualizer, enabling homeowners to preview custom blinds and floor textures in real-time.',
+    desc: 'Unveiled our proprietary 3D Room Visualizer, enabling homeowners to preview custom blinds, draperies, and light dynamics in real-time.',
     icon: ShieldCheck,
   },
   {
     year: '2024',
     title: 'National Expansion',
     subtitle: 'Serving All of Canada',
-    desc: 'Scaled our direct-to-home consultation network, delivering tailored window coverings and flooring across all Canadian provinces.',
+    desc: 'Scaled our direct-to-home consultation network, delivering tailored window coverings and architectural blinds across all Canadian provinces.',
     icon: Globe,
   },
   {

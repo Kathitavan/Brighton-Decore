@@ -19,58 +19,46 @@ export const services = [
     name: 'Window Coverings',
     category: 'CUSTOM DRAPERY',
     tagline: 'Light, shadow, and architectural drape.',
-    image: '/assets/imgs/products/zebra-blinds.jpg',
-    description: 'Complete window solutions — from soft curtain treatments to custom-fitted coverings that complement your interior.',
+    image: '/assets/imgs/decore/IMG_0057.JPG.jpeg',
+    description: 'Complete window solutions — from bespoke French door drapery and pinch pleats to luxury sheers that complement your interior.',
     longDescription:
-      'Beyond blinds, we offer a full range of window covering solutions designed to complement your space and lifestyle. Whether you are looking for privacy, light control, insulation, or purely aesthetic enhancement, our team will guide you to the right solution.',
+      'Beyond blinds, we offer a full range of custom drapery and architectural window coverings tailored to your space. Whether you are looking for privacy, thermal insulation, motorized curtain tracks, or grand floor-to-ceiling sheer elegance, our team crafts every drape to perfection.',
     icon: 'Frame',
-    features: ['Custom Curtains', 'Sheer Panels', 'Blackout Options', 'Day & Night Solutions', 'Child-Safe Mechanisms', 'Motorized Options'],
+    features: ['Custom Drapery & Sheers', 'Pinch-Pleat Curtains', 'Patio Door Treatments', 'Blackout Linings', 'Child-Safe Cordless Systems', 'Motorized Drapery Tracks'],
   },
   {
-    id: 'flooring',
-    name: 'Flooring',
-    category: 'FLOORING SOLUTIONS',
-    tagline: 'Hardwood, laminate, vinyl & carpet tile.',
-    image: '/assets/imgs/products/hardwood-flooring.jpg',
-    description: 'Hardwood, laminate, vinyl plank, and carpet tile — expertly selected for Canadian homes.',
+    id: 'motorized-shading',
+    name: 'Smart Motorized Shading',
+    category: 'AUTOMATION & MOTORIZATION',
+    tagline: 'Effortless automated control at your fingertips.',
+    image: '/assets/imgs/decore/IMG_0122.JPG.jpeg',
+    description: 'Smart motorized blinds, automated solar shades, and architectural coverings integrated with remote, smartphone, and voice control.',
     longDescription:
-      'We offer a curated selection of flooring options suitable for Canadian climate conditions. Explore our premium hardwood, durable laminate, 100% waterproof vinyl plank (LVP), and versatile carpet tiles tailored to elevate any interior.',
-    icon: 'Grid',
-    features: ['Hardwood Flooring', 'Laminate Flooring', 'Vinyl Plank (LVP)', 'Carpet Tile'],
+      'Experience modern convenience with whisper-quiet motorized window treatments. From rechargeable battery-powered motors to integrated smart-home automation (Somfy, Lutron, Matter), control your blinds with the touch of a button or set automated schedules for privacy, thermal comfort, and energy savings.',
+    icon: 'Sparkles',
+    features: ['Somfy & Smart Home Sync', 'Rechargeable Cordless Motors', 'Handheld & Wall Remotes', 'Smartphone App Automation', 'Child & Pet Safe (100% Cordless)', 'Multi-Window Group Sync'],
     types: [
       {
-        name: 'Hardwood',
-        desc: 'Rich solid and engineered hardwood timber planks, precision milled for natural grain warmth and long-lasting durability.',
-        image: '/assets/imgs/products/hardwood-flooring.jpg'
+        name: 'Automated Zebra & Roller Blinds',
+        desc: 'Sleek motorized dual-layer zebra and roller shades offering one-touch transitions between light filtering and complete privacy.',
+        image: '/assets/imgs/decore/IMG_0122.JPG.jpeg'
       },
       {
-        name: 'Laminate',
-        desc: 'High-density scratch-resistant laminate flooring replicating real timber aesthetics with effortless maintenance and water resilience.',
-        image: '/assets/imgs/products/laminate-flooring.jpg'
+        name: 'Sunroom & Solarium Shading',
+        desc: 'Engineered multi-panel solar shades designed specifically for cathedral sunrooms, conservatories, and large panoramic architectural glass.',
+        image: '/assets/imgs/decore/IMG_0054.JPG.jpeg'
       },
       {
-        name: 'Vinyl Plank',
-        desc: '100% waterproof luxury vinyl plank flooring engineered for high-traffic family zones, basements, kitchens, and moisture-prone areas.',
-        image: '/assets/imgs/products/vinyl-plank.jpg'
+        name: 'Commercial & Executive Blinds',
+        desc: 'Heavy-duty architectural window systems engineered for boardrooms, meeting pavilions, and corporate office developments.',
+        image: '/assets/imgs/decore/IMG_0055.JPG.jpeg'
       },
       {
-        name: 'Carpet Tile',
-        desc: 'Modular, comfortable carpet tiles providing soft underfoot warmth, acoustic insulation, and simple individual tile stain replacement.',
-        image: '/assets/imgs/products/engineered-hardwood.jpg'
+        name: 'Natural Woven Texture Shades',
+        desc: 'Artisanal organic bamboo and woven wood roller shades delivering organic warmth, rich grain texture, and soft daylight diffusion.',
+        image: '/assets/imgs/decore/IMG_0123.JPG.jpeg'
       }
     ]
-  },
-  {
-    id: 'flooring-installation',
-    name: 'Flooring Installation',
-    category: 'CRAFT & INSTALLATION',
-    tagline: 'Precision fitted for Canadian homes.',
-    image: '/assets/imgs/products/engineered-hardwood.jpg',
-    description: 'Professional flooring installation by trained technicians — precise, clean, and built to last.',
-    longDescription:
-      'Our installation teams are trained professionals who take pride in their workmanship. We prepare subfloors correctly, follow manufacturer specifications, and ensure every installation is level, secure, and beautifully finished. We clean up thoroughly before we leave.',
-    icon: 'Hammer',
-    features: ['Subfloor Preparation', 'All Flooring Types', 'Furniture Moving', 'Trim & Baseboard Finishing', 'Clean-Up Included', '1-Year Workmanship Warranty'],
   },
   {
     id: 'measurement',
@@ -80,7 +68,7 @@ export const services = [
     image: '/assets/imgs/portfolio/project-1.jpg',
     description: 'Complimentary on-site measurement for accurate quotes and a perfect fit, every single time.',
     longDescription:
-      'Accurate measurement is the foundation of every great installation. We visit your home at no charge, take precise measurements of every window and floor area, and use these to provide you with an accurate, no-surprise quote. This service is completely free with no obligation.',
+      'Accurate measurement is the foundation of every great installation. We visit your home at no charge, take precise measurements of every window and architectural opening, and use these to provide you with an accurate, no-surprise quote. This service is completely free with no obligation.',
     icon: 'Ruler',
     features: ['No-Charge Service', 'Professional Measurement Tools', 'Accurate Quoting', 'No Obligation', 'Same-Day Quote Available', 'All of Saskatoon & Area'],
   },
@@ -100,7 +88,7 @@ export const services = [
 
 export const processSteps = [
   { step: '01', title: 'Contact Us', description: 'Reach out by phone, email, or our online form to get started with your project.' },
-  { step: '02', title: 'Free Site Measurement', description: 'We visit your home at no charge and take precise measurements of every window and floor area.' },
+  { step: '02', title: 'Free Site Measurement', description: 'We visit your home at no charge and take precise measurements of every window and architectural opening.' },
   { step: '03', title: 'Understand Your Needs', description: 'We listen carefully to your preferences, lifestyle, and budget to find the perfect solution.' },
   { step: '04', title: 'Product Recommendation', description: 'We present a curated selection of products that work beautifully in your specific space.' },
   { step: '05', title: 'Confirm Selection', description: 'You review samples and colours in your own home, make your choices, and we finalize the order.' },

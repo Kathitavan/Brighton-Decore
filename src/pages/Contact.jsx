@@ -1,46 +1,116 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { Phone, Mail, MapPin, Send, Clock, ChevronDown, Ruler, Sparkles, CheckCircle2, ShieldCheck, Navigation } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, Clock, ChevronDown, Ruler, Sparkles, CheckCircle2, ShieldCheck, Navigation, AlertCircle, Loader2 } from 'lucide-react';
 import PageTransition from '../components/common/PageTransition';
 import SEO from '../components/common/SEO';
 import WorldGlobe from '../components/contact/WorldGlobe';
 import ModernMap from '../components/contact/ModernMap';
 import { company, faqItems } from '../config/company';
+import { submitLead } from '../services/leadService';
 import styles from '../styles/pages/contact.module.css';
 
 const Contact = () => {
   const location = useLocation();
   const [formState, setFormState] = useState({
-    name: '', email: '', phone: '', service: '', message: '',
+    name: '',
+    email: '',
+    phone: '',
+    service: '',
+    message: '',
+    website: '', // Honeypot field
+    preferredDate: '',
+    preferredTime: '',
   });
+
+  const [leadType, setLeadType] = useState('general');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+  const [referenceId, setReferenceId] = useState('');
   const [expandedFaq, setExpandedFaq] = useState(null);
   const formRef = useRef(null);
   const isInView = useInView(formRef, { once: true, margin: '-50px' });
 
+  // Handle incoming route handshakes (3D studio, quote, measurement, team)
   useEffect(() => {
-    if (location.state?.roomLook) {
-      const { blindType, curtainColor, floorType } = location.state.roomLook;
+    const state = location.state || {};
+    const determinedType = state.type || (state.roomLook ? '3d_studio' : 'general');
+    setLeadType(determinedType);
+
+    if (determinedType === '3d_studio' && state.roomLook) {
+      const { blindType, curtainColor, floorType, wallColor } = state.roomLook;
       setFormState((prev) => ({
         ...prev,
-        service: 'Window Blinds & Flooring Measurement',
-        message: `Inquiry from 3D Room Studio: Blinds: ${blindType}, Drapery: ${curtainColor !== 'none' ? 'Yes' : 'None'}, Flooring: ${floorType}. Looking for a free site measurement and quote.`,
+        service: 'Window Blinds & Custom Room Look',
+        message: `Inquiry from 3D Room Studio:\n• Blinds: ${blindType || 'None'}\n• Drapery: ${curtainColor !== 'none' ? 'Yes' : 'None'}\n• Room Floor Tone: ${floorType || 'Standard'}\n• Wall Tone: ${wallColor || '#F5F0E8'}\nLooking for an in-home measurement and detailed quote.`,
+      }));
+    } else if (determinedType === 'quote') {
+      setFormState((prev) => ({
+        ...prev,
+        service: state.category ? `${state.category} Quote` : 'Product Price Quote',
+        message: state.message || `Price quote inquiry for: ${state.productName || 'Custom Product'}${state.productId ? ` (${state.productId})` : ''}${state.finish ? ` in ${state.finish} finish` : ''}.`,
+      }));
+    } else if (determinedType === 'measurement') {
+      setFormState((prev) => ({
+        ...prev,
+        service: state.serviceName || 'Free Site Measurement',
+        message: state.message || 'Requesting a complimentary in-home site measurement and consultation.',
+      }));
+    } else if (determinedType === 'team') {
+      setFormState((prev) => ({
+        ...prev,
+        service: 'Design Consultation',
+        message: state.message || 'Inquiry from website: Talk to Our Team about custom fabrications.',
       }));
     }
   }, [location.state]);
 
   const handleChange = (e) => setFormState({ ...formState, [e.target.name]: e.target.value });
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError(null);
+
+    try {
+      const payload = {
+        type: leadType,
+        name: formState.name,
+        email: formState.email,
+        phone: formState.phone,
+        message: formState.message,
+        website: formState.website, // Honeypot (silent drop if filled)
+      };
+
+      if (leadType === '3d_studio') {
+        payload.roomLook = location.state?.roomLook;
+        payload.screenshotBase64 = location.state?.screenshotBase64;
+      } else if (leadType === 'quote') {
+        payload.productName = location.state?.productName;
+        payload.productId = location.state?.productId;
+      } else if (leadType === 'measurement') {
+        payload.serviceName = location.state?.serviceName || formState.service;
+        payload.preferredDate = formState.preferredDate;
+        payload.preferredTime = formState.preferredTime;
+      }
+
+      const res = await submitLead(payload);
+      setReferenceId(res.referenceId);
+      setSubmitted(true);
+    } catch (err) {
+      console.error('[Lead Submission Error]:', err);
+      setError(err.message || 'Unable to submit your request. Please call us directly at +1 (306) 580-6476.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <PageTransition>
       <SEO
         title="Book a Free Site Measurement & Consultation"
-        description="Schedule your complimentary zero-cost, no-obligation window measurement and flooring consultation with Brighton Decor Ltd in Saskatoon, SK. Call +1 (306) 580-6476."
+        description="Schedule your complimentary zero-cost, no-obligation window measurement and custom window decor consultation with Brighton Decor Ltd in Saskatoon, SK. Call +1 (306) 580-6476."
       />
       <div className={styles.contactPage}>
         
@@ -75,7 +145,7 @@ const Contact = () => {
 
                 <p className="text-white/80 text-lg md:text-xl font-sans font-light leading-relaxed max-w-xl drop-shadow-md">
                   Reach out to book a complimentary in-home site measurement or visit our 
-                  flagship showroom in Saskatoon. We provide personal, tailored service across Canada.
+                  flagship office in Saskatoon. We provide personal, tailored service across Canada.
                 </p>
               </div>
 
@@ -122,7 +192,7 @@ const Contact = () => {
                   <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-[#52B788] mb-2 block font-sans">
                     Reach Out Directly
                   </span>
-                  <h2 className="font-serif text-white text-3xl font-bold mb-4">Showroom & Contacts</h2>
+                  <h2 className="font-serif text-white text-3xl font-bold mb-4">Office & Contacts</h2>
                 </div>
 
                 {/* Direct Phone */}
@@ -163,18 +233,18 @@ const Contact = () => {
                   </div>
                 </div>
 
-                {/* Showroom Address */}
+                {/* Office Address */}
                 <div className={styles.infoCard}>
                   <div className={styles.iconBox}>
                     <MapPin size={20} />
                   </div>
                   <div>
                     <div className="text-[10px] uppercase tracking-[0.2em] text-white/60 font-sans font-semibold mb-1">
-                      Flagship Showroom
+                      Flagship Office
                     </div>
                     <address className="font-serif text-white text-base not-italic leading-snug">
                       {company.address.street}<br />
-                      {company.address.city}, {company.address.province}, {company.address.country}
+                      {company.address.city}, {company.address.province} {company.address.postalCode}
                     </address>
                   </div>
                 </div>
@@ -216,7 +286,7 @@ const Contact = () => {
                   <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-[#52B788] mb-2 block font-sans">
                     Interactive Navigation
                   </span>
-                  <h2 className="font-serif text-white text-3xl font-bold">Find Our Showroom</h2>
+                  <h2 className="font-serif text-white text-3xl font-bold">Find Our Office</h2>
                 </div>
 
                 <ModernMap />
@@ -230,20 +300,33 @@ const Contact = () => {
                 className="lg:col-span-6"
               >
                 {submitted ? (
-                  <div className="h-full min-h-[480px] flex flex-col items-center justify-center text-center p-12 rounded-3xl bg-[#0E1E17]/95 border border-[#52B788]/40 backdrop-blur-2xl shadow-[0_30px_80px_rgba(0,0,0,0.85)]">
+                  <div className="h-full min-h-[480px] flex flex-col items-center justify-center text-center p-8 md:p-12 rounded-3xl bg-[#0E1E17]/95 border border-[#52B788]/40 backdrop-blur-2xl shadow-[0_30px_80px_rgba(0,0,0,0.85)]">
                     <div className="w-20 h-20 rounded-full bg-[#52B788]/20 border border-[#52B788] flex items-center justify-center mb-6 text-[#52B788] shadow-[0_0_30px_rgba(82,183,136,0.4)]">
                       <CheckCircle2 size={38} />
                     </div>
-                    <h3 className="font-serif text-white text-3xl font-bold mb-3">Measurement Request Confirmed!</h3>
-                    <p className="text-white/80 text-base font-sans font-light max-w-md mx-auto leading-relaxed mb-8">
-                      Thank you for choosing Brighton Decor Ltd. Our Saskatoon design consultant will contact 
-                      you within 24 hours to confirm your free site measurement appointment.
+
+                    <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#52B788]/20 border border-[#52B788] mb-5">
+                      <span className="text-xs uppercase font-mono tracking-[0.2em] text-[#52B788] font-bold">
+                        REFERENCE: {referenceId}
+                      </span>
+                    </div>
+
+                    <h3 className="font-serif text-white text-3xl font-bold mb-3">Request Confirmed!</h3>
+                    <p className="text-white/80 text-base font-sans font-light max-w-md mx-auto leading-relaxed mb-4">
+                      Thank you for choosing Brighton Decor Ltd. A confirmation receipt has been dispatched to{' '}
+                      <strong className="text-[#52B788]">{formState.email}</strong>.
+                    </p>
+                    <p className="text-white/60 text-xs font-sans max-w-sm mx-auto mb-8">
+                      Our Saskatoon design concierge will contact you within 1 business day to confirm your details.
                     </p>
                     <button
-                      onClick={() => setSubmitted(false)}
-                      className="px-8 py-3 rounded-full bg-[#52B788] text-[#0A120E] font-bold text-xs uppercase tracking-widest font-sans hover:bg-white transition-all"
+                      onClick={() => {
+                        setSubmitted(false);
+                        setReferenceId('');
+                      }}
+                      className="px-8 py-3 rounded-full bg-[#52B788] text-[#0A120E] font-bold text-xs uppercase tracking-widest font-sans hover:bg-white transition-all shadow-lg"
                     >
-                      Book Another Measurement
+                      Submit Another Inquiry
                     </button>
                   </div>
                 ) : (
@@ -254,7 +337,7 @@ const Contact = () => {
                       <div className="flex items-center gap-2.5">
                         <span className="w-2.5 h-2.5 rounded-full bg-[#52B788] animate-pulse" />
                         <span className="text-xs font-sans text-[#52B788] font-bold">
-                          3 Free Site Measurement Slots Open This Week
+                          {leadType === '3d_studio' ? '3D Studio Look Loaded' : (leadType === 'quote' ? 'Priority Quote Queue Active' : '3 Free Site Measurement Slots Open This Week')}
                         </span>
                       </div>
                       <span className="text-[10px] uppercase font-mono tracking-wider text-white/60 hidden sm:inline">
@@ -262,17 +345,43 @@ const Contact = () => {
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-3 mb-8">
+                    <div className="flex items-center gap-3 mb-6">
                       <div className="w-10 h-10 rounded-xl bg-[#52B788]/20 border border-[#52B788]/40 flex items-center justify-center text-[#52B788]">
                         <Ruler size={20} />
                       </div>
                       <div>
-                        <h3 className="font-serif text-white text-2xl font-bold">Book Free Site Measurement</h3>
+                        <h3 className="font-serif text-white text-2xl font-bold">
+                          {leadType === '3d_studio' ? 'Finalize Your 3D Look' : (leadType === 'quote' ? 'Request Product Quote' : (leadType === 'team' ? 'Connect With Our Team' : 'Book Free Site Measurement'))}
+                        </h3>
                         <p className="text-white/60 text-xs font-sans">Zero cost · Professional measurement · Guaranteed precision</p>
                       </div>
                     </div>
 
+                    {/* Error Banner */}
+                    {error && (
+                      <div className="mb-6 p-4 rounded-xl bg-red-500/15 border border-red-500/40 text-red-200 text-xs font-sans flex items-start gap-3">
+                        <AlertCircle size={16} className="text-red-400 shrink-0 mt-0.5" />
+                        <div>
+                          <strong>Submission Note:</strong> {error}
+                        </div>
+                      </div>
+                    )}
+
                     <form onSubmit={handleSubmit} className="space-y-6">
+                      {/* Anti-spam Honeypot field (hidden from legitimate humans) */}
+                      <div className="hidden" aria-hidden="true" style={{ display: 'none', position: 'absolute', left: '-9999px' }}>
+                        <label htmlFor="contact-website">Leave this field blank</label>
+                        <input
+                          id="contact-website"
+                          name="website"
+                          type="text"
+                          tabIndex={-1}
+                          autoComplete="off"
+                          value={formState.website}
+                          onChange={handleChange}
+                        />
+                      </div>
+
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
                           <label htmlFor="contact-name" className="text-[11px] uppercase tracking-[0.2em] text-white/70 font-sans font-bold">
@@ -335,12 +444,12 @@ const Contact = () => {
                             className={styles.formInput}
                           >
                             <option value="" className="bg-[#0A120E] text-white">Select a service...</option>
+                            <option className="bg-[#0A120E] text-white">Window Blinds & Custom Room Look</option>
                             <option className="bg-[#0A120E] text-white">Window Blinds (Roller, Zebra, Honeycomb)</option>
-                            <option className="bg-[#0A120E] text-white">Custom Window Coverings</option>
-                            <option className="bg-[#0A120E] text-white">Luxury Flooring Supply</option>
-                            <option className="bg-[#0A120E] text-white">Professional Flooring Installation</option>
-                            <option className="bg-[#0A120E] text-white">Full Home Interior Package</option>
-                            <option className="bg-[#0A120E] text-white">Design Consultation</option>
+                            <option className="bg-[#0A120E] text-white">Custom Drapery & Curtains</option>
+                            <option className="bg-[#0A120E] text-white">Smart Motorized Shading & Automation</option>
+                            <option className="bg-[#0A120E] text-white">Full Home Window Treatment Package</option>
+                            <option className="bg-[#0A120E] text-white">Free Site Measurement & Consultation</option>
                           </select>
                         </div>
                       </div>
@@ -363,11 +472,27 @@ const Contact = () => {
                       <button
                         type="submit"
                         id="contact-submit"
-                        className={styles.primaryBtn}
+                        disabled={loading}
+                        className={`${styles.primaryBtn} ${loading ? 'opacity-70 cursor-wait' : ''}`}
                       >
                         <span className="flex items-center justify-center gap-3">
-                          <span>Confirm Measurement Booking</span>
-                          <Send size={15} />
+                          {loading ? (
+                            <>
+                              <Loader2 size={16} className="animate-spin text-[#0A120E]" />
+                              <span>Transmitting Request...</span>
+                            </>
+                          ) : (
+                            <>
+                              <span>
+                                {leadType === 'quote'
+                                  ? 'Request Price Quote'
+                                  : (leadType === 'team'
+                                    ? 'Connect With Design Team'
+                                    : 'Confirm Measurement Booking')}
+                              </span>
+                              <Send size={15} />
+                            </>
+                          )}
                         </span>
                       </button>
 

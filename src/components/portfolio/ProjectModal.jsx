@@ -372,7 +372,13 @@ const ProjectModal = ({ project, projectsList = [], isOpen, onClose, onSelectPro
                   <button
                     onClick={() => {
                       onClose();
-                      navigate('/contact');
+                      navigate('/contact', {
+                        state: {
+                          type: 'measurement',
+                          projectName: project.title,
+                          message: `Inquiry inspired by portfolio project: ${project.title} (${project.category}, ${project.city}). Requesting a complimentary site measurement.`,
+                        },
+                      });
                     }}
                     className="inline-flex items-center gap-2.5 bg-[#C9A55A] text-[#0A0908] px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest font-sans hover:bg-white transition-all shadow-xl"
                   >

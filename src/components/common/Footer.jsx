@@ -102,7 +102,7 @@ const Footer = () => {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-4 flex-shrink-0">
-            <Link to="/contact">
+            <Link to="/contact" state={{ type: 'measurement' }}>
               <button className={`px-7 py-3 rounded-full text-xs uppercase tracking-[0.18em] font-bold font-sans transition-all duration-300 shadow-xl ${theme.ctaBtn}`}>
                 Book Free Measurement
               </button>
@@ -194,8 +194,7 @@ const Footer = () => {
               {[
                 'Window Blinds',
                 'Window Coverings',
-                'Flooring Supply',
-                'Flooring Installation',
+                'Smart Motorized Shading',
                 'Free Site Measurement',
                 'Design Consultation',
               ].map((service) => (
@@ -219,7 +218,7 @@ const Footer = () => {
                 <MapPin size={15} className={`${theme.accentText} mt-0.5 flex-shrink-0`} />
                 <address className={`not-italic leading-relaxed font-light ${theme.textMuted}`}>
                   {company.address.street}<br />
-                  {company.address.city}, {company.address.province}<br />
+                  {company.address.city}, {company.address.province} {company.address.postalCode}<br />
                   {company.address.country}
                 </address>
               </li>

@@ -20,7 +20,7 @@ const ModernMap = () => {
             <MapPin size={18} />
           </div>
           <div>
-            <div className="text-white text-xs font-serif font-bold">Saskatoon Showroom</div>
+            <div className="text-white text-xs font-serif font-bold">Saskatoon Office</div>
             <div className="text-white/60 text-[10px] font-sans">Saskatchewan, Canada</div>
           </div>
         </div>
@@ -68,7 +68,7 @@ const ModernMap = () => {
         </div>
         <div className="hidden sm:flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-[#52B788] font-mono font-bold">
           <Navigation size={12} />
-          <span>Active Showroom</span>
+          <span>Active Office</span>
         </div>
       </div>
 

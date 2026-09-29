@@ -21,12 +21,12 @@ const serviceBenefits = [
   {
     icon: Ruler,
     title: 'Guaranteed Precise Fit',
-    description: 'Every window shade and flooring plank is laser-measured to within a millimeter before fabrication.',
+    description: 'Every window shade, blind, and custom drape is laser-measured to within a millimeter before fabrication.',
   },
   {
     icon: Hammer,
     title: 'Professional Technicians',
-    description: 'Our in-house master installers prepare subfloors, align drapes, and clean up completely.',
+    description: 'Our in-house master installers securely anchor headrails, align drapes, and clean up completely.',
   },
   {
     icon: Sun,
@@ -36,7 +36,7 @@ const serviceBenefits = [
   {
     icon: Shield,
     title: 'Canadian Climate Rated',
-    description: 'High-R insulation window fabrics and humidity-stable hardwood timber designed for Canadian winters.',
+    description: 'High-R insulation cellular fabrics and cold-climate thermal window materials designed for Canadian winters.',
   },
 ];
 
@@ -157,8 +157,8 @@ const Services = () => {
   return (
     <PageTransition>
       <SEO
-        title="Bespoke Window Coverings & Flooring Services"
-        description="Explore custom window blinds, motorized coverings, and professional flooring supply & installation services tailored for Canadian homes by Brighton Decor Ltd."
+        title="Bespoke Window Blinds & Architectural Shading Services"
+        description="Explore custom window blinds, motorized coverings, and bespoke drapery solutions tailored for Canadian homes by Brighton Decor Ltd."
       />
       <div className={styles.servicesPage}>
         
@@ -193,8 +193,8 @@ const Services = () => {
 
               {/* Editorial Subtext */}
               <p className="text-white/75 text-lg md:text-xl font-sans font-light leading-relaxed max-w-2xl mb-10">
-                From precisely measured window coverings to beautifully finished floors, 
-                Brighton Decor brings thoughtful products, professional installation and careful attention to every detail.
+                From precisely measured window blinds to luxurious custom drapery and motorized shades, 
+                Brighton Decor brings thoughtful products, master craftsmanship and careful attention to every detail.
               </p>
 
               {/* Action Buttons */}
@@ -393,12 +393,10 @@ const Services = () => {
                     : idx === 1
                     ? 'col-span-12 lg:col-span-5'
                     : idx === 2
-                    ? 'col-span-12 lg:col-span-5'
+                    ? 'col-span-12 lg:col-span-4'
                     : idx === 3
-                    ? 'col-span-12 lg:col-span-7'
-                    : idx === 4
-                    ? 'col-span-12 lg:col-span-7'
-                    : 'col-span-12 lg:col-span-5';
+                    ? 'col-span-12 lg:col-span-4'
+                    : 'col-span-12 lg:col-span-4';
 
                 return (
                   <ServiceCard3D

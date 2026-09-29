@@ -54,7 +54,7 @@ const BrandStory = () => {
               <div className="aspect-[4/5] relative overflow-hidden bg-[#1A1814]">
                 <img
                   src="/assets/imgs/about/showroom-saskatoon.jpg"
-                  alt="Brighton Decor Ltd — Luxury Interior Showroom"
+                  alt="Brighton Decor Ltd — Luxury Interior Design Studio"
                   className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
                   loading="lazy"
                   onError={(e) => {
@@ -128,7 +128,7 @@ const BrandStory = () => {
                 animate={isTextInView ? 'visible' : 'hidden'}
                 variants={paragraphVariants}
               >
-                Brighton Decor Ltd was established in Saskatoon, Saskatchewan in 2022 with a clear architectural mandate: to transform Canadian living spaces through meticulously crafted window treatments and bespoke flooring installations.
+                Brighton Decor Ltd was established in Saskatoon, Saskatchewan in 2022 with a clear architectural mandate: to transform Canadian living spaces through meticulously crafted window treatments, custom drapery, and architectural shading collections.
               </motion.p>
 
               <motion.p

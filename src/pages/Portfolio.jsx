@@ -95,7 +95,7 @@ const Portfolio = () => {
     <PageTransition>
       <SEO
         title="Portfolio of Luxury Living Spaces Across Canada"
-        description="Browse our curated showcase of completed window blind installations, architectural drapery, and hardwood flooring transformations across Saskatoon and Canada."
+        description="Browse our curated showcase of completed window blind installations, architectural drapery, and motorized shading transformations across Saskatoon and Canada."
       />
       <div className={styles.portfolioPage}>
         
@@ -111,7 +111,7 @@ const Portfolio = () => {
             className="absolute inset-0 z-0 pointer-events-none"
           >
             <img
-              src="/assets/imgs/portfolio/project-1.jpg"
+              src="/assets/imgs/decore/IMG_0052.JPG.jpeg"
               alt="Brighton Decor Architectural Interior"
               className="w-full h-full object-cover filter brightness-[0.35] contrast-[1.1]"
               loading="eager"
@@ -153,7 +153,7 @@ const Portfolio = () => {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="text-white/70 font-sans font-light text-base md:text-xl leading-relaxed max-w-2xl mx-auto mb-12"
               >
-                Explore a curated collection of residential interiors, refined window solutions, and bespoke flooring installations created for homes across Canada.
+                Explore a curated collection of residential interiors, bespoke window blinds, and tailored drapery created for homes across Canada.
               </motion.p>
 
               {/* Animated Statistics Counters */}
@@ -191,84 +191,127 @@ const Portfolio = () => {
                     <span>Editorial Collection</span>
                   </div>
                   <h2 className="font-serif text-[#F5F2EA] text-3xl md:text-5xl font-light">
-                    Featured Project Showcase
+                    Original Projects Showcase
                   </h2>
                 </div>
 
-                {/* Real-time Search Query Input */}
-                <div className="relative w-full lg:w-72">
-                  <Search size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search city, blind style, timber..."
-                    className="w-full pl-10 pr-4 py-3 rounded-full bg-white/[0.04] border border-white/15 text-xs text-white placeholder-white/40 focus:outline-none focus:border-[#C9A55A] focus:bg-white/[0.08] transition-all font-sans"
-                  />
-                  {searchQuery && (
-                    <button
-                      onClick={() => setSearchQuery('')}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-white/50 hover:text-white"
-                    >
-                      ✕
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* Sliding Pill Category Filter Bar */}
-              <div className="flex items-center gap-2 overflow-x-auto pb-3 pt-1 scrollbar-thin no-scrollbar select-none border-b border-white/10">
-                {portfolioCategories.map((cat) => {
-                  const isActive = activeCategory === cat;
-                  const count = categoryCounts[cat] || 0;
-
-                  return (
-                    <button
-                      key={cat}
-                      onClick={() => setActiveCategory(cat)}
-                      className={`relative px-5 py-2.5 rounded-full text-xs font-sans tracking-[0.15em] uppercase transition-all duration-300 whitespace-nowrap shrink-0 flex items-center gap-2 ${
-                        isActive
-                          ? 'text-[#0A0908] font-bold shadow-lg scale-105'
-                          : 'text-white/70 hover:text-white'
-                      }`}
-                    >
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeCategoryPillV3"
-                          className="absolute inset-0 bg-[#F5F2EA] rounded-full z-0 shadow-[0_0_20px_rgba(245,242,234,0.4)]"
-                          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                        />
-                      )}
-                      <span className="relative z-10">{cat}</span>
-                      <span
-                        className={`relative z-10 font-mono text-[10px] px-2 py-0.5 rounded-full transition-colors ${
-                          isActive
-                            ? 'bg-[#0A0908]/15 text-[#0A0908]'
-                            : 'bg-white/10 text-white/60'
-                        }`}
+                {projects.length > 0 && (
+                  /* Real-time Search Query Input */
+                  <div className="relative w-full lg:w-72">
+                    <Search size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search city, blind style, timber..."
+                      className="w-full pl-10 pr-4 py-3 rounded-full bg-white/[0.04] border border-white/15 text-xs text-white placeholder-white/40 focus:outline-none focus:border-[#C9A55A] focus:bg-white/[0.08] transition-all font-sans"
+                    />
+                    {searchQuery && (
+                      <button
+                        onClick={() => setSearchQuery('')}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-white/50 hover:text-white"
                       >
-                        {count}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Live Count Indicator */}
-              <div className="flex items-center justify-between text-xs text-white/50 font-sans">
-                <span>
-                  Showing <strong className="text-[#C9A55A] font-mono">{filteredProjects.length}</strong> of {projects.length} Canadian Portfolio Residences
-                </span>
-                {searchQuery && (
-                  <span>
-                    Filtered by "<span className="text-[#C9A55A]">{searchQuery}</span>"
-                  </span>
+                        ✕
+                      </button>
+                    )}
+                  </div>
                 )}
               </div>
+
+              {projects.length > 0 && (
+                <>
+                  {/* Sliding Pill Category Filter Bar */}
+                  <div className="flex items-center gap-2 overflow-x-auto pb-3 pt-1 scrollbar-thin no-scrollbar select-none border-b border-white/10">
+                    {portfolioCategories.map((cat) => {
+                      const isActive = activeCategory === cat;
+                      const count = categoryCounts[cat] || 0;
+
+                      return (
+                        <button
+                          key={cat}
+                          onClick={() => setActiveCategory(cat)}
+                          className={`relative px-5 py-2.5 rounded-full text-xs font-sans tracking-[0.15em] uppercase transition-all duration-300 whitespace-nowrap shrink-0 flex items-center gap-2 ${
+                            isActive
+                              ? 'text-[#0A0908] font-bold shadow-lg scale-105'
+                              : 'text-white/70 hover:text-white'
+                          }`}
+                        >
+                          {isActive && (
+                            <motion.div
+                              layoutId="activeCategoryPillV3"
+                              className="absolute inset-0 bg-[#F5F2EA] rounded-full z-0 shadow-[0_0_20px_rgba(245,242,234,0.4)]"
+                              transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                            />
+                          )}
+                          <span className="relative z-10">{cat}</span>
+                          <span
+                            className={`relative z-10 font-mono text-[10px] px-2 py-0.5 rounded-full transition-colors ${
+                              isActive
+                                ? 'bg-[#0A0908]/15 text-[#0A0908]'
+                                : 'bg-white/10 text-white/60'
+                            }`}
+                          >
+                            {count}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Live Count Indicator */}
+                  <div className="flex items-center justify-between text-xs text-white/50 font-sans">
+                    <span>
+                      Showing <strong className="text-[#C9A55A] font-mono">{filteredProjects.length}</strong> of {projects.length} Canadian Portfolio Residences
+                    </span>
+                    {searchQuery && (
+                      <span>
+                        Filtered by "<span className="text-[#C9A55A]">{searchQuery}</span>"
+                      </span>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
 
-            {/* Asymmetric 12-Column Editorial Grid */}
-            {filteredProjects.length === 0 ? (
+            {/* Asymmetric 12-Column Editorial Grid / Client Project Ready Container */}
+            {projects.length === 0 ? (
+              <div className="rounded-3xl border border-[#C9A55A]/25 bg-gradient-to-b from-[#141822]/80 to-[#0A0908] p-8 md:p-16 text-center backdrop-blur-xl shadow-[0_30px_90px_rgba(0,0,0,0.6)] relative overflow-hidden">
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(201,165,90,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(201,165,90,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+                <div className="max-w-2xl mx-auto relative z-10 space-y-6">
+                  <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#C9A55A]/10 border border-[#C9A55A]/30 text-[#C9A55A] text-[10px] uppercase font-bold tracking-[0.25em] font-sans">
+                    <Sparkles size={14} className="text-[#C9A55A]" />
+                    <span>Client Project Gallery · Archive In Preparation</span>
+                  </div>
+
+                  <h3 className="font-serif text-[#F5F2EA] text-2xl sm:text-3xl md:text-4xl font-light leading-snug">
+                    Authentic Completed Projects <br />
+                    <span className="italic text-[#C9A55A]">Coming to the Gallery</span>
+                  </h3>
+
+                  <p className="text-white/70 font-sans font-light text-sm md:text-base leading-relaxed">
+                    We are currently curating the photographic showcase of our authentic window covering installations, architectural drapery, and motorized shading projects completed for Canadian homeowners.
+                  </p>
+
+                  <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
+                    <button
+                      onClick={() => navigate('/contact')}
+                      className="inline-flex items-center gap-2.5 bg-[#C9A55A] text-[#0A0908] px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-[0.18em] font-sans hover:bg-white transition-all shadow-xl"
+                    >
+                      <FileText size={14} />
+                      <span>Book Free Measurement</span>
+                      <ArrowRight size={14} />
+                    </button>
+                    <button
+                      onClick={() => navigate('/room-viewer')}
+                      className="inline-flex items-center gap-2.5 border border-white/20 bg-white/5 text-white px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-[0.18em] font-sans hover:border-[#C9A55A] hover:text-[#C9A55A] transition-all"
+                    >
+                      <Box size={14} />
+                      <span>Test In 3D Studio</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : filteredProjects.length === 0 ? (
               <div className="text-center py-20 bg-white/[0.02] rounded-2xl border border-white/10">
                 <p className="text-white/60 font-sans text-base mb-4">No projects found matching your filter criteria.</p>
                 <button

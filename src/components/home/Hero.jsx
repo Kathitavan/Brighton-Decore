@@ -299,7 +299,7 @@ const Hero = () => {
               variants={rollUpVariants}
               className="text-white/90 text-base md:text-lg leading-relaxed font-sans font-light drop-shadow-md bg-black/25 backdrop-blur-xs p-2.5 rounded-lg border border-white/5"
             >
-              Custom-engineered window blinds, architectural drapery, and luxury Canadian flooring. 
+              Custom-engineered window blinds, architectural drapery, and smart motorized shading. 
               Precision laser measurement, white-glove installation, and enduring beauty.
             </motion.p>
           </div>
@@ -315,7 +315,7 @@ const Hero = () => {
             >
               <button
                 id="hero-cta-measurement"
-                onClick={() => navigate('/contact')}
+                onClick={() => navigate('/contact', { state: { type: 'measurement' } })}
                 className="group relative inline-flex items-center justify-center gap-3 bg-[#C9A55A] text-[#0A0908] px-8 py-4 text-[11px] uppercase font-bold tracking-[0.2em] font-sans hover:bg-white transition-all duration-300 shadow-[0_10px_30px_rgba(201,165,90,0.35)] transform hover:-translate-y-0.5 rounded-full"
               >
                 <Ruler size={15} />

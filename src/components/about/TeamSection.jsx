@@ -14,7 +14,7 @@ const teamMembers = [
   {
     name: 'Sumanpreet Kaur',
     role: 'Head of Interior Design & Curation',
-    tagline: 'Specializing in light physics, custom blind textiles, and harmonious flooring aesthetics.',
+    tagline: 'Specializing in light physics, custom blind textiles, and harmonious window decor aesthetics.',
     image: '/assets/imgs/about/team-sumanpreet.jpg',
     experience: 'Master of Fine Arts',
   },
