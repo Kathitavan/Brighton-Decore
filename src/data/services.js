@@ -61,6 +61,45 @@ export const services = [
     ]
   },
   {
+    id: 'flooring',
+    name: 'Flooring Decor',
+    category: 'FLOORING SURFACES',
+    tagline: 'Refined textures. Enduring architectural foundations.',
+    image: '/assets/imgs/products/hardwood-flooring.jpg',
+    description: 'Curated premium flooring surfaces — rich hardwood, resilient laminate, waterproof luxury vinyl plank, and modular carpet tile collections.',
+    longDescription:
+      'The right flooring establishes the tone, warmth, and character of every room. We supply a curated portfolio of Canadian-climate rated flooring materials selected for lasting durability, scratch resistance, and refined aesthetics. From natural solid oak hardwood to high-traffic waterproof vinyl plank and acoustic carpet tiles, we help you find the ideal surface for your home.',
+    icon: 'Grid',
+    features: ['Solid & Engineered Hardwood', 'High-Density Laminate', '100% Waterproof Vinyl Plank (LVP)', 'Modular Acoustic Carpet Tile', 'Canadian Climate Rated', 'Sample Viewing in Your Space'],
+    types: [
+      {
+        name: 'Hardwood Flooring',
+        desc: 'Rich solid and engineered hardwood timber planks, precision milled for natural grain warmth and long-lasting durability.',
+        image: '/assets/imgs/products/hardwood-flooring.jpg'
+      },
+      {
+        name: 'Laminate Flooring',
+        desc: 'High-density scratch-resistant laminate flooring replicating real timber aesthetics with effortless maintenance and water resilience.',
+        image: '/assets/imgs/products/laminate-flooring.jpg'
+      },
+      {
+        name: 'Luxury Vinyl Plank (LVP)',
+        desc: '100% waterproof luxury vinyl plank flooring engineered for high-traffic family zones, basements, kitchens, and moisture-prone areas.',
+        image: '/assets/imgs/products/vinyl-plank.jpg'
+      },
+      {
+        name: 'Engineered Chevron Parquet',
+        desc: 'Artisanal chevron and herringbone hardwood flooring delivering architectural sophistication and timeless prestige.',
+        image: '/assets/imgs/products/engineered-hardwood.jpg'
+      },
+      {
+        name: 'Carpet Tile & Textures',
+        desc: 'Modular, comfortable carpet tiles providing soft underfoot warmth, acoustic insulation, and simple individual tile stain replacement.',
+        image: '/assets/imgs/products/carpet-tile.jpg'
+      }
+    ]
+  },
+  {
     id: 'measurement',
     name: 'Free Site Measurement',
     category: 'SITE CONCIERGE',
@@ -68,7 +107,7 @@ export const services = [
     image: '/assets/imgs/portfolio/project-1.jpg',
     description: 'Complimentary on-site measurement for accurate quotes and a perfect fit, every single time.',
     longDescription:
-      'Accurate measurement is the foundation of every great installation. We visit your home at no charge, take precise measurements of every window and architectural opening, and use these to provide you with an accurate, no-surprise quote. This service is completely free with no obligation.',
+      'Accurate measurement is the foundation of every great installation. We visit your home at no charge, take precise measurements of every window and floor area, and use these to provide you with an accurate, no-surprise quote. This service is completely free with no obligation.',
     icon: 'Ruler',
     features: ['No-Charge Service', 'Professional Measurement Tools', 'Accurate Quoting', 'No Obligation', 'Same-Day Quote Available', 'All of Saskatoon & Area'],
   },
@@ -88,7 +127,7 @@ export const services = [
 
 export const processSteps = [
   { step: '01', title: 'Contact Us', description: 'Reach out by phone, email, or our online form to get started with your project.' },
-  { step: '02', title: 'Free Site Measurement', description: 'We visit your home at no charge and take precise measurements of every window and architectural opening.' },
+  { step: '02', title: 'Free Site Measurement', description: 'We visit your home at no charge and take precise measurements of every window and floor area.' },
   { step: '03', title: 'Understand Your Needs', description: 'We listen carefully to your preferences, lifestyle, and budget to find the perfect solution.' },
   { step: '04', title: 'Product Recommendation', description: 'We present a curated selection of products that work beautifully in your specific space.' },
   { step: '05', title: 'Confirm Selection', description: 'You review samples and colours in your own home, make your choices, and we finalize the order.' },

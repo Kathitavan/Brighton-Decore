@@ -20,6 +20,13 @@ const milestones = [
   },
   {
     year: '2023',
+    title: 'Curated Flooring Decor Launch',
+    subtitle: 'Expanding Interior Surfaces',
+    desc: 'Introduced curated Canadian flooring decor collections — including luxury hardwood, vinyl plank, and designer laminates — seamlessly complementing our architectural window designs.',
+    icon: Layers,
+  },
+  {
+    year: '2023',
     title: 'Architectural Drapery & Motorization',
     subtitle: 'Elevating Window Living',
     desc: 'Introduced custom luxury drapery, tailored pinch pleats, and whisper-quiet smart motorized shades to deliver complete window harmony.',

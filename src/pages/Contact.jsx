@@ -440,6 +440,7 @@ const Contact = () => {
                             <option className="bg-[#0A120E] text-white">Window Blinds (Roller, Zebra, Honeycomb)</option>
                             <option className="bg-[#0A120E] text-white">Custom Drapery & Curtains</option>
                             <option className="bg-[#0A120E] text-white">Smart Motorized Shading & Automation</option>
+                            <option className="bg-[#0A120E] text-white">Luxury Flooring Decor</option>
                             <option className="bg-[#0A120E] text-white">Full Home Window Treatment Package</option>
                             <option className="bg-[#0A120E] text-white">Free Site Measurement & Consultation</option>
                           </select>

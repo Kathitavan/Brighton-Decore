@@ -299,7 +299,7 @@ const Hero = () => {
               variants={rollUpVariants}
               className="text-white/90 text-base md:text-lg leading-relaxed font-sans font-light drop-shadow-md bg-black/25 backdrop-blur-xs p-2.5 rounded-lg border border-white/5"
             >
-              Custom-engineered window blinds, architectural drapery, and smart motorized shading. 
+              Custom-engineered window blinds, architectural drapery, and luxury Canadian flooring decor. 
               Precision laser measurement, white-glove installation, and enduring beauty.
             </motion.p>
           </div>

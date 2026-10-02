@@ -169,13 +169,14 @@ const Footer = () => {
                 { label: 'Home', path: '/' },
                 { label: 'About Us', path: '/about' },
                 { label: 'Services', path: '/services' },
-                { label: 'Products', path: '/products' },
+                { label: 'Products & Decor', path: '/products' },
+                { label: 'Flooring Decor', path: '/services#flooring' },
                 { label: '3D Room Studio', path: '/room-viewer' },
                 { label: 'Client Reviews', path: '/testimonials' },
                 { label: 'Design Ideas', path: '/blog' },
                 { label: 'Contact', path: '/contact' },
               ].map((link) => (
-                <li key={link.path}>
+                <li key={link.label}>
                   <Link
                     to={link.path}
                     className={`text-xs transition-colors duration-300 font-light ${theme.textMuted} hover:${theme.accentText}`}
@@ -192,18 +193,19 @@ const Footer = () => {
             <h3 className={`font-serif text-lg font-medium ${theme.textHeading}`}>Our Services</h3>
             <ul className="space-y-2.5 font-sans">
               {[
-                'Window Blinds',
-                'Window Coverings',
-                'Smart Motorized Shading',
-                'Free Site Measurement',
-                'Design Consultation',
+                { name: 'Window Blinds', path: '/services#blinds' },
+                { name: 'Window Coverings', path: '/services#coverings' },
+                { name: 'Smart Motorized Shading', path: '/services#motorization' },
+                { name: 'Flooring Decor', path: '/services#flooring' },
+                { name: 'Free Site Measurement', path: '/services#measurement' },
+                { name: 'Design Consultation', path: '/services#consultation' },
               ].map((service) => (
-                <li key={service}>
+                <li key={service.name}>
                   <Link
-                    to="/services"
+                    to={service.path}
                     className={`text-xs transition-colors duration-300 font-light ${theme.textMuted} hover:${theme.accentText}`}
                   >
-                    {service}
+                    {service.name}
                   </Link>
                 </li>
               ))}

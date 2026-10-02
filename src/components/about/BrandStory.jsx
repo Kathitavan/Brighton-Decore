@@ -128,7 +128,7 @@ const BrandStory = () => {
                 animate={isTextInView ? 'visible' : 'hidden'}
                 variants={paragraphVariants}
               >
-                Brighton Decor Ltd was established in Saskatoon, Saskatchewan in 2022 with a clear architectural mandate: to transform Canadian living spaces through meticulously crafted window treatments, custom drapery, and architectural shading collections.
+                Brighton Decor Ltd was established in Saskatoon, Saskatchewan in 2022 with a clear architectural mandate: to transform Canadian living spaces through meticulously crafted window treatments, custom drapery, and luxury flooring decor collections.
               </motion.p>
 
               <motion.p

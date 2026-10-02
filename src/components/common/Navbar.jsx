@@ -218,21 +218,30 @@ const Navbar = () => {
                                 <Sparkles size={16} className="text-[#C9A55A]" />
                                 <div>
                                   <h4 className="font-serif text-base text-white font-medium tracking-wide">
-                                    Window Blinds Collection
+                                    Window Coverings & Flooring Decor
                                   </h4>
                                   <p className="text-[10px] text-white/50 font-sans tracking-wider uppercase">
-                                    6 Bespoke Architectural Styles · Canadian Craftsmanship
+                                    Bespoke Architectural Shading & Canadian Flooring Decor
                                   </p>
                                 </div>
                               </div>
-                              <Link
-                                to="/products"
-                                onClick={() => setShowMegaMenu(false)}
-                                className="text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-[#C9A55A] hover:text-white transition-colors inline-flex items-center gap-1"
-                              >
-                                <span>All Products</span>
-                                <ArrowRight size={11} />
-                              </Link>
+                              <div className="flex items-center gap-3">
+                                <Link
+                                  to="/services#flooring"
+                                  onClick={() => setShowMegaMenu(false)}
+                                  className="text-[10px] font-sans font-bold uppercase tracking-[0.16em] text-[#C9A55A] hover:text-white transition-colors px-2.5 py-1 rounded bg-[#C9A55A]/10 border border-[#C9A55A]/30"
+                                >
+                                  Flooring Decor
+                                </Link>
+                                <Link
+                                  to="/products"
+                                  onClick={() => setShowMegaMenu(false)}
+                                  className="text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-[#C9A55A] hover:text-white transition-colors inline-flex items-center gap-1"
+                                >
+                                  <span>All Products</span>
+                                  <ArrowRight size={11} />
+                                </Link>
+                              </div>
                             </div>
 
                             {/* 6 Photorealistic Product Cards */}
@@ -441,6 +450,27 @@ const Navbar = () => {
                                 </div>
                               </button>
                             ))}
+                            <Link
+                              to="/services#flooring"
+                              onClick={() => {
+                                setIsOpen(false);
+                                document.body.classList.remove('menu-open');
+                              }}
+                              className="col-span-2 flex items-center justify-between p-2.5 mt-1 rounded-lg bg-[#C9A55A]/15 border border-[#C9A55A]/40 text-left"
+                            >
+                              <div className="flex items-center gap-2.5">
+                                <img
+                                  src="/assets/imgs/products/hardwood-flooring.jpg"
+                                  alt="Flooring Decor"
+                                  className="w-10 h-8 rounded object-cover"
+                                />
+                                <div>
+                                  <div className="text-xs font-serif font-medium text-[#C9A55A]">Flooring Decor Collection</div>
+                                  <div className="text-[9px] text-current/60 uppercase">Hardwood, Vinyl & Laminate</div>
+                                </div>
+                              </div>
+                              <ArrowRight size={14} className="text-[#C9A55A]" />
+                            </Link>
                           </motion.div>
                         )}
                       </AnimatePresence>

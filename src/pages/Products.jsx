@@ -74,6 +74,74 @@ const customDecorProducts = [
   },
 ];
 
+const flooringProducts = [
+  {
+    id: 'hardwood-flooring',
+    name: 'Luxury Hardwood Flooring',
+    category: 'Flooring',
+    desc: 'Solid & engineered Canadian timber planks precision-milled for authentic grain warmth and enduring longevity.',
+    image: '/assets/imgs/products/hardwood-flooring.jpg',
+    swatches: [
+      { name: 'Natural Oak', hex: '#C8A882' },
+      { name: 'Dark Walnut', hex: '#3E2A18' },
+      { name: 'Bleached Ash', hex: '#E4DDD4' },
+      { name: 'Smoked Chestnut', hex: '#5C4033' },
+    ],
+  },
+  {
+    id: 'laminate-flooring',
+    name: 'High-Density Laminate',
+    category: 'Flooring',
+    desc: 'Scratch-resistant, click-lock laminate engineered to replicate natural wood with moisture-defying durability.',
+    image: '/assets/imgs/products/laminate-flooring.jpg',
+    swatches: [
+      { name: 'Nordic Pine', hex: '#D8C7B0' },
+      { name: 'Alpine Birch', hex: '#F0E8DC' },
+      { name: 'Urban Grey', hex: '#8B8C89' },
+      { name: 'Honey Maple', hex: '#B8860B' },
+    ],
+  },
+  {
+    id: 'vinyl-plank-flooring',
+    name: 'Luxury Vinyl Plank (LVP)',
+    category: 'Flooring',
+    desc: '100% waterproof rigid-core vinyl plank flooring designed for busy family living, kitchens, and basements.',
+    image: '/assets/imgs/products/vinyl-plank.jpg',
+    swatches: [
+      { name: 'Limed Oak', hex: '#D1C2A5' },
+      { name: 'Charcoal Slate', hex: '#373F47' },
+      { name: 'Driftwood', hex: '#9E9484' },
+      { name: 'Espresso Plank', hex: '#2B231F' },
+    ],
+  },
+  {
+    id: 'engineered-chevron-flooring',
+    name: 'Engineered Chevron Parquet',
+    category: 'Flooring',
+    desc: 'Artisanal chevron and herringbone pattern engineered hardwood delivering architectural distinction and timeless prestige.',
+    image: '/assets/imgs/products/engineered-hardwood.jpg',
+    swatches: [
+      { name: 'Honey Oak', hex: '#B8860B' },
+      { name: 'Smoked Walnut', hex: '#4B3621' },
+      { name: 'Raw Natural', hex: '#D7C4A5' },
+      { name: 'Ebony Stain', hex: '#222222' },
+    ],
+  },
+  {
+    id: 'carpet-tile-collection',
+    name: 'Modular Carpet Tile',
+    category: 'Flooring',
+    desc: 'Commercial-grade acoustic carpet tile systems offering plush underfoot insulation and effortless replacement.',
+    image: '/assets/imgs/products/carpet-tile.jpg',
+    swatches: [
+      { name: 'Steel Tweed', hex: '#58595B' },
+      { name: 'Warm Charcoal', hex: '#2D2926' },
+      { name: 'Desert Sand', hex: '#D2B48C' },
+      { name: 'Navy Rib', hex: '#1B2A4A' },
+    ],
+  },
+];
+
 const allProducts = [
   ...BLIND_PRODUCTS.map((b) => ({
     id: b.id,
@@ -89,9 +157,10 @@ const allProducts = [
     ]
   })),
   ...customDecorProducts,
+  ...flooringProducts,
 ];
 
-const categories = ['All', 'Blinds', 'Drapery', 'Motorized'];
+const categories = ['All', 'Blinds', 'Drapery', 'Motorized', 'Flooring'];
 
 // Product Card Component with Subtle 3D Tilt Physics (Max ±4°), Sheen Beam & Swatches
 const ProductCard3D = ({ product, index, navigate }) => {
@@ -252,12 +321,12 @@ const Products = () => {
   return (
     <PageTransition>
       <SEO
-        title="Custom Window Blinds, Drapery & Architectural Shades Collection"
-        description="Shop custom roller blinds, zebra shades, honeycomb thermal blinds, tailored drapery, and motorized window coverings across Saskatoon and Canada."
+        title="Custom Window Blinds, Drapery & Luxury Flooring Collection"
+        description="Shop custom roller blinds, zebra shades, honeycomb thermal blinds, tailored drapery, and luxury flooring surfaces across Saskatoon and Canada."
         schema={{
           '@context': 'https://schema.org',
           '@type': 'ItemList',
-          'name': 'Brighton Decor Window Blinds & Drapery Collection',
+          'name': 'Brighton Decor Window Blinds, Drapery & Flooring Collection',
           'itemListElement': allProducts.map((p, idx) => ({
             '@type': 'Product',
             'position': idx + 1,
@@ -292,11 +361,11 @@ const Products = () => {
                 className="font-serif text-[#2B1F17] font-light leading-tight mb-4"
                 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}
               >
-                Window Blinds &amp;<br />
-                <span className="italic text-[#B89656]">Drapery Collection</span>
+                Window Blinds, Drapery &amp;<br />
+                <span className="italic text-[#B89656]">Flooring Decor Collection</span>
               </h1>
               <p className="text-[#2B1F17]/75 text-lg md:text-xl font-sans font-light leading-relaxed">
-                Curated Canadian window materials, tailored architectural specs, and professional installation. Contact us for a free site measurement and personalized quote.
+                Curated Canadian window materials, bespoke drapery, and luxury flooring surfaces. Contact us for a free site measurement and personalized quote.
               </p>
             </motion.div>
           </div>

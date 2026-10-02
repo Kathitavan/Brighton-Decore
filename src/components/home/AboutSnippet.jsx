@@ -94,7 +94,7 @@ const AboutSnippet = () => {
 
             <p className="text-white/80 text-lg leading-relaxed font-sans font-light">
               Brighton Decor Ltd was founded in Saskatoon, Saskatchewan in 2022 with a single purpose: 
-              to bring beautifully chosen window coverings, custom blinds, and drapery to Canadian homes — 
+              to bring beautifully chosen window coverings, custom blinds, and quality flooring decor to Canadian homes — 
               installed with the precision and care that homeowners deserve.
             </p>
 

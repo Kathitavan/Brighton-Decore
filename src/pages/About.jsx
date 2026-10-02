@@ -145,7 +145,7 @@ const About = () => {
     <PageTransition>
       <SEO
         title="About Our Artisans & Canadian Heritage"
-        description="Discover the craftsmanship and vision behind Brighton Decor Ltd. Providing Canadian homeowners with custom window coverings, architectural blinds, and motorized shading in Saskatoon, Saskatchewan."
+        description="Discover the craftsmanship and vision behind Brighton Decor Ltd. Providing Canadian homeowners with custom window coverings, architectural blinds, and luxury flooring decor in Saskatoon, Saskatchewan."
       />
       <div className={styles.aboutPage}>
         
@@ -323,7 +323,7 @@ const About = () => {
                 </h2>
 
                 <p className="text-white/70 text-base md:text-lg font-sans font-light leading-relaxed">
-                  Our primary design studio and distribution center is located at {company.address.street}, {company.address.city}, {company.address.province} {company.address.postalCode} — with nationwide logistical reach to deliver window treatments, custom blinds, and drapery anywhere in Canada.
+                  Our primary design studio and distribution center is located at {company.address.street}, {company.address.city}, {company.address.province} {company.address.postalCode} — with nationwide logistical reach to deliver window treatments, custom blinds, and quality flooring decor anywhere in Canada.
                 </p>
 
                 <InnovativeAddressBlock

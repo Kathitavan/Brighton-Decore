@@ -15,7 +15,7 @@ const transformationPairs = [
     afterImage: '/assets/imgs/before-after/living-room-after.png',
     meta: [
       { num: '01', title: 'WINDOW TREATMENT', desc: 'Sleek motorized zebra blinds with gold fixtures & floor-to-ceiling linen drapery' },
-      { num: '02', title: 'ARCHITECTURAL DRAPERY', desc: 'Tailored floor-to-ceiling sheer linen drapery with precision ceiling recess tracks' },
+      { num: '02', title: 'FLOORING & RUG', desc: 'Rich Canadian oak hardwood flooring with plush wool geometric area rug' },
       { num: '03', title: 'SOFA & STYLING', desc: 'Upholstered charcoal velvet seating with gold accent cushions & ambient lighting' },
     ]
   },
@@ -287,7 +287,7 @@ const TransformationSection = () => {
             Ready to transform your space?
           </h3>
           <p className="text-white/60 text-xs md:text-sm font-sans font-light mb-6">
-            Book a complimentary in-home measurement with our Canadian window decor specialists.
+            Book a complimentary in-home measurement with our Canadian window & flooring decor specialists.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">

@@ -115,7 +115,7 @@ const ServiceDrawer = ({ service, isOpen, onClose }) => {
                 <div className="text-xs font-sans">
                   <strong className="text-white font-bold block mb-1">Brighton Decor Workmanship Guarantee</strong>
                   <span className="text-white/70 leading-relaxed font-light">
-                    All custom window blinds, drapery, and motorized treatments across Saskatoon & area come backed by our 1-Year Workmanship Guarantee.
+                    All custom window blinds, drapery, and luxury flooring surfaces across Saskatoon & area come backed by our 1-Year Workmanship Guarantee.
                   </span>
                 </div>
               </div>

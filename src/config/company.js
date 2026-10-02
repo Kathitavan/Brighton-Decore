@@ -89,6 +89,13 @@ export const canadaServices = [
     path: '/services#motorized-shading',
   },
   {
+    id: 'flooring',
+    name: 'Flooring Decor',
+    shortDesc: 'Quality hardwood, laminate, vinyl plank, and carpet tile surfaces sourced for Canadian living.',
+    icon: 'Grid',
+    path: '/services#flooring',
+  },
+  {
     id: 'measurement',
     name: 'Free Site Measurement',
     shortDesc: 'Complimentary on-site measurement for accurate quotes and perfect fit every time.',
@@ -107,7 +114,7 @@ export const canadaServices = [
 // Customer journey steps
 export const processSteps = [
   { step: '01', title: 'Contact Us', description: 'Reach out by phone, email, or our online form to get started.' },
-  { step: '02', title: 'Free Site Measurement', description: 'We visit your home at no charge and take precise measurements of every window and architectural opening.' },
+  { step: '02', title: 'Free Site Measurement', description: 'We visit your home at no charge and take precise measurements of every window and floor area.' },
   { step: '03', title: 'Understand Your Needs', description: 'We listen carefully to your preferences, lifestyle, and budget to understand exactly what you need.' },
   { step: '04', title: 'Product Recommendation', description: 'We present a curated selection of products that suit your space perfectly.' },
   { step: '05', title: 'Confirm Selection', description: 'You review samples, make your final choices, and we confirm the order details.' },
@@ -139,7 +146,7 @@ export const faqItems = [
   },
   {
     q: 'Can I try blinds in a 3D room before ordering?',
-    a: 'Yes! Our 3D Room Studio lets you visualize different blind styles and wall colours in a virtual room before making any decisions.',
+    a: 'Yes! Our 3D Room Studio lets you visualize different blind styles, wall colours, and flooring surfaces in a virtual room before making any decisions.',
   },
   {
     q: 'What payment methods do you accept?',
@@ -148,5 +155,9 @@ export const faqItems = [
   {
     q: 'Do you offer motorized and automated blinds?',
     a: 'Yes! We specialize in smart motorized blinds and shades featuring Somfy and rechargeable wire-free motors, complete with remote, app, and voice integration.',
+  },
+  {
+    q: 'Do you supply flooring decor as well?',
+    a: 'Absolutely. We supply premium hardwood, laminate, luxury vinyl plank, and modular carpet tile materials sourced to match your space, budget, and lifestyle.',
   },
 ];

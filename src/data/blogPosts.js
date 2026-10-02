@@ -68,6 +68,17 @@ export const blogPosts = [
     readTime: '7 min read',
     image: '/assets/imgs/decore/IMG_0122.JPG.jpeg',
   },
+  {
+    id: 7,
+    title: 'Harmonizing Window Coverings with Luxury Flooring Decor',
+    slug: 'pairing-window-blinds-with-flooring-decor',
+    excerpt:
+      'Learn how interior designers pair rich Canadian hardwood, luxury vinyl plank, and designer laminates with tailored window blinds and custom drapery to create cohesive, timeless living spaces.',
+    category: 'Flooring Decor',
+    date: '2024-12-05',
+    readTime: '6 min read',
+    image: '/assets/imgs/products/hardwood-flooring.jpg',
+  },
 ];
 
-export const blogCategories = ['All', 'Blinds', 'Window Coverings', 'Design Inspiration', 'Home Improvement'];
+export const blogCategories = ['All', 'Blinds', 'Window Coverings', 'Flooring Decor', 'Design Inspiration', 'Home Improvement'];

@@ -674,7 +674,7 @@ const RoomViewer = () => {
         return (
           <div className="space-y-5">
             <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-[#C9A55A] block">
-              Room Floor Finish
+              Canadian Flooring Surfaces
             </span>
             <div className="grid grid-cols-3 gap-2.5">
               {[
@@ -949,8 +949,8 @@ const RoomViewer = () => {
   return (
     <PageTransition>
       <SEO
-        title="3D Room Studio — Interactive Window Blinds & Decor Studio"
-        description="Experience your dream Canadian living room in photorealistic 3D. Customize roller, zebra, honeycomb, and vertical blinds with drapery, walls, and lighting in real time."
+        title="3D Room Studio — Interactive Window & Flooring Configurator"
+        description="Experience your dream Canadian living room in photorealistic 3D. Customize roller, zebra, honeycomb, and vertical blinds with flooring decor, walls, and lighting in real time."
       />
       <div className="flex flex-col h-screen w-full overflow-hidden bg-[#0A0908] text-white">
         {/* Top Header Bar */}
@@ -1293,7 +1293,7 @@ const RoomViewer = () => {
                     <span className="font-bold text-[#C9A55A]">{roomState.curtainColor === 'none' ? 'None' : 'Custom'}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-white/50">Room Floor:</span>
+                    <span className="text-white/50">Flooring Surface:</span>
                     <span className="font-bold">{roomState.floorType}</span>
                   </div>
                   <div className="flex justify-between">

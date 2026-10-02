@@ -29,6 +29,13 @@ const services = [
     desc: 'Automated blinds, Somfy integration & rechargeable wireless control.',
     path: '/services',
   },
+  {
+    id: 'flooring',
+    icon: 'Grid',
+    name: 'Flooring Decor',
+    desc: 'Hardwood, laminate, luxury vinyl plank & modular carpet tile.',
+    path: '/services',
+  },
 ];
 
 // Details dataset accessed on click
@@ -95,6 +102,39 @@ const motorizedDetails = [
     name: 'Natural Woven Texture Shades',
     desc: 'Artisanal organic bamboo and woven wood roller shades delivering warm ambient daylight.',
     image: '/assets/imgs/decore/IMG_0123.JPG.jpeg',
+  },
+];
+
+const flooringDetails = [
+  {
+    id: 'hardwood',
+    name: 'Hardwood Flooring',
+    desc: 'Rich solid and engineered hardwood timber planks, precision milled for natural grain warmth and long-lasting durability.',
+    image: '/assets/imgs/products/hardwood-flooring.jpg',
+  },
+  {
+    id: 'laminate',
+    name: 'Laminate Flooring',
+    desc: 'High-density scratch-resistant laminate flooring replicating real timber aesthetics with effortless maintenance and water resilience.',
+    image: '/assets/imgs/products/laminate-flooring.jpg',
+  },
+  {
+    id: 'vinyl',
+    name: 'Luxury Vinyl Plank (LVP)',
+    desc: '100% waterproof luxury vinyl plank (LVP) flooring engineered for high-traffic family zones, basements, kitchens, and moisture-prone areas.',
+    image: '/assets/imgs/products/vinyl-plank.jpg',
+  },
+  {
+    id: 'chevron',
+    name: 'Engineered Chevron Parquet',
+    desc: 'Artisanal chevron and herringbone hardwood flooring delivering architectural sophistication and timeless prestige.',
+    image: '/assets/imgs/products/engineered-hardwood.jpg',
+  },
+  {
+    id: 'carpet-tile',
+    name: 'Modular Carpet Tile',
+    desc: 'Modular, comfortable carpet tiles providing soft underfoot warmth, acoustic insulation, and simple individual tile stain replacement.',
+    image: '/assets/imgs/products/carpet-tile.jpg',
   },
 ];
 
@@ -265,8 +305,8 @@ const ServicesTeaser = () => {
           </motion.button>
         </div>
 
-        {/* Services Grid (3 Cards: Window Blinds, Window Coverings, Smart Motorized Shading) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Services Grid (4 Cards: Window Blinds, Window Coverings, Smart Motorized Shading, Flooring Decor) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, i) => (
             <ServiceTiltCard
               key={service.id}
@@ -314,6 +354,8 @@ const ServicesTeaser = () => {
                       ? 'WINDOW COVERINGS SUITE'
                       : activeModal === 'motorized-shading'
                       ? 'SMART MOTORIZED SUITE'
+                      : activeModal === 'flooring'
+                      ? 'CANADIAN FLOORING DECOR'
                       : 'CUSTOM DRAPERY & COVERINGS'}
                   </span>
                   <h3 className="font-serif text-white text-2xl sm:text-3xl font-light">
@@ -321,6 +363,8 @@ const ServicesTeaser = () => {
                       ? 'Bespoke Blinds Collection'
                       : activeModal === 'motorized-shading'
                       ? 'Smart Motorized Shading Suite'
+                      : activeModal === 'flooring'
+                      ? 'Luxury Flooring Decor Collection'
                       : 'Window Coverings Suite'}
                   </h3>
                 </div>
@@ -500,6 +544,72 @@ const ServicesTeaser = () => {
                             >
                               <FileText size={12} />
                               <span>Request Quote</span>
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 4. FLOORING DECOR MODAL */}
+                {activeModal === 'flooring' && (
+                  <div>
+                    <p className="text-white/70 font-sans font-light text-sm md:text-base mb-8 max-w-2xl">
+                      Explore our complete range of Canadian-rated luxury flooring surfaces — Hardwood, Laminate, Luxury Vinyl Plank, and Modular Carpet Tile.
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      {flooringDetails.map((floor) => (
+                        <div
+                          key={floor.id}
+                          className="bg-white/[0.03] border border-white/10 hover:border-[#C9A55A]/50 rounded-xl p-5 transition-all duration-300 flex flex-col justify-between group"
+                        >
+                          <div>
+                            <div className="aspect-[16/10] rounded-lg overflow-hidden bg-[#1A1814] mb-4">
+                              <img
+                                src={floor.image}
+                                alt={floor.name}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              />
+                            </div>
+                            <span className="text-[9px] uppercase font-bold tracking-[0.2em] text-[#C9A55A] block mb-1 font-sans">
+                              Flooring Decor Surface
+                            </span>
+                            <h4 className="font-serif text-white text-xl font-bold mb-2 group-hover:text-[#C9A55A] transition-colors">
+                              {floor.name}
+                            </h4>
+                            <p className="text-xs text-white/70 font-sans font-light leading-relaxed mb-4">
+                              {floor.desc}
+                            </p>
+                          </div>
+
+                          <div className="flex gap-3 pt-3 border-t border-white/10">
+                            <button
+                              onClick={() => {
+                                closeModal();
+                                navigate('/contact', {
+                                  state: {
+                                    type: 'quote',
+                                    productName: floor.name,
+                                    category: 'Flooring Decor',
+                                    message: `Price quote inquiry for: ${floor.name}.`,
+                                  },
+                                });
+                              }}
+                              className="flex-1 inline-flex items-center justify-center gap-1.5 text-[10px] font-bold tracking-wider uppercase font-sans text-[#C9A55A] border border-[#C9A55A]/40 py-2.5 px-3 rounded-lg hover:bg-[#C9A55A] hover:text-[#0A0908] transition-all"
+                            >
+                              <FileText size={12} />
+                              <span>Request Quote</span>
+                            </button>
+                            <button
+                              onClick={() => {
+                                closeModal();
+                                navigate('/room-viewer');
+                              }}
+                              className="flex-1 inline-flex items-center justify-center gap-1.5 text-[10px] font-bold tracking-wider uppercase font-sans bg-white/10 text-white py-2.5 px-3 rounded-lg hover:bg-white hover:text-[#0A0908] transition-all"
+                            >
+                              <Box size={12} />
+                              <span>3D Studio</span>
                             </button>
                           </div>
                         </div>

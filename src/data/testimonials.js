@@ -16,9 +16,9 @@ export const testimonials = [
     name: 'James & Linda K.',
     city: 'Saskatoon, SK',
     quote:
-      'We had motorized zebra blinds and custom drapery installed throughout our main floor. The team was professional, punctual, and incredibly tidy. The quality is outstanding — we couldn\'t be happier.',
+      'We had new flooring decor and custom blinds selected for our main floor renovation. The materials are stunning, punctual, and of exceptional quality — we couldn\'t be happier.',
     rating: 5,
-    service: 'Full Home Blinds & Custom Drapery',
+    service: 'Blinds & Flooring Decor',
   },
   {
     id: 3,
