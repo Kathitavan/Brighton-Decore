@@ -170,7 +170,7 @@ const Footer = () => {
                 { label: 'About Us', path: '/about' },
                 { label: 'Services', path: '/services' },
                 { label: 'Products & Decor', path: '/products' },
-                { label: 'Flooring Decor', path: '/services#flooring' },
+                { label: 'Flooring', path: '/services#flooring' },
                 { label: '3D Room Studio', path: '/room-viewer' },
                 { label: 'Client Reviews', path: '/testimonials' },
                 { label: 'Design Ideas', path: '/blog' },
@@ -196,7 +196,7 @@ const Footer = () => {
                 { name: 'Window Blinds', path: '/services#blinds' },
                 { name: 'Window Coverings', path: '/services#coverings' },
                 { name: 'Smart Motorized Shading', path: '/services#motorization' },
-                { name: 'Flooring Decor', path: '/services#flooring' },
+                { name: 'Flooring', path: '/services#flooring' },
                 { name: 'Free Site Measurement', path: '/services#measurement' },
                 { name: 'Design Consultation', path: '/services#consultation' },
               ].map((service) => (

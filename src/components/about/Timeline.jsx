@@ -20,9 +20,9 @@ const milestones = [
   },
   {
     year: '2023',
-    title: 'Curated Flooring Decor Launch',
+    title: 'Curated Flooring Launch',
     subtitle: 'Expanding Interior Surfaces',
-    desc: 'Introduced curated Canadian flooring decor collections — including luxury hardwood, vinyl plank, and designer laminates — seamlessly complementing our architectural window designs.',
+    desc: 'Introduced curated Canadian flooring collections — including luxury hardwood, vinyl plank, and designer laminates — seamlessly complementing our architectural window designs.',
     icon: Layers,
   },
   {

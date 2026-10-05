@@ -22,7 +22,7 @@ export const blogPosts = [
     category: 'Window Coverings',
     date: '2024-10-20',
     readTime: '6 min read',
-    image: '/assets/imgs/decore/IMG_0054.JPG.jpeg',
+    image: '/assets/imgs/decore/conservatory-sunroom-shades.jpg',
   },
   {
     id: 3,
@@ -66,19 +66,19 @@ export const blogPosts = [
     category: 'Blinds',
     date: '2024-06-18',
     readTime: '7 min read',
-    image: '/assets/imgs/decore/IMG_0122.JPG.jpeg',
+    image: '/assets/imgs/decore/motorized-zebra-blinds.jpg',
   },
   {
     id: 7,
-    title: 'Harmonizing Window Coverings with Luxury Flooring Decor',
-    slug: 'pairing-window-blinds-with-flooring-decor',
+    title: 'Harmonizing Window Coverings with Luxury Flooring',
+    slug: 'pairing-window-blinds-with-flooring',
     excerpt:
       'Learn how interior designers pair rich Canadian hardwood, luxury vinyl plank, and designer laminates with tailored window blinds and custom drapery to create cohesive, timeless living spaces.',
-    category: 'Flooring Decor',
+    category: 'Flooring',
     date: '2024-12-05',
     readTime: '6 min read',
     image: '/assets/imgs/products/hardwood-flooring.jpg',
   },
 ];
 
-export const blogCategories = ['All', 'Blinds', 'Window Coverings', 'Flooring Decor', 'Design Inspiration', 'Home Improvement'];
+export const blogCategories = ['All', 'Blinds', 'Window Coverings', 'Flooring', 'Design Inspiration', 'Home Improvement'];

@@ -171,7 +171,7 @@ const Services = () => {
     <PageTransition>
       <SEO
         title="Bespoke Window Decor & Luxury Flooring Services"
-        description="Explore custom window blinds, motorized coverings, bespoke drapery, and luxury flooring decor tailored for Canadian homes by Brighton Decor Ltd."
+        description="Explore custom window blinds, motorized coverings, bespoke drapery, and luxury flooring tailored for Canadian homes by Brighton Decor Ltd."
       />
       <div className={styles.servicesPage}>
         

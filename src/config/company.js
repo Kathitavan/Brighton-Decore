@@ -90,7 +90,7 @@ export const canadaServices = [
   },
   {
     id: 'flooring',
-    name: 'Flooring Decor',
+    name: 'Flooring',
     shortDesc: 'Quality hardwood, laminate, vinyl plank, and carpet tile surfaces sourced for Canadian living.',
     icon: 'Grid',
     path: '/services#flooring',
@@ -157,7 +157,7 @@ export const faqItems = [
     a: 'Yes! We specialize in smart motorized blinds and shades featuring Somfy and rechargeable wire-free motors, complete with remote, app, and voice integration.',
   },
   {
-    q: 'Do you supply flooring decor as well?',
+    q: 'Do you supply flooring as well?',
     a: 'Absolutely. We supply premium hardwood, laminate, luxury vinyl plank, and modular carpet tile materials sourced to match your space, budget, and lifestyle.',
   },
 ];

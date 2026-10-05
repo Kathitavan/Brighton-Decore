@@ -25,7 +25,7 @@ const customDecorProducts = [
     name: 'Pinch-Pleat Tailored Drapes', 
     category: 'Drapery', 
     desc: 'Bespoke floor-to-ceiling drapery with crisp architectural pinch pleats and tailored blackout lining.', 
-    image: '/assets/imgs/decore/IMG_0057.JPG.jpeg',
+    image: '/assets/imgs/decore/french-patio-door-drapery.jpg',
     swatches: [
       { name: 'Slate Grey', hex: '#686B73' },
       { name: 'Ivory Linen', hex: '#F4EFEA' },
@@ -38,7 +38,7 @@ const customDecorProducts = [
     name: 'Bespoke Sheer & Drape Suite', 
     category: 'Drapery', 
     desc: 'Grand living room ceiling-recessed drapery with light-diffusing sheer accents for panoramic windows.', 
-    image: '/assets/imgs/decore/IMG_0052.JPG.jpeg',
+    image: '/assets/imgs/decore/living-room-custom-drapery.jpg',
     swatches: [
       { name: 'Midnight Slate', hex: '#3B4856' },
       { name: 'Soft Pearl', hex: '#EBEAE6' },
@@ -51,7 +51,7 @@ const customDecorProducts = [
     name: 'Smart Motorized Zebra Blinds', 
     category: 'Motorized', 
     desc: 'Motorized dual-transition sheer and solid bands with multi-window remote synchronisation.', 
-    image: '/assets/imgs/decore/IMG_0122.JPG.jpeg',
+    image: '/assets/imgs/decore/motorized-zebra-blinds.jpg',
     swatches: [
       { name: 'Graphite Dual', hex: '#4B4D52' },
       { name: 'Chalk White', hex: '#F7F7F7' },
@@ -64,7 +64,7 @@ const customDecorProducts = [
     name: 'Natural Woven Texture Shades', 
     category: 'Drapery', 
     desc: 'Artisanal organic bamboo and woven reed roller shades delivering rich organic textures.', 
-    image: '/assets/imgs/decore/IMG_0123.JPG.jpeg',
+    image: '/assets/imgs/decore/natural-woven-dining-shades.jpg',
     swatches: [
       { name: 'Amber Woven', hex: '#C68E48' },
       { name: 'Natural Reed', hex: '#E0BA7B' },
@@ -362,7 +362,7 @@ const Products = () => {
                 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}
               >
                 Window Blinds, Drapery &amp;<br />
-                <span className="italic text-[#B89656]">Flooring Decor Collection</span>
+                <span className="italic text-[#B89656]">Flooring Collection</span>
               </h1>
               <p className="text-[#2B1F17]/75 text-lg md:text-xl font-sans font-light leading-relaxed">
                 Curated Canadian window materials, bespoke drapery, and luxury flooring surfaces. Contact us for a free site measurement and personalized quote.

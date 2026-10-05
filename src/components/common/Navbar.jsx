@@ -218,10 +218,10 @@ const Navbar = () => {
                                 <Sparkles size={16} className="text-[#C9A55A]" />
                                 <div>
                                   <h4 className="font-serif text-base text-white font-medium tracking-wide">
-                                    Window Coverings & Flooring Decor
+                                    Window Coverings & Flooring
                                   </h4>
                                   <p className="text-[10px] text-white/50 font-sans tracking-wider uppercase">
-                                    Bespoke Architectural Shading & Canadian Flooring Decor
+                                    Bespoke Architectural Shading & Canadian Flooring
                                   </p>
                                 </div>
                               </div>
@@ -231,7 +231,7 @@ const Navbar = () => {
                                   onClick={() => setShowMegaMenu(false)}
                                   className="text-[10px] font-sans font-bold uppercase tracking-[0.16em] text-[#C9A55A] hover:text-white transition-colors px-2.5 py-1 rounded bg-[#C9A55A]/10 border border-[#C9A55A]/30"
                                 >
-                                  Flooring Decor
+                                  Flooring
                                 </Link>
                                 <Link
                                   to="/products"
@@ -461,11 +461,11 @@ const Navbar = () => {
                               <div className="flex items-center gap-2.5">
                                 <img
                                   src="/assets/imgs/products/hardwood-flooring.jpg"
-                                  alt="Flooring Decor"
+                                  alt="Flooring"
                                   className="w-10 h-8 rounded object-cover"
                                 />
                                 <div>
-                                  <div className="text-xs font-serif font-medium text-[#C9A55A]">Flooring Decor Collection</div>
+                                  <div className="text-xs font-serif font-medium text-[#C9A55A]">Flooring Collection</div>
                                   <div className="text-[9px] text-current/60 uppercase">Hardwood, Vinyl & Laminate</div>
                                 </div>
                               </div>

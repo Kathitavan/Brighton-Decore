@@ -19,7 +19,7 @@ export const services = [
     name: 'Window Coverings',
     category: 'CUSTOM DRAPERY',
     tagline: 'Light, shadow, and architectural drape.',
-    image: '/assets/imgs/decore/IMG_0057.JPG.jpeg',
+    image: '/assets/imgs/decore/french-patio-door-drapery.jpg',
     description: 'Complete window solutions — from bespoke French door drapery and pinch pleats to luxury sheers that complement your interior.',
     longDescription:
       'Beyond blinds, we offer a full range of custom drapery and architectural window coverings tailored to your space. Whether you are looking for privacy, thermal insulation, motorized curtain tracks, or grand floor-to-ceiling sheer elegance, our team crafts every drape to perfection.',
@@ -31,7 +31,7 @@ export const services = [
     name: 'Smart Motorized Shading',
     category: 'AUTOMATION & MOTORIZATION',
     tagline: 'Effortless automated control at your fingertips.',
-    image: '/assets/imgs/decore/IMG_0122.JPG.jpeg',
+    image: '/assets/imgs/decore/motorized-zebra-blinds.jpg',
     description: 'Smart motorized blinds, automated solar shades, and architectural coverings integrated with remote, smartphone, and voice control.',
     longDescription:
       'Experience modern convenience with whisper-quiet motorized window treatments. From rechargeable battery-powered motors to integrated smart-home automation (Somfy, Lutron, Matter), control your blinds with the touch of a button or set automated schedules for privacy, thermal comfort, and energy savings.',
@@ -41,28 +41,28 @@ export const services = [
       {
         name: 'Automated Zebra & Roller Blinds',
         desc: 'Sleek motorized dual-layer zebra and roller shades offering one-touch transitions between light filtering and complete privacy.',
-        image: '/assets/imgs/decore/IMG_0122.JPG.jpeg'
+        image: '/assets/imgs/decore/motorized-zebra-blinds.jpg'
       },
       {
         name: 'Sunroom & Solarium Shading',
         desc: 'Engineered multi-panel solar shades designed specifically for cathedral sunrooms, conservatories, and large panoramic architectural glass.',
-        image: '/assets/imgs/decore/IMG_0054.JPG.jpeg'
+        image: '/assets/imgs/decore/conservatory-sunroom-shades.jpg'
       },
       {
         name: 'Commercial & Executive Blinds',
         desc: 'Heavy-duty architectural window systems engineered for boardrooms, meeting pavilions, and corporate office developments.',
-        image: '/assets/imgs/decore/IMG_0055.JPG.jpeg'
+        image: '/assets/imgs/decore/commercial-conference-blinds.jpg'
       },
       {
         name: 'Natural Woven Texture Shades',
         desc: 'Artisanal organic bamboo and woven wood roller shades delivering organic warmth, rich grain texture, and soft daylight diffusion.',
-        image: '/assets/imgs/decore/IMG_0123.JPG.jpeg'
+        image: '/assets/imgs/decore/natural-woven-dining-shades.jpg'
       }
     ]
   },
   {
     id: 'flooring',
-    name: 'Flooring Decor',
+    name: 'Flooring',
     category: 'FLOORING SURFACES',
     tagline: 'Refined textures. Enduring architectural foundations.',
     image: '/assets/imgs/products/hardwood-flooring.jpg',

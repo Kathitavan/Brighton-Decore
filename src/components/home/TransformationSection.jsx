@@ -287,7 +287,7 @@ const TransformationSection = () => {
             Ready to transform your space?
           </h3>
           <p className="text-white/60 text-xs md:text-sm font-sans font-light mb-6">
-            Book a complimentary in-home measurement with our Canadian window & flooring decor specialists.
+            Book a complimentary in-home measurement with our Canadian window & flooring specialists.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">

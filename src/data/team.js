@@ -51,15 +51,15 @@ export const blogPosts = [
     excerpt: "A deep dive into whisper-quiet motorization, smart home ecosystems, and seamless light management.",
     date: "Apr 15, 2025",
     readTime: "6 min read",
-    image: "/assets/imgs/decore/IMG_0122.JPG.jpeg"
+    image: "/assets/imgs/decore/motorized-zebra-blinds.jpg"
   }
 ];
 
 export const galleryItems = [
-  { id: 1, title: "Grand Living Room Drapery", category: "Residential", image: "/assets/imgs/decore/IMG_0052.JPG.jpeg" },
-  { id: 2, title: "Modern Culinary Shade", category: "Kitchen", image: "/assets/imgs/decore/IMG_0056.JPG.jpeg" },
-  { id: 3, title: "Executive Boardroom Blinds", category: "Commercial", image: "/assets/imgs/decore/IMG_0055.JPG.jpeg" },
-  { id: 4, title: "Prairie Sunroom Solar Shading", category: "Residential", image: "/assets/imgs/decore/IMG_0054.JPG.jpeg" },
-  { id: 5, title: "Natural Woven Dining Shades", category: "Dining", image: "/assets/imgs/decore/IMG_0123.JPG.jpeg" },
-  { id: 6, title: "French Patio Door Drapery", category: "Living Room", image: "/assets/imgs/decore/IMG_0057.JPG.jpeg" }
+  { id: 1, title: "Grand Living Room Drapery", category: "Residential", image: "/assets/imgs/decore/living-room-custom-drapery.jpg" },
+  { id: 2, title: "Modern Culinary Shade", category: "Kitchen", image: "/assets/imgs/decore/modern-kitchen-roller-shade.jpg" },
+  { id: 3, title: "Executive Boardroom Blinds", category: "Commercial", image: "/assets/imgs/decore/commercial-conference-blinds.jpg" },
+  { id: 4, title: "Prairie Sunroom Solar Shading", category: "Residential", image: "/assets/imgs/decore/conservatory-sunroom-shades.jpg" },
+  { id: 5, title: "Natural Woven Dining Shades", category: "Dining", image: "/assets/imgs/decore/natural-woven-dining-shades.jpg" },
+  { id: 6, title: "French Patio Door Drapery", category: "Living Room", image: "/assets/imgs/decore/french-patio-door-drapery.jpg" }
 ];

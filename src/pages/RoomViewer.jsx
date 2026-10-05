@@ -950,7 +950,7 @@ const RoomViewer = () => {
     <PageTransition>
       <SEO
         title="3D Room Studio — Interactive Window & Flooring Configurator"
-        description="Experience your dream Canadian living room in photorealistic 3D. Customize roller, zebra, honeycomb, and vertical blinds with flooring decor, walls, and lighting in real time."
+        description="Experience your dream Canadian living room in photorealistic 3D. Customize roller, zebra, honeycomb, and vertical blinds with flooring, walls, and lighting in real time."
       />
       <div className="flex flex-col h-screen w-full overflow-hidden bg-[#0A0908] text-white">
         {/* Top Header Bar */}

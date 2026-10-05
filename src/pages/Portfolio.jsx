@@ -111,7 +111,7 @@ const Portfolio = () => {
             className="absolute inset-0 z-0 pointer-events-none"
           >
             <img
-              src="/assets/imgs/decore/IMG_0052.JPG.jpeg"
+              src="/assets/imgs/decore/living-room-custom-drapery.jpg"
               alt="Brighton Decor Architectural Interior"
               className="w-full h-full object-cover filter brightness-[0.35] contrast-[1.1]"
               loading="eager"

@@ -32,7 +32,7 @@ const services = [
   {
     id: 'flooring',
     icon: 'Grid',
-    name: 'Flooring Decor',
+    name: 'Flooring',
     desc: 'Hardwood, laminate, luxury vinyl plank & modular carpet tile.',
     path: '/services',
   },
@@ -83,25 +83,25 @@ const motorizedDetails = [
     id: 'motorized-zebra',
     name: 'Automated Zebra Blinds',
     desc: 'Motorized dual-transition sheer and blackout zebra shades with multi-window remote sync.',
-    image: '/assets/imgs/decore/IMG_0122.JPG.jpeg',
+    image: '/assets/imgs/decore/motorized-zebra-blinds.jpg',
   },
   {
     id: 'sunroom-shading',
     name: 'Panoramic Solarium Shading',
     desc: 'Custom multi-panel shading engineered for cathedral sunrooms and high architectural glass.',
-    image: '/assets/imgs/decore/IMG_0054.JPG.jpeg',
+    image: '/assets/imgs/decore/conservatory-sunroom-shades.jpg',
   },
   {
     id: 'commercial-blinds',
     name: 'Commercial Executive Blinds',
     desc: 'Uniform high-durability window coverings engineered for executive boardrooms and offices.',
-    image: '/assets/imgs/decore/IMG_0055.JPG.jpeg',
+    image: '/assets/imgs/decore/commercial-conference-blinds.jpg',
   },
   {
     id: 'woven-shades',
     name: 'Natural Woven Texture Shades',
     desc: 'Artisanal organic bamboo and woven wood roller shades delivering warm ambient daylight.',
-    image: '/assets/imgs/decore/IMG_0123.JPG.jpeg',
+    image: '/assets/imgs/decore/natural-woven-dining-shades.jpg',
   },
 ];
 
@@ -143,19 +143,19 @@ const coveringsDetails = [
     id: 'drapes',
     name: 'Custom Pinch-Pleat Drapery',
     desc: 'Bespoke floor-to-ceiling drapery with tailored pleats framing French doors and grand windows.',
-    image: '/assets/imgs/decore/IMG_0057.JPG.jpeg',
+    image: '/assets/imgs/decore/french-patio-door-drapery.jpg',
   },
   {
     id: 'sheers',
     name: 'Architectural Sheer & Drape Suite',
     desc: 'Light-diffusing sheer paneling paired with luxury drapes to create an airy, elevated living atmosphere.',
-    image: '/assets/imgs/decore/IMG_0052.JPG.jpeg',
+    image: '/assets/imgs/decore/living-room-custom-drapery.jpg',
   },
   {
     id: 'kitchen-shades',
     name: 'Tailored Accent & Kitchen Shades',
     desc: 'Precision-measured moisture-resistant fabric shades recessed cleanly into architectural millwork.',
-    image: '/assets/imgs/decore/IMG_0056.JPG.jpeg',
+    image: '/assets/imgs/decore/modern-kitchen-roller-shade.jpg',
   },
 ];
 
@@ -305,7 +305,7 @@ const ServicesTeaser = () => {
           </motion.button>
         </div>
 
-        {/* Services Grid (4 Cards: Window Blinds, Window Coverings, Smart Motorized Shading, Flooring Decor) */}
+        {/* Services Grid (4 Cards: Window Blinds, Window Coverings, Smart Motorized Shading, Flooring) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, i) => (
             <ServiceTiltCard
@@ -355,7 +355,7 @@ const ServicesTeaser = () => {
                       : activeModal === 'motorized-shading'
                       ? 'SMART MOTORIZED SUITE'
                       : activeModal === 'flooring'
-                      ? 'CANADIAN FLOORING DECOR'
+                      ? 'CANADIAN FLOORING'
                       : 'CUSTOM DRAPERY & COVERINGS'}
                   </span>
                   <h3 className="font-serif text-white text-2xl sm:text-3xl font-light">
@@ -364,7 +364,7 @@ const ServicesTeaser = () => {
                       : activeModal === 'motorized-shading'
                       ? 'Smart Motorized Shading Suite'
                       : activeModal === 'flooring'
-                      ? 'Luxury Flooring Decor Collection'
+                      ? 'Luxury Flooring Collection'
                       : 'Window Coverings Suite'}
                   </h3>
                 </div>
@@ -552,7 +552,7 @@ const ServicesTeaser = () => {
                   </div>
                 )}
 
-                {/* 4. FLOORING DECOR MODAL */}
+                {/* 4. FLOORING MODAL */}
                 {activeModal === 'flooring' && (
                   <div>
                     <p className="text-white/70 font-sans font-light text-sm md:text-base mb-8 max-w-2xl">
@@ -573,7 +573,7 @@ const ServicesTeaser = () => {
                               />
                             </div>
                             <span className="text-[9px] uppercase font-bold tracking-[0.2em] text-[#C9A55A] block mb-1 font-sans">
-                              Flooring Decor Surface
+                              Flooring Surface
                             </span>
                             <h4 className="font-serif text-white text-xl font-bold mb-2 group-hover:text-[#C9A55A] transition-colors">
                               {floor.name}
@@ -591,7 +591,7 @@ const ServicesTeaser = () => {
                                   state: {
                                     type: 'quote',
                                     productName: floor.name,
-                                    category: 'Flooring Decor',
+                                    category: 'Flooring',
                                     message: `Price quote inquiry for: ${floor.name}.`,
                                   },
                                 });

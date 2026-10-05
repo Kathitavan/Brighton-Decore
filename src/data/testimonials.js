@@ -16,9 +16,9 @@ export const testimonials = [
     name: 'James & Linda K.',
     city: 'Saskatoon, SK',
     quote:
-      'We had new flooring decor and custom blinds selected for our main floor renovation. The materials are stunning, punctual, and of exceptional quality — we couldn\'t be happier.',
+      'We had new flooring and custom blinds selected for our main floor renovation. The materials are stunning, punctual, and of exceptional quality — we couldn\'t be happier.',
     rating: 5,
-    service: 'Blinds & Flooring Decor',
+    service: 'Blinds & Flooring',
   },
   {
     id: 3,
