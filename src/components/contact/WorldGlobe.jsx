@@ -175,7 +175,7 @@ function PhotorealisticEarth({ onPinClick }) {
                 Saskatoon, SK <strong className="font-mono text-[#52B788] font-bold">S7K 8A9</strong>
               </span>
               <span className="text-[9px] font-bold uppercase tracking-wider bg-[#52B788]/20 text-[#52B788] px-2 py-0.5 rounded-full border border-[#52B788]/40">
-                Studio & Office ➔
+                Flagship Office ➔
               </span>
             </div>
           </div>

@@ -238,7 +238,7 @@ const InnovativeAddressBlock = ({
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2 mb-1">
             <span className="text-[10px] uppercase tracking-[0.2em] text-white/50 font-sans font-semibold">
-              Flagship Office & Studio
+              Flagship Office
             </span>
             <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 text-[9px] font-mono font-medium border border-emerald-500/30">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
