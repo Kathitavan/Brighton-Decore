@@ -10,10 +10,10 @@ const LETTERS = [
   { char: 'E', color: '#FFB800', delay: 0.47 },
 ];
 
-export default function OfflineTitle({ isDisconnected, isIdle }) {
+export default function OfflineTitle({ isDisconnected, isSettled }) {
   return (
     <div
-      className={`offline-title-wrapper ${isDisconnected ? 'is-disconnected' : ''} ${isIdle ? 'is-idle' : ''}`}
+      className={`offline-title-wrapper ${isDisconnected ? 'is-disconnected' : ''} ${isSettled ? 'is-settled' : ''}`}
       aria-label="OFFLINE"
     >
       <div className="offline-letters-container">

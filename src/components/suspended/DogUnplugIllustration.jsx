@@ -1,391 +1,844 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 /**
- * Hand-built detailed inline SVG illustration with full interactive animation
- * Stages:
- * 0: Walk in & plant feet
- * 1: Tugging back and forth (body lean, cable stretch, ears flapping)
- * 2: The Pop! (disconnection, sparks flash, plug bounces, dog tumbles & recovers)
- * 3: Idle loop (proud wag, blink, subtle spark twitch)
+ * Single State Machine Timeline:
+ * walkIn -> grip -> tug1 -> tug2 -> finalTug -> pop -> tumble -> recover -> settled
  */
-export default function DogUnplugIllustration({ onDisconnect, onSequenceComplete }) {
-  const [stage, setStage] = useState(0); // 0: enter, 1: tugging, 2: pop, 3: idle
-  const [blink, setBlink] = useState(false);
-  const [parallax, setParallax] = useState({ x: 0, y: 0 });
-  const containerRef = useRef(null);
+const STATES = {
+  WALK_IN: 'walkIn',
+  GRIP: 'grip',
+  TUG_1: 'tug1',
+  TUG_2: 'tug2',
+  FINAL_TUG: 'finalTug',
+  POP: 'pop',
+  TUMBLE: 'tumble',
+  RECOVER: 'recover',
+  SETTLED: 'settled',
+};
 
-  // Check reduced motion preference
-  useEffect(() => {
+const STATE_DURATIONS = {
+  [STATES.WALK_IN]: 1200,
+  [STATES.GRIP]: 500,
+  [STATES.TUG_1]: 900,
+  [STATES.TUG_2]: 1000,
+  [STATES.FINAL_TUG]: 700,
+  [STATES.POP]: 350,
+  [STATES.TUMBLE]: 750,
+  [STATES.RECOVER]: 750,
+};
+
+// Ground line: Y = 240
+const GROUND_Y = 240;
+const ANCHOR_LEFT = { x: 0, y: 236 };
+const ANCHOR_RIGHT = { x: 800, y: 236 };
+const INITIAL_JOIN = { x: 460, y: 198 };
+const CONN_WIDTH = 34;
+
+export default function DogUnplugIllustration({ onDisconnect, onSequenceComplete }) {
+  const [animState, setAnimState] = useState(STATES.WALK_IN);
+  const [blink, setBlink] = useState(false);
+  const [pointerParallax, setPointerParallax] = useState({ x: 0, y: 0 });
+
+  // Live interpolated positions computed in requestAnimationFrame
+  const [frameData, setFrameData] = useState({
+    dogX: 320,
+    dogY: GROUND_Y,
+    dogRotation: 0,
+    headAngle: 0,
+    earLeftAngle: 0,
+    earRightAngle: 0,
+    tailAngle: 0,
+    legCycle: 0,
+    pawX: 412,
+    pawY: 198,
+    connAX: INITIAL_JOIN.x - CONN_WIDTH,
+    connAY: INITIAL_JOIN.y,
+    connARot: 0,
+    connBX: INITIAL_JOIN.x,
+    connBY: INITIAL_JOIN.y,
+    connBRot: 0,
+    cableLeftD: '',
+    cableRightD: '',
+    sparksVisible: false,
+    sparkScale: 0,
+    shadowX: 320,
+    shadowWidth: 100,
+    shadowPlugWidth: 35,
+  });
+
+  const animRef = useRef({
+    state: STATES.WALK_IN,
+    startTime: 0,
+    paused: false,
+    pauseElapsed: 0,
+    rafId: null,
+  });
+
+  // Calculate cable bezier paths from live anchors
+  const calculateCables = useCallback((connAX, connAY, connBX, connBY, isTaut, isPopped) => {
+    // Left Cable: from (0, 236) to Connector A rear entry (connAX, connAY + 9)
+    const startLX = ANCHOR_LEFT.x;
+    const startLY = ANCHOR_LEFT.y;
+    const endLX = connAX;
+    const endLY = connAY + 9;
+
+    const midLX = (startLX + endLX) * 0.5;
+    // When taut, sag is minimal; when slack, sag curves down towards floor
+    const sagLeft = isTaut ? 4 : isPopped ? 20 : 16;
+    const ctrlLY = Math.min(GROUND_Y, Math.max(startLY, endLY) + sagLeft);
+    const cableLeftD = `M ${startLX} ${startLY} Q ${midLX} ${ctrlLY} ${endLX} ${endLY}`;
+
+    // Right Cable: from Connector B rear entry (connBX + CONN_WIDTH, connBY + 9) to (800, 236)
+    const startRX = connBX + CONN_WIDTH;
+    const startRY = connBY + 9;
+    const endRX = ANCHOR_RIGHT.x;
+    const endRY = ANCHOR_RIGHT.y;
+
+    const midRX = (startRX + endRX) * 0.5;
+    const sagRight = isPopped ? 18 : 12;
+    const ctrlRY = Math.min(GROUND_Y, Math.max(startRY, endRY) + sagRight);
+    const cableRightD = `M ${startRX} ${startRY} Q ${midRX} ${ctrlRY} ${endRX} ${endRY}`;
+
+    return { cableLeftD, cableRightD };
+  }, []);
+
+  // Main Animation Loop
+  const startAnimation = useCallback((initialState = STATES.WALK_IN) => {
+    if (animRef.current.rafId) {
+      cancelAnimationFrame(animRef.current.rafId);
+    }
+
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) {
-      setStage(3);
+      // Skip sequence, go directly to settled
+      animRef.current.state = STATES.SETTLED;
+      setAnimState(STATES.SETTLED);
+      const { cableLeftD, cableRightD } = calculateCables(260, 226, 520, 226, false, true);
+      setFrameData({
+        dogX: 250,
+        dogY: GROUND_Y,
+        dogRotation: 0,
+        headAngle: 0,
+        earLeftAngle: 0,
+        earRightAngle: 0,
+        tailAngle: 12,
+        legCycle: 0,
+        pawX: 285,
+        pawY: 232,
+        connAX: 260,
+        connAY: 226,
+        connARot: -6,
+        connBX: 520,
+        connBY: 226,
+        connBRot: 8,
+        cableLeftD,
+        cableRightD,
+        sparksVisible: false,
+        sparkScale: 0,
+        shadowX: 250,
+        shadowWidth: 105,
+        shadowPlugWidth: 40,
+      });
       if (onDisconnect) onDisconnect();
       if (onSequenceComplete) onSequenceComplete();
       return;
     }
 
-    // Sequence timeline:
-    // 0.0s - 1.0s: Walk in & plant feet (stage 0)
-    // 1.0s - 3.2s: Tugging 2-3 times (stage 1)
-    // 3.2s - 4.5s: Plug pops out, tumble & recover (stage 2)
-    // 4.5s+: Idle state (stage 3)
-    const t1 = setTimeout(() => {
-      setStage(1);
-    }, 1000);
+    animRef.current.state = initialState;
+    animRef.current.startTime = performance.now();
+    setAnimState(initialState);
 
-    const t2 = setTimeout(() => {
-      setStage(2);
-      if (onDisconnect) onDisconnect();
-    }, 3200);
+    const updateLoop = (now) => {
+      if (animRef.current.paused) {
+        animRef.current.rafId = requestAnimationFrame(updateLoop);
+        return;
+      }
 
-    const t3 = setTimeout(() => {
-      setStage(3);
-      if (onSequenceComplete) onSequenceComplete();
-    }, 4600);
+      const currentState = animRef.current.state;
+      const duration = STATE_DURATIONS[currentState] || 1000;
+      const elapsed = now - animRef.current.startTime;
+      const progress = Math.min(1, Math.max(0, elapsed / duration));
 
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
+      // Ease functions
+      const easeInOut = (p) => (p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p);
+      const easeOut = (p) => 1 - Math.pow(1 - p, 3);
+      const easeBack = (p) => {
+        const c1 = 1.70158;
+        const c3 = c1 + 1;
+        return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2);
+      };
+
+      let dogX = 320;
+      let dogY = GROUND_Y;
+      let dogRotation = 0;
+      let headAngle = 0;
+      let earLeftAngle = 0;
+      let earRightAngle = 0;
+      let tailAngle = 0;
+      let legCycle = 0;
+
+      let connAX = INITIAL_JOIN.x - CONN_WIDTH;
+      let connAY = INITIAL_JOIN.y;
+      let connARot = 0;
+      let connBX = INITIAL_JOIN.x;
+      let connBY = INITIAL_JOIN.y;
+      let connBRot = 0;
+      let sparksVisible = false;
+      let sparkScale = 0;
+      let isTaut = false;
+      let isPopped = false;
+
+      switch (currentState) {
+        case STATES.WALK_IN: {
+          // Dog walks in from x = 140 to 320
+          const p = easeOut(progress);
+          dogX = 140 + p * 180;
+          dogY = GROUND_Y;
+          legCycle = Math.sin(progress * Math.PI * 6) * 16;
+          headAngle = Math.sin(progress * Math.PI * 6) * 4;
+          tailAngle = Math.sin(progress * Math.PI * 6) * 12;
+          // Connectors fully joined at INITIAL_JOIN
+          connAX = INITIAL_JOIN.x - CONN_WIDTH;
+          connAY = INITIAL_JOIN.y;
+          connBX = INITIAL_JOIN.x;
+          connBY = INITIAL_JOIN.y;
+          break;
+        }
+
+        case STATES.GRIP: {
+          dogX = 320;
+          dogY = GROUND_Y;
+          headAngle = -2;
+          connAX = INITIAL_JOIN.x - CONN_WIDTH;
+          connAY = INITIAL_JOIN.y;
+          connBX = INITIAL_JOIN.x;
+          connBY = INITIAL_JOIN.y;
+          tailAngle = 10;
+          break;
+        }
+
+        case STATES.TUG_1: {
+          // Dog leans back, pulls connectors slightly left
+          const t = Math.sin(progress * Math.PI);
+          const pull = t * 14;
+          dogX = 320 - pull;
+          dogRotation = -t * 6;
+          headAngle = -t * 8;
+          earLeftAngle = -t * 14;
+          earRightAngle = t * 12;
+          tailAngle = -t * 18;
+          isTaut = t > 0.3;
+
+          connAX = INITIAL_JOIN.x - CONN_WIDTH - pull * 0.7;
+          connAY = INITIAL_JOIN.y - t * 2;
+          connBX = INITIAL_JOIN.x - pull * 0.6; // resists
+          connBY = INITIAL_JOIN.y - t * 2;
+          break;
+        }
+
+        case STATES.TUG_2: {
+          // Stronger tug
+          const t = Math.sin(progress * Math.PI);
+          const pull = t * 24;
+          dogX = 320 - pull;
+          dogRotation = -t * 10;
+          headAngle = -t * 12;
+          earLeftAngle = -t * 20;
+          earRightAngle = t * 18;
+          tailAngle = -t * 24;
+          isTaut = t > 0.2;
+
+          connAX = INITIAL_JOIN.x - CONN_WIDTH - pull * 0.8;
+          connAY = INITIAL_JOIN.y - t * 3;
+          connBX = INITIAL_JOIN.x - pull * 0.65;
+          connBY = INITIAL_JOIN.y - t * 3;
+          break;
+        }
+
+        case STATES.FINAL_TUG: {
+          // Maximum strain right before pop
+          const p = easeInOut(progress);
+          const pull = p * 32;
+          dogX = 320 - pull;
+          dogRotation = -p * 14;
+          headAngle = -p * 16;
+          earLeftAngle = -p * 24;
+          earRightAngle = p * 22;
+          tailAngle = -p * 30;
+          isTaut = true;
+
+          // Connectors begin to separate by 6px
+          const sep = p * 8;
+          connAX = INITIAL_JOIN.x - CONN_WIDTH - pull * 0.85;
+          connAY = INITIAL_JOIN.y - p * 4;
+          connBX = INITIAL_JOIN.x - pull * 0.5 + sep;
+          connBY = INITIAL_JOIN.y - p * 2;
+          break;
+        }
+
+        case STATES.POP: {
+          // Connectors snap apart, sparks flash!
+          isPopped = true;
+          sparksVisible = true;
+          sparkScale = Math.sin(progress * Math.PI) * 1.5;
+
+          const p = easeOut(progress);
+          dogX = 320 - 32 - p * 20;
+          dogRotation = -14 - p * 6;
+          headAngle = -16 - p * 4;
+
+          // Connector A snaps left with dog
+          connAX = INITIAL_JOIN.x - CONN_WIDTH - 32 - p * 30;
+          connAY = INITIAL_JOIN.y - 4 + p * 12;
+          connARot = -p * 12;
+
+          // Connector B snaps right towards ground
+          connBX = INITIAL_JOIN.x + 20 + p * 40;
+          connBY = INITIAL_JOIN.y + p * 24;
+          connBRot = p * 18;
+          break;
+        }
+
+        case STATES.TUMBLE: {
+          isPopped = true;
+          const p = easeBack(progress);
+          // Dog tumbles onto rear, paws in air, then settles
+          dogX = 268 - (1 - progress) * 15;
+          dogRotation = (1 - progress) * -16;
+          headAngle = (1 - progress) * -8;
+          earLeftAngle = (1 - progress) * -12;
+          earRightAngle = (1 - progress) * 10;
+          tailAngle = (1 - progress) * -15;
+
+          // Connector A drops near front paws
+          connAX = 260 + (1 - progress) * 10;
+          connAY = 226 - (1 - progress) * 8;
+          connARot = -6;
+
+          // Connector B bounces on floor
+          connBX = 510 + (1 - progress) * 8;
+          connBY = 226 + Math.sin(progress * Math.PI * 2) * 6;
+          connBRot = 8;
+          break;
+        }
+
+        case STATES.RECOVER: {
+          isPopped = true;
+          const p = easeOut(progress);
+          dogX = 250;
+          dogY = GROUND_Y;
+          dogRotation = 0;
+          headAngle = Math.sin(progress * Math.PI) * 4; // shakes head
+          tailAngle = p * 12;
+
+          connAX = 260;
+          connAY = 226;
+          connARot = -6;
+          connBX = 520;
+          connBY = 226;
+          connBRot = 8;
+          break;
+        }
+
+        case STATES.SETTLED:
+        default: {
+          isPopped = true;
+          dogX = 250;
+          dogY = GROUND_Y;
+          dogRotation = 0;
+          headAngle = 0;
+          earLeftAngle = 0;
+          earRightAngle = 0;
+          tailAngle = Math.sin(now * 0.003) * 10 + 4; // gentle happy wag
+
+          connAX = 260;
+          connAY = 226;
+          connARot = -6;
+          connBX = 520;
+          connBY = 226;
+          connBRot = 8;
+          break;
+        }
+      }
+
+      // Paws position: rigidly gripping right behind Connector A
+      const pawX = connAX + 6;
+      const pawY = connAY + 9;
+
+      // Recalculate dynamic cable paths from live anchors
+      const { cableLeftD, cableRightD } = calculateCables(
+        connAX,
+        connAY,
+        connBX,
+        connBY,
+        isTaut,
+        isPopped
+      );
+
+      setFrameData({
+        dogX,
+        dogY,
+        dogRotation,
+        headAngle,
+        earLeftAngle,
+        earRightAngle,
+        tailAngle,
+        legCycle,
+        pawX,
+        pawY,
+        connAX,
+        connAY,
+        connARot,
+        connBX,
+        connBY,
+        connBRot,
+        cableLeftD,
+        cableRightD,
+        sparksVisible,
+        sparkScale,
+        shadowX: dogX,
+        shadowWidth: 100,
+        shadowPlugWidth: isPopped ? 40 : 25,
+      });
+
+      // Handle State Machine Transitions
+      if (progress >= 1) {
+        let nextState = null;
+        if (currentState === STATES.WALK_IN) nextState = STATES.GRIP;
+        else if (currentState === STATES.GRIP) nextState = STATES.TUG_1;
+        else if (currentState === STATES.TUG_1) nextState = STATES.TUG_2;
+        else if (currentState === STATES.TUG_2) nextState = STATES.FINAL_TUG;
+        else if (currentState === STATES.FINAL_TUG) {
+          nextState = STATES.POP;
+          if (onDisconnect) onDisconnect();
+        } else if (currentState === STATES.POP) nextState = STATES.TUMBLE;
+        else if (currentState === STATES.TUMBLE) nextState = STATES.RECOVER;
+        else if (currentState === STATES.RECOVER) {
+          nextState = STATES.SETTLED;
+          if (onSequenceComplete) onSequenceComplete();
+        }
+
+        if (nextState) {
+          animRef.current.state = nextState;
+          animRef.current.startTime = now;
+          setAnimState(nextState);
+        }
+      }
+
+      if (animRef.current.state !== STATES.SETTLED) {
+        animRef.current.rafId = requestAnimationFrame(updateLoop);
+      }
     };
+
+    animRef.current.rafId = requestAnimationFrame(updateLoop);
+  }, [calculateCables, onDisconnect, onSequenceComplete]);
+
+  // Handle Tab Visibility (Pause animation when tab hidden)
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.hidden) {
+        animRef.current.paused = true;
+        animRef.current.pauseElapsed = performance.now() - animRef.current.startTime;
+      } else {
+        animRef.current.paused = false;
+        animRef.current.startTime = performance.now() - animRef.current.pauseElapsed;
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
   }, []);
 
-  // Periodic blink in idle mode
+  // Mount animation trigger
   useEffect(() => {
-    if (stage !== 3) return;
+    startAnimation(STATES.WALK_IN);
+    return () => {
+      if (animRef.current.rafId) {
+        cancelAnimationFrame(animRef.current.rafId);
+      }
+    };
+  }, [startAnimation]);
+
+  // Periodic blink during settled state
+  useEffect(() => {
+    if (animState !== STATES.SETTLED) return;
     const interval = setInterval(() => {
       setBlink(true);
       setTimeout(() => setBlink(false), 200);
-    }, 3600);
+    }, 3800);
     return () => clearInterval(interval);
-  }, [stage]);
+  }, [animState]);
 
-  // Desktop Pointer Parallax
+  // Subtle Pointer Parallax (Desktop Only)
   const handleMouseMove = (e) => {
     if (window.innerWidth < 768) return;
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 12;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 8;
-    setParallax({ x, y });
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 8;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 6;
+    setPointerParallax({ x, y });
   };
 
   const handleMouseLeave = () => {
-    setParallax({ x: 0, y: 0 });
+    setPointerParallax({ x: 0, y: 0 });
   };
 
-  // Replay animation on click/tap
-  const handleReplay = () => {
-    setStage(1);
-    const t2 = setTimeout(() => {
-      setStage(2);
-      if (onDisconnect) onDisconnect();
-    }, 2200);
-    const t3 = setTimeout(() => {
-      setStage(3);
-      if (onSequenceComplete) onSequenceComplete();
-    }, 3600);
+  // Replay Trigger
+  const handleReplayClick = () => {
+    startAnimation(STATES.GRIP);
   };
-
-  const isDisconnected = stage >= 2;
 
   return (
     <div
-      ref={containerRef}
-      className={`dog-illustration-wrapper stage-${stage}`}
+      className="dog-illustration-container"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onClick={handleReplay}
-      role="button"
+      onClick={handleReplayClick}
+      role="img"
       tabIndex={0}
-      aria-label="Interactive illustration of a cute dog unplugging a network cable. Click to replay."
-      title="Click to replay tug"
+      aria-label="Illustration of a determined cartoon dog pulling a network cable and disconnecting its plug. Click to replay."
+      title="Click dog or connector to replay tug sequence"
       style={{
-        transform: `translate3d(${parallax.x}px, ${parallax.y}px, 0)`,
+        transform: `translate3d(${pointerParallax.x}px, ${pointerParallax.y}px, 0)`,
       }}
     >
       <svg
-        viewBox="0 0 660 260"
+        viewBox="0 0 800 320"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="dog-svg"
-        role="img"
-        aria-label="Cartoon dog unplugging cable"
+        className="dog-unplug-svg"
       >
         <defs>
           {/* Ground Shadow Gradient */}
-          <radialGradient id="shadowGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#0f172a" stopOpacity="0.14" />
+          <radialGradient id="shadowG" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#0f172a" stopOpacity="0.12" />
             <stop offset="100%" stopColor="#0f172a" stopOpacity="0" />
           </radialGradient>
 
-          {/* Cable Metallic Coupler Gradient */}
-          <linearGradient id="plugMetal" x1="0" y1="0" x2="1" y2="1">
+          {/* Connector Metallic Gradient */}
+          <linearGradient id="plugBodyGrad" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor="#475569" />
             <stop offset="50%" stopColor="#1e293b" />
             <stop offset="100%" stopColor="#0f172a" />
           </linearGradient>
 
-          {/* Golden Amber Dog Shading */}
-          <linearGradient id="dogAmber" x1="0" y1="0" x2="0" y2="1">
+          {/* Dog Amber Warm Shading */}
+          <linearGradient id="dogAmberTone" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#FBBF24" />
+            <stop offset="65%" stopColor="#F59E0B" />
             <stop offset="100%" stopColor="#D97706" />
           </linearGradient>
 
-          {/* Dog Ear Shadow */}
-          <linearGradient id="dogEar" x1="0" y1="0" x2="1" y2="1">
+          {/* Floppy Ear Dark Gradient */}
+          <linearGradient id="dogEarTone" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor="#334155" />
             <stop offset="100%" stopColor="#0f172a" />
           </linearGradient>
 
-          {/* Copper Pin Highlight */}
-          <linearGradient id="copperPin" x1="0" y1="0" x2="0" y2="1">
+          {/* Golden Pin Highlight */}
+          <linearGradient id="pinGold" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#fbbf24" />
-            <stop offset="100%" stopColor="#b45309" />
+            <stop offset="100%" stopColor="#d97706" />
           </linearGradient>
         </defs>
 
+        {/* ===================================================================
+            STRICT Z-ORDER RULE:
+            1. Ground Line & Shadows
+            2. Right Cable
+            3. Connector B
+            4. Dog Body & Rear Legs
+            5. Tail
+            6. Head & Ears
+            7. Left Cable (passes in front of torso)
+            8. Connector A
+            9. Front Paws (gripping in front of left cable!)
+            10. Sparks
+            =================================================================== */}
+
         {/* 1. SHADOW GROUP */}
         <g id="shadow" aria-hidden="true">
-          <ellipse cx="230" cy="226" rx="90" ry="12" fill="url(#shadowGrad)" className="dog-ground-shadow" />
-          <ellipse cx="440" cy="226" rx="45" ry="8" fill="url(#shadowGrad)" className="plug-ground-shadow" />
+          {/* Main Dog Shadow on ground line */}
+          <ellipse
+            cx={frameData.shadowX}
+            cy={GROUND_Y + 4}
+            rx={frameData.shadowWidth}
+            ry="11"
+            fill="url(#shadowG)"
+          />
+          {/* Connector B Floor Shadow */}
+          <ellipse
+            cx={frameData.connBX + 17}
+            cy={GROUND_Y + 4}
+            rx={frameData.shadowPlugWidth}
+            ry="6"
+            fill="url(#shadowG)"
+          />
         </g>
 
-        {/* 2. RIGHT CABLE & RIGHT PLUG (Wall socket side) */}
-        <g id="cable-right" className="cable-right-group">
-          {/* Static portion to wall */}
+        {/* 2. RIGHT CABLE (Rigidly attached from connector B to right edge) */}
+        <g id="cable-right">
           <path
-            d={isDisconnected ? "M 480 220 Q 550 226 640 216" : "M 390 186 Q 510 196 640 216"}
+            d={frameData.cableRightD}
             stroke="#1e293b"
             strokeWidth="11"
             strokeLinecap="round"
-            className="cable-right-path"
+            fill="none"
           />
           <path
-            d={isDisconnected ? "M 480 220 Q 550 226 640 216" : "M 390 186 Q 510 196 640 216"}
+            d={frameData.cableRightD}
             stroke="#334155"
-            strokeWidth="7"
+            strokeWidth="6"
             strokeLinecap="round"
-            className="cable-right-highlight"
+            fill="none"
           />
         </g>
 
-        {/* PLUG RIGHT (Coupler that gets disconnected & drops) */}
-        <g id="plug-right" className={`plug-right-group ${isDisconnected ? 'disconnected' : 'connected'}`}>
-          {/* Main Plug Boot */}
-          <rect x="360" y="176" width="28" height="20" rx="4" fill="url(#plugMetal)" />
-          {/* Plug ribbing details */}
-          <line x1="368" y1="178" x2="368" y2="194" stroke="#64748b" strokeWidth="2" />
-          <line x1="374" y1="178" x2="374" y2="194" stroke="#64748b" strokeWidth="2" />
-          <line x1="380" y1="178" x2="380" y2="194" stroke="#64748b" strokeWidth="2" />
-
-          {/* Internal Socket Lip */}
-          <rect x="352" y="180" width="8" height="12" rx="2" fill="#0f172a" />
-
-          {/* Exposed Copper Pins (Visible when unplugged) */}
-          {isDisconnected && (
-            <g className="plug-pins">
-              <rect x="345" y="182" width="7" height="2" rx="0.5" fill="url(#copperPin)" />
-              <rect x="345" y="185" width="7" height="2" rx="0.5" fill="url(#copperPin)" />
-              <rect x="345" y="188" width="7" height="2" rx="0.5" fill="url(#copperPin)" />
-            </g>
-          )}
+        {/* 3. CONNECTOR B (Socket/Coupler - Rigidly connected to right cable end) */}
+        <g
+          id="connector-b"
+          transform={`translate(${frameData.connBX}, ${frameData.connBY}) rotate(${frameData.connBRot} 17 9)`}
+        >
+          {/* Main Coupler Housing */}
+          <rect x="0" y="0" width={CONN_WIDTH} height="18" rx="3.5" fill="url(#plugBodyGrad)" />
+          {/* Ribbing lines on boot */}
+          <line x1="12" y1="2" x2="12" y2="16" stroke="#64748b" strokeWidth="1.8" />
+          <line x1="18" y1="2" x2="18" y2="16" stroke="#64748b" strokeWidth="1.8" />
+          <line x1="24" y1="2" x2="24" y2="16" stroke="#64748b" strokeWidth="1.8" />
+          {/* Internal Port Mouth */}
+          <rect x="0" y="3" width="7" height="12" rx="1.5" fill="#020617" />
+          {/* Gold contact receptacles inside port */}
+          <line x1="2" y1="5" x2="5" y2="5" stroke="#fbbf24" strokeWidth="1.5" />
+          <line x1="2" y1="9" x2="5" y2="9" stroke="#fbbf24" strokeWidth="1.5" />
+          <line x1="2" y1="13" x2="5" y2="13" stroke="#fbbf24" strokeWidth="1.5" />
         </g>
 
-        {/* 3. SPARKS (Flash when unplug pops) */}
-        <g id="sparks" className={`sparks-group ${stage === 2 ? 'spark-burst' : stage === 3 ? 'spark-idle' : 'hidden'}`} aria-hidden="true">
-          {/* Spark 1 */}
-          <path d="M 334 174 L 338 166 L 342 174 L 350 176 L 342 178 L 338 186 L 334 178 L 326 176 Z" fill="#FFB800" className="spark spark-a" />
-          {/* Spark 2 */}
-          <path d="M 346 198 L 348 193 L 351 198 L 356 199 L 351 201 L 348 206 L 346 201 L 341 199 Z" fill="#12B5E5" className="spark spark-b" />
-          {/* Spark 3 */}
-          <path d="M 322 188 L 324 183 L 327 188 L 332 189 L 327 191 L 324 196 L 322 191 L 317 189 Z" fill="#F5222D" className="spark spark-c" />
-          {/* Electric energy arcs */}
-          <path d="M 330 182 Q 338 178 344 185" stroke="#12B5E5" strokeWidth="2" strokeLinecap="round" className="spark-arc-1" fill="none" />
-          <path d="M 336 190 Q 342 195 348 188" stroke="#FFB800" strokeWidth="2" strokeLinecap="round" className="spark-arc-2" fill="none" />
-        </g>
-
-        {/* 4. LEFT CABLE & LEFT PLUG (In Dog's Mouth / Paws) */}
-        <g id="cable-left" className="cable-left-group">
-          {/* Left cable looping from background into dog's teeth */}
+        {/* 4. DOG BODY GROUP (Stands on ground line) */}
+        <g
+          id="dog"
+          transform={`translate(${frameData.dogX}, ${frameData.dogY}) rotate(${frameData.dogRotation} 0 0)`}
+        >
+          {/* Rear Left Foot */}
           <path
-            d={isDisconnected ? "M 20 216 Q 100 200 178 172" : "M 20 216 Q 100 206 198 176"}
-            stroke="#1e293b"
-            strokeWidth="11"
-            strokeLinecap="round"
-            className="cable-left-path"
+            d="M -70 -10 Q -80 0 -76 -2 Q -66 0 -58 -2 Q -62 -14 -60 -24 Z"
+            fill="#D97706"
           />
+          <ellipse cx="-68" cy="-2" rx="10" ry="3.5" fill="#B45309" />
+
+          {/* Rear Right Leg */}
           <path
-            d={isDisconnected ? "M 20 216 Q 100 200 178 172" : "M 20 216 Q 100 206 198 176"}
-            stroke="#334155"
-            strokeWidth="7"
-            strokeLinecap="round"
-            className="cable-left-highlight"
+            d={`M -44 -12 Q -50 0 -46 -2 Q -36 0 -28 -2 Q -32 -16 -34 -28 Z`}
+            fill="url(#dogAmberTone)"
           />
-        </g>
+          <ellipse cx="-38" cy="-2" rx="10" ry="3.5" fill="#D97706" />
 
-        {/* PLUG LEFT (The plug pulled by dog) */}
-        <g id="plug-left" className={`plug-left-group ${isDisconnected ? 'left-disconnected' : 'left-connected'}`}>
-          <rect x="324" y="176" width="28" height="20" rx="4" fill="url(#plugMetal)" />
-          {/* Ribbing lines */}
-          <line x1="330" y1="178" x2="330" y2="194" stroke="#64748b" strokeWidth="2" />
-          <line x1="336" y1="178" x2="336" y2="194" stroke="#64748b" strokeWidth="2" />
-          <line x1="342" y1="178" x2="342" y2="194" stroke="#64748b" strokeWidth="2" />
-          {/* Coupler clip */}
-          <rect x="340" y="172" width="8" height="4" rx="1" fill="#475569" />
-        </g>
-
-        {/* 5. THE DOG GROUP (Root animated character) */}
-        <g id="dog" className={`dog-character ${stage === 1 ? 'dog-tugging' : stage === 2 ? 'dog-tumble' : stage === 3 ? 'dog-proud' : 'dog-enter'}`}>
-          
-          {/* TAIL */}
-          <g id="dog-tail" className="dog-tail-group">
+          {/* 5. TAIL */}
+          <g
+            id="dog-tail"
+            transform={`translate(-82, -36) rotate(${frameData.tailAngle} 0 0)`}
+          >
             <path
-              d="M 152 170 Q 130 150 126 128 Q 138 126 146 146 Q 154 162 158 172 Z"
-              fill="url(#dogAmber)"
+              d="M 0 0 Q -24 -20 -28 -42 Q -16 -40 -6 -20 Q 2 -4 6 0 Z"
+              fill="url(#dogAmberTone)"
               stroke="#B45309"
               strokeWidth="2"
             />
           </g>
 
-          {/* BACK LEG (Left) */}
+          {/* Torso */}
+          <ellipse cx="-24" cy="-36" rx="46" ry="32" fill="url(#dogAmberTone)" />
+          {/* Soft Cream Belly Patch */}
+          <ellipse cx="-12" cy="-28" rx="26" ry="18" fill="#FEF3C7" opacity="0.9" />
+
+          {/* Front Left Foot (Planted on ground) */}
           <path
-            d="M 166 178 Q 152 188 156 218 Q 166 220 176 218 Q 174 196 182 184 Z"
+            d={`M 6 -12 Q 2 0 6 -2 Q 16 0 24 -2 Q 20 -16 22 -30 Z`}
             fill="#D97706"
           />
-          {/* Back Paw Pads */}
-          <ellipse cx="166" cy="218" rx="10" ry="4" fill="#B45309" />
+          <ellipse cx="14" cy="-2" rx="10" ry="3.5" fill="#B45309" />
 
-          {/* DOG BODY */}
-          <g id="dog-body" className="dog-body-group">
-            <ellipse cx="206" cy="174" rx="46" ry="34" fill="url(#dogAmber)" />
-            {/* Soft White/Cream Belly Patch */}
-            <ellipse cx="218" cy="182" rx="26" ry="20" fill="#FEF3C7" opacity="0.9" />
-          </g>
-
-          {/* BACK LEG (Right) */}
-          <path
-            d="M 194 186 Q 186 200 188 220 Q 200 222 208 220 Q 206 198 212 188 Z"
-            fill="url(#dogAmber)"
-          />
-          <ellipse cx="198" cy="220" rx="10" ry="4" fill="#D97706" />
-
-          {/* FRONT LEG (Left) */}
-          <path
-            d="M 234 182 Q 228 202 230 222 Q 242 224 250 222 Q 246 198 248 184 Z"
-            fill="#D97706"
-          />
-          <ellipse cx="240" cy="222" rx="10" ry="4" fill="#B45309" />
-
-          {/* FRONT LEG & ARM (Right - gripping cable) */}
-          <g id="dog-arm" className="dog-arm-group">
-            <path
-              d="M 242 168 Q 262 174 274 178 Q 278 186 270 190 Q 256 186 238 180 Z"
-              fill="url(#dogAmber)"
-            />
-            {/* Paws clutching cable tightly */}
-            <ellipse cx="272" cy="182" rx="7" ry="6" fill="#FDE68A" />
-            <circle cx="270" cy="180" r="1.8" fill="#B45309" />
-            <circle cx="274" cy="182" r="1.8" fill="#B45309" />
-          </g>
-
-          {/* DOG HEAD GROUP */}
-          <g id="dog-head" className="dog-head-group">
-            
-            {/* LEFT FLOPPY EAR (Behind Head) */}
-            <g id="dog-ear-left" className="dog-ear-left-group">
+          {/* 6. HEAD GROUP */}
+          <g
+            id="dog-head"
+            transform={`translate(16, -64) rotate(${frameData.headAngle} 0 16)`}
+          >
+            {/* Left Floppy Ear (Behind Head) */}
+            <g
+              id="dog-ear-left"
+              transform={`translate(-18, -26) rotate(${frameData.earLeftAngle} 8 0)`}
+            >
               <path
-                d="M 226 112 Q 194 116 198 152 Q 212 154 220 134 Z"
-                fill="url(#dogEar)"
+                d="M 8 0 Q -18 4 -14 36 Q -2 38 6 18 Z"
+                fill="url(#dogEarTone)"
               />
             </g>
 
-            {/* Main Head Circle */}
-            <circle cx="246" cy="136" r="32" fill="url(#dogAmber)" />
-            {/* Head Highlight / Forehead */}
+            {/* Head Sphere */}
+            <circle cx="0" cy="0" r="30" fill="url(#dogAmberTone)" />
+            {/* Forehead Soft Highlight */}
             <path
-              d="M 230 114 Q 248 108 266 114 Q 262 126 244 126 Z"
+              d="M -16 -20 Q 0 -26 16 -20 Q 12 -10 -4 -10 Z"
               fill="#FDE68A"
               opacity="0.6"
             />
 
-            {/* RIGHT FLOPPY EAR (In front) */}
-            <g id="dog-ear-right" className="dog-ear-right-group">
+            {/* Right Floppy Ear (In Front of Head) */}
+            <g
+              id="dog-ear-right"
+              transform={`translate(6, -28) rotate(${frameData.earRightAngle} 8 0)`}
+            >
               <path
-                d="M 252 110 Q 278 112 284 144 Q 272 152 262 136 Z"
-                fill="url(#dogEar)"
+                d="M 8 0 Q 34 2 38 32 Q 26 40 18 24 Z"
+                fill="url(#dogEarTone)"
               />
-              {/* Inner ear blush */}
               <path
-                d="M 258 118 Q 274 120 276 138 Q 268 142 264 132 Z"
+                d="M 12 8 Q 28 10 30 26 Q 22 30 18 20 Z"
                 fill="#fda4af"
-                opacity="0.45"
+                opacity="0.4"
               />
             </g>
 
-            {/* EYES */}
-            <g id="dog-eyes">
+            {/* Eye */}
+            <g id="dog-eye">
               {blink ? (
-                /* Blinking eye slit */
-                <path d="M 254 130 Q 260 134 266 130" stroke="#0f172a" strokeWidth="2.8" strokeLinecap="round" />
-              ) : stage === 1 ? (
-                /* Squinting determined eye during tug */
+                <path d="M 6 -6 Q 12 -2 18 -6" stroke="#0f172a" strokeWidth="2.8" strokeLinecap="round" />
+              ) : animState === STATES.TUG_1 || animState === STATES.TUG_2 || animState === STATES.FINAL_TUG ? (
+                /* Squinting determined eye */
                 <g>
-                  <path d="M 250 126 L 264 129" stroke="#0f172a" strokeWidth="3" strokeLinecap="round" />
-                  <path d="M 250 132 L 264 129" stroke="#0f172a" strokeWidth="3" strokeLinecap="round" />
+                  <path d="M 2 -8 L 16 -5" stroke="#0f172a" strokeWidth="3.2" strokeLinecap="round" />
+                  <path d="M 2 -2 L 16 -5" stroke="#0f172a" strokeWidth="3.2" strokeLinecap="round" />
                 </g>
               ) : (
-                /* Normal cute round eye with catchlight */
+                /* Round expressive eye */
                 <g>
-                  <ellipse cx="258" cy="128" rx="5.5" ry="6.5" fill="#0f172a" />
-                  <circle cx="260" cy="126" r="2.2" fill="#ffffff" />
-                  <circle cx="256" cy="130" r="1.0" fill="#ffffff" />
+                  <ellipse cx="10" cy="-6" rx="5.5" ry="6.5" fill="#0f172a" />
+                  <circle cx="12" cy="-8" r="2.2" fill="#ffffff" />
+                  <circle cx="8" cy="-4" r="1.0" fill="#ffffff" />
                 </g>
               )}
             </g>
 
-            {/* DETERMINED EYEBROW */}
+            {/* Determined Eyebrow */}
             <path
-              d={stage === 1 ? "M 248 120 L 266 123" : "M 252 118 Q 260 115 268 119"}
+              d={
+                animState === STATES.TUG_1 || animState === STATES.TUG_2 || animState === STATES.FINAL_TUG
+                  ? "M 0 -14 L 18 -11"
+                  : "M 4 -16 Q 12 -19 20 -15"
+              }
               stroke="#B45309"
               strokeWidth="3.2"
               strokeLinecap="round"
             />
 
-            {/* SNOUT / MUZZLE */}
-            <ellipse cx="274" cy="144" rx="15" ry="12" fill="#FEF3C7" />
-            
-            {/* CUTE BLACK NOSE */}
-            <ellipse cx="284" cy="138" rx="5" ry="4" fill="#0f172a" />
-            <circle cx="283" cy="137" r="1.3" fill="#ffffff" />
+            {/* Snout / Muzzle */}
+            <ellipse cx="26" cy="6" rx="14" ry="11" fill="#FEF3C7" />
 
-            {/* TEETH / MOUTH (Gritted determined face biting the plug clamp) */}
+            {/* Black Nose */}
+            <ellipse cx="36" cy="1" rx="5" ry="4" fill="#0f172a" />
+            <circle cx="35" cy="0" r="1.3" fill="#ffffff" />
+
+            {/* Mouth / Teeth */}
             <g id="dog-mouth">
-              {stage === 3 ? (
-                /* Happy resting smile when finished */
+              {animState === STATES.SETTLED ? (
+                /* Happy smile */
                 <path
-                  d="M 272 148 Q 278 156 286 148"
+                  d="M 24 10 Q 30 18 37 11"
                   stroke="#0f172a"
                   strokeWidth="2.5"
                   strokeLinecap="round"
                   fill="none"
                 />
               ) : (
-                /* Gritted teeth chomping on cable */
+                /* Determined gritted teeth */
                 <g>
-                  <rect x="270" y="145" width="18" height="8" rx="3" fill="#ffffff" stroke="#0f172a" strokeWidth="1.8" />
-                  {/* Teeth division lines */}
-                  <line x1="274" y1="145" x2="274" y2="153" stroke="#0f172a" strokeWidth="1.2" />
-                  <line x1="279" y1="145" x2="279" y2="153" stroke="#0f172a" strokeWidth="1.2" />
-                  <line x1="284" y1="145" x2="284" y2="153" stroke="#0f172a" strokeWidth="1.2" />
+                  <rect x="22" y="7" width="16" height="7" rx="2.5" fill="#ffffff" stroke="#0f172a" strokeWidth="1.6" />
+                  <line x1="26" y1="7" x2="26" y2="14" stroke="#0f172a" strokeWidth="1.2" />
+                  <line x1="30" y1="7" x2="30" y2="14" stroke="#0f172a" strokeWidth="1.2" />
+                  <line x1="34" y1="7" x2="34" y2="14" stroke="#0f172a" strokeWidth="1.2" />
                 </g>
               )}
             </g>
-
           </g> {/* End dog-head */}
-
         </g> {/* End dog */}
 
+        {/* 7. LEFT CABLE (Passes visibly in front of torso to Connector A) */}
+        <g id="cable-left">
+          <path
+            d={frameData.cableLeftD}
+            stroke="#1e293b"
+            strokeWidth="11"
+            strokeLinecap="round"
+            fill="none"
+          />
+          <path
+            d={frameData.cableLeftD}
+            stroke="#334155"
+            strokeWidth="6"
+            strokeLinecap="round"
+            fill="none"
+          />
+        </g>
+
+        {/* 8. CONNECTOR A (The plug - attached to left cable and paw position) */}
+        <g
+          id="connector-a"
+          transform={`translate(${frameData.connAX}, ${frameData.connAY}) rotate(${frameData.connARot} 17 9)`}
+        >
+          {/* Main Plug Body */}
+          <rect x="0" y="0" width={CONN_WIDTH} height="18" rx="3.5" fill="url(#plugBodyGrad)" />
+          {/* Ribbing lines on boot */}
+          <line x1="8" y1="2" x2="8" y2="16" stroke="#64748b" strokeWidth="1.8" />
+          <line x1="14" y1="2" x2="14" y2="16" stroke="#64748b" strokeWidth="1.8" />
+          <line x1="20" y1="2" x2="20" y2="16" stroke="#64748b" strokeWidth="1.8" />
+          {/* Coupler locking tab */}
+          <rect x="18" y="-3" width="8" height="4" rx="1" fill="#475569" />
+          {/* Exposed Gold Connector Pins */}
+          <rect x={CONN_WIDTH} y="4" width="6" height="2" rx="0.5" fill="url(#pinGold)" />
+          <rect x={CONN_WIDTH} y="8" width="6" height="2" rx="0.5" fill="url(#pinGold)" />
+          <rect x={CONN_WIDTH} y="12" width="6" height="2" rx="0.5" fill="url(#pinGold)" />
+        </g>
+
+        {/* 9. FRONT PAWS (Drawn strictly IN FRONT of left cable, clutching it) */}
+        <g
+          id="dog-paws"
+          transform={`translate(${frameData.pawX}, ${frameData.pawY})`}
+        >
+          {/* Upper Claws / Paw Pad clutching around cable */}
+          <ellipse cx="-4" cy="-3" rx="8" ry="6" fill="#FBBF24" stroke="#D97706" strokeWidth="1.5" />
+          <circle cx="-6" cy="-4" r="1.6" fill="#B45309" />
+          <circle cx="-2" cy="-4" r="1.6" fill="#B45309" />
+
+          {/* Lower Paw Pad clutching bottom of cable */}
+          <ellipse cx="2" cy="5" rx="8" ry="6" fill="#FBBF24" stroke="#D97706" strokeWidth="1.5" />
+          <circle cx="0" cy="5" r="1.6" fill="#B45309" />
+          <circle cx="4" cy="5" r="1.6" fill="#B45309" />
+        </g>
+
+        {/* 10. SPARKS (Flash when unplug pops, tiny occasional sparks in idle) */}
+        {frameData.sparksVisible && (
+          <g
+            id="sparks"
+            transform={`translate(${frameData.connBX - 8}, ${frameData.connBY + 8}) scale(${frameData.sparkScale})`}
+            aria-hidden="true"
+          >
+            {/* Spark Star 1 (Amber) */}
+            <path
+              d="M 0 -12 L 2 -3 L 11 -3 L 4 2 L 7 11 L 0 5 L -7 11 L -4 2 L -11 -3 L -2 -3 Z"
+              fill="#FFB800"
+            />
+            {/* Spark Star 2 (Cyan) */}
+            <path
+              d="M 8 -4 L 10 2 L 16 3 L 11 7 L 13 13 L 8 9 L 3 13 L 5 7 L 0 3 L 6 2 Z"
+              fill="#12B5E5"
+            />
+            {/* Spark Star 3 (Red) */}
+            <path
+              d="M -10 -4 L -8 2 L -2 3 L -7 7 L -5 13 L -10 9 L -15 13 L -13 7 L -18 3 L -12 2 Z"
+              fill="#F5222D"
+            />
+            {/* Electric Arcs */}
+            <path d="M -8 -8 Q 0 -14 6 -6" stroke="#12B5E5" strokeWidth="2" strokeLinecap="round" fill="none" />
+            <path d="M -4 8 Q 4 14 10 6" stroke="#FFB800" strokeWidth="2" strokeLinecap="round" fill="none" />
+          </g>
+        )}
       </svg>
     </div>
   );

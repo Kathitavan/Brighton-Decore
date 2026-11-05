@@ -1,8 +1,8 @@
 /* ==========================================================================
-   CLEAN PLAYFUL "SERVICE SUSPENDED" PAGE STYLES (Light Theme)
+   HOSTING INACTIVE PAGE STYLES (Light & Clean Theme)
    ========================================================================== */
 
-.suspended-page-root {
+.hosting-inactive-root {
   min-height: 100vh;
   min-height: 100dvh;
   width: 100%;
@@ -12,25 +12,62 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 48px 24px 32px;
+  padding: 44px 20px 28px;
   box-sizing: border-box;
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   overflow-x: hidden;
   position: relative;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-/* Subtle, crisp top edge accent */
-.suspended-page-root::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #F5222D 0%, #12B5E5 50%, #FFB800 100%);
+/* ==========================================================================
+   BACKGROUND IMAGE & 82% WHITE TRANSLUCENT OVERLAY LAYER
+   ========================================================================== */
+
+.page-background-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
 }
 
-.suspended-main-content {
+.page-background-image {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  opacity: 0;
+  animation: fadeInBg 0.8s ease-out forwards;
+}
+
+@keyframes fadeInBg {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 82% White Overlay */
+.page-background-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.82);
+}
+
+/* ==========================================================================
+   MAIN CONTENT (Centered, generous whitespace, NO cards, NO boxes)
+   ========================================================================== */
+
+.hosting-inactive-main {
+  position: relative;
+  z-index: 10;
   width: 100%;
   max-width: 760px;
   display: flex;
@@ -41,11 +78,11 @@
 }
 
 /* ==========================================================================
-   OFFLINE WORD TYPOGRAPHY & DROP-IN BOUNCE ANIMATION
+   OFFLINE WORD TYPOGRAPHY & ANIMATION
    ========================================================================== */
 
 .offline-title-wrapper {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   display: inline-block;
 }
 
@@ -53,32 +90,31 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(2px, 1vw, 8px);
-  user-select: none;
+  gap: clamp(2px, 1.2vw, 8px);
 }
 
 .offline-letter {
   display: inline-block;
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  font-size: clamp(54px, 11vw, 104px);
+  font-size: clamp(52px, 11vw, 100px);
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.04em;
   transform-origin: center bottom;
-  animation: letterDropBounce 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation: letterDropBounce 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 @keyframes letterDropBounce {
   0% {
     opacity: 0;
-    transform: translateY(-90px) scale(0.65, 1.35);
+    transform: translateY(-80px) scale(0.68, 1.32);
   }
   60% {
     opacity: 1;
-    transform: translateY(14px) scale(1.25, 0.75);
+    transform: translateY(12px) scale(1.22, 0.78);
   }
   80% {
-    transform: translateY(-6px) scale(0.92, 1.08);
+    transform: translateY(-5px) scale(0.94, 1.06);
   }
   100% {
     opacity: 1;
@@ -86,68 +122,70 @@
   }
 }
 
-/* Power cut flicker when dog unplug pops */
+/* Power cut flicker at pop moment */
 .offline-title-wrapper.is-disconnected .offline-letter {
-  animation: powerCutFlicker 0.65s ease-out forwards;
+  animation: powerCutFlicker 0.6s ease-out forwards;
 }
 
 @keyframes powerCutFlicker {
   0% { opacity: 1; }
-  15% { opacity: 0.15; filter: drop-shadow(0 0 8px rgba(245, 34, 45, 0.4)); }
-  30% { opacity: 0.9; }
-  45% { opacity: 0.25; }
-  60% { opacity: 0.95; }
-  80% { opacity: 0.65; }
-  100% { opacity: 0.92; filter: none; }
+  20% { opacity: 0.15; filter: drop-shadow(0 0 10px rgba(245, 34, 45, 0.5)); }
+  40% { opacity: 0.85; }
+  60% { opacity: 0.2; }
+  80% { opacity: 0.95; }
+  100% { opacity: 0.9; filter: none; }
 }
 
 /* Idle subtle breathing motion */
-.offline-title-wrapper.is-idle .offline-letter {
-  animation: gentleFloat 4s ease-in-out infinite alternate;
+.offline-title-wrapper.is-settled .offline-letter {
+  animation: subtleFloat 4s ease-in-out infinite alternate;
 }
-.offline-title-wrapper.is-idle .offline-letter:nth-child(even) {
-  animation-delay: 0.3s;
+.offline-title-wrapper.is-settled .offline-letter:nth-child(even) {
+  animation-delay: 0.35s;
 }
 
-@keyframes gentleFloat {
+@keyframes subtleFloat {
   0% { transform: translateY(0); }
-  100% { transform: translateY(-4px); }
+  100% { transform: translateY(-3.5px); }
 }
 
 /* ==========================================================================
-   TEXT CONTENT (Minimal, clean, generous whitespace)
+   TEXT ELEMENTS (Clean, professional, exact content)
    ========================================================================== */
 
-.suspended-label {
+/* Label: small caps, gray, letter-spaced */
+.inactive-label {
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #94a3b8;
-  margin-bottom: 14px;
-  transition: opacity 0.5s ease;
+  margin-bottom: 12px;
 }
 
-.suspended-heading {
-  font-size: clamp(22px, 4.2vw, 30px);
+/* Heading: clean modern sans-serif */
+.inactive-heading {
+  font-size: clamp(22px, 4vw, 30px);
   font-weight: 800;
   line-height: 1.25;
   color: #0f172a;
   letter-spacing: -0.025em;
-  margin: 0 0 14px;
+  margin: 0 0 12px;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 }
 
-.suspended-paragraph {
+/* Paragraph: clean secondary text */
+.inactive-paragraph {
   font-size: clamp(14px, 2vw, 15.5px);
   line-height: 1.65;
   color: #475569;
-  max-width: 560px;
-  margin: 0 auto 20px;
+  max-width: 580px;
+  margin: 0 auto 18px;
   font-weight: 400;
 }
 
-/* Monospace Status Row */
-.suspended-status-row {
+/* Status row: monospace, small, dot-separated */
+.inactive-status-row {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -156,27 +194,23 @@
   font-weight: 500;
   color: #64748b;
   letter-spacing: 0.03em;
-  margin-bottom: 12px;
-  padding: 6px 14px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 9999px;
+  margin-bottom: 10px;
 }
 
-/* Muted Red Warning Notice */
-.suspended-warning-line {
+/* Warning line: muted red */
+.inactive-warning-line {
   font-size: 13.5px;
   font-weight: 600;
   color: #e11d48;
-  margin-bottom: 26px;
+  margin-bottom: 22px;
   letter-spacing: -0.01em;
 }
 
 /* ==========================================================================
-   SINGLE SOLID DARK BUTTON
+   SINGLE SOLID DARK PILL BUTTON
    ========================================================================== */
 
-.btn-contact {
+.btn-inactive-contact {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -190,27 +224,27 @@
   letter-spacing: 0.01em;
   text-decoration: none;
   border-radius: 9999px;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.16);
   transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
-.btn-contact:hover {
+.btn-inactive-contact:hover {
   background-color: #1e293b;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.28);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.24);
 }
 
-.btn-contact:focus-visible {
+.btn-inactive-contact:focus-visible {
   outline: 2px solid #0284c7;
   outline-offset: 3px;
 }
 
-.btn-contact:active {
+.btn-inactive-contact:active {
   transform: translateY(0);
 }
 
-.btn-contact svg {
+.btn-inactive-contact svg {
   width: 15px;
   height: 15px;
   stroke: currentColor;
@@ -219,17 +253,17 @@
   transition: transform 0.24s ease;
 }
 
-.btn-contact:hover svg {
+.btn-inactive-contact:hover svg {
   transform: translate(2px, -2px);
 }
 
 /* ==========================================================================
-   DOG ILLUSTRATION WRAPPER & SVG ANIMATIONS
+   ILLUSTRATION WRAPPER & SVG PHYSICAL GROUP STYLING
    ========================================================================== */
 
-.dog-illustration-wrapper {
+.dog-illustration-container {
   width: 100%;
-  max-width: 580px;
+  max-width: 660px;
   margin: 0 auto;
   position: relative;
   cursor: pointer;
@@ -237,180 +271,89 @@
   transition: transform 0.15s ease-out;
 }
 
-.dog-svg {
+.dog-unplug-svg {
   width: 100%;
   height: auto;
   display: block;
   overflow: visible;
 }
 
-/* Transform Origins for SVG Parts */
-#dog-tail {
-  transform-origin: 156px 172px;
+/* Strict transform-box and transform-origin on named SVG groups */
+#dog {
+  transform-box: fill-box;
+  transform-origin: bottom center;
 }
+
 #dog-head {
-  transform-origin: 246px 146px;
+  transform-box: fill-box;
+  transform-origin: bottom left;
 }
+
 #dog-ear-left {
-  transform-origin: 226px 114px;
+  transform-box: fill-box;
+  transform-origin: top center;
 }
+
 #dog-ear-right {
-  transform-origin: 252px 112px;
-}
-#dog-arm {
-  transform-origin: 240px 172px;
-}
-#plug-right {
-  transform-origin: 374px 186px;
-}
-#plug-left {
-  transform-origin: 338px 186px;
+  transform-box: fill-box;
+  transform-origin: top center;
 }
 
-/* Stage 0: Enter */
-.stage-0 .dog-character {
-  animation: dogWalkIn 1.0s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+#dog-tail {
+  transform-box: fill-box;
+  transform-origin: bottom right;
 }
 
-@keyframes dogWalkIn {
-  0% { transform: translateX(-160px); }
-  60% { transform: translateX(8px); }
-  100% { transform: translateX(0); }
+#dog-paws {
+  transform-box: fill-box;
+  transform-origin: center center;
 }
 
-/* Stage 1: Tugging (Body leans back, ears flap, tail wags) */
-.stage-1 .dog-character {
-  animation: dogTugAction 0.75s ease-in-out infinite alternate;
+#connector-a {
+  transform-box: fill-box;
+  transform-origin: center center;
 }
 
-@keyframes dogTugAction {
-  0% { transform: rotate(0deg) translateX(0); }
-  100% { transform: rotate(-7deg) translateX(-18px); }
-}
-
-.stage-1 #dog-ear-left {
-  animation: earFlapLeft 0.75s ease-in-out infinite alternate;
-}
-@keyframes earFlapLeft {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(-16deg); }
-}
-
-.stage-1 #dog-ear-right {
-  animation: earFlapRight 0.75s ease-in-out infinite alternate;
-}
-@keyframes earFlapRight {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(14deg); }
-}
-
-.stage-1 #dog-tail {
-  animation: tailWagTug 0.38s ease-in-out infinite alternate;
-}
-@keyframes tailWagTug {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(-24deg); }
-}
-
-.stage-1 .cable-left-path,
-.stage-1 .cable-left-highlight {
-  animation: cableTighten 0.75s ease-in-out infinite alternate;
-}
-@keyframes cableTighten {
-  0% { stroke-width: 11px; }
-  100% { stroke-width: 9.5px; }
-}
-
-/* Stage 2: The Pop! (Disconnection, tumble, bounce) */
-.stage-2 .dog-character {
-  animation: dogTumbleBack 1.4s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
-}
-
-@keyframes dogTumbleBack {
-  0% { transform: translateX(-18px) rotate(-7deg); }
-  25% { transform: translateX(-48px) rotate(-14deg); }
-  60% { transform: translateX(-24px) rotate(3deg); }
-  100% { transform: translateX(0) rotate(0deg); }
-}
-
-/* Plug right pops and drops to the floor */
-.plug-right-group.disconnected {
-  animation: plugRightDrop 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-@keyframes plugRightDrop {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  30% { transform: translate(45px, -18px) rotate(24deg); }
-  65% { transform: translate(75px, 26px) rotate(8deg); }
-  85% { transform: translate(80px, 20px) rotate(12deg); }
-  100% { transform: translate(82px, 24px) rotate(10deg); }
-}
-
-/* Sparks burst during disconnection */
-.sparks-group.spark-burst .spark {
-  animation: sparkFlash 0.9s ease-out forwards;
-}
-
-@keyframes sparkFlash {
-  0% { opacity: 0; transform: scale(0.2); }
-  35% { opacity: 1; transform: scale(1.4); }
-  100% { opacity: 0; transform: scale(0.6); }
-}
-
-.spark-arc-1, .spark-arc-2 {
-  stroke-dasharray: 20;
-  animation: arcDash 0.8s ease-out forwards;
-}
-@keyframes arcDash {
-  0% { stroke-dashoffset: 20; opacity: 1; }
-  100% { stroke-dashoffset: 0; opacity: 0; }
-}
-
-/* Stage 3: Idle (Dog sits proudly, gentle tail wag, plug twitch) */
-.stage-3 #dog-tail {
-  animation: happyTailWag 1.8s ease-in-out infinite alternate;
-}
-
-@keyframes happyTailWag {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(-16deg); }
-}
-
-.stage-3 .plug-right-group {
-  transform: translate(82px, 24px) rotate(10deg);
-}
-
-/* Loose plug twitches with tiny sparks every few seconds */
-.stage-3 .spark-idle .spark {
-  animation: idleSparkBlink 3.8s infinite ease-in-out;
-}
-
-@keyframes idleSparkBlink {
-  0%, 88%, 100% { opacity: 0; transform: scale(0.2); }
-  92% { opacity: 1; transform: scale(1.2); }
-  96% { opacity: 0; transform: scale(0.5); }
-}
-
-/* Hidden spark */
-.sparks-group.hidden {
-  display: none;
+#connector-b {
+  transform-box: fill-box;
+  transform-origin: center center;
 }
 
 /* ==========================================================================
    FOOTER
    ========================================================================== */
 
-.suspended-footer {
+.hosting-inactive-footer {
+  position: relative;
+  z-index: 10;
   font-size: 12.5px;
   color: #94a3b8;
   font-weight: 500;
   letter-spacing: 0.01em;
   text-align: center;
-  margin-top: 16px;
+  margin-top: 14px;
 }
 
 /* ==========================================================================
-   ACCESSIBILITY: PREFERS-REDUCED-MOTION
+   RESPONSIVE DESIGN (320px to large desktop)
+   ========================================================================== */
+
+@media (max-width: 480px) {
+  .hosting-inactive-root {
+    padding: 32px 16px 20px;
+  }
+  .btn-inactive-contact {
+    width: 100%;
+    max-width: 280px;
+  }
+  .inactive-status-row {
+    font-size: 11px;
+    letter-spacing: 0.01em;
+  }
+}
+
+/* ==========================================================================
+   PREFERS-REDUCED-MOTION
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
@@ -420,11 +363,7 @@
     transition-duration: 0.001ms !important;
   }
 
-  .dog-illustration-wrapper {
+  .dog-illustration-container {
     transform: none !important;
-  }
-
-  .plug-right-group.disconnected {
-    transform: translate(82px, 24px) rotate(10deg) !important;
   }
 }

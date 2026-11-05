@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { suspendedConfig } from '../../config/suspended.config.js';
-import DogUnplugIllustration from '../../components/suspended/DogUnplugIllustration.jsx';
+import PageBackground from '../../components/suspended/PageBackground.jsx';
 import OfflineTitle from '../../components/suspended/OfflineTitle.jsx';
+import DogUnplugIllustration from '../../components/suspended/DogUnplugIllustration.jsx';
 import './SuspendedPage.css';
 
 export default function SuspendedPage() {
   const [isDisconnected, setIsDisconnected] = useState(false);
-  const [isIdle, setIsIdle] = useState(false);
+  const [isSettled, setIsSettled] = useState(false);
 
   useEffect(() => {
-    // Set document title
+    // Set document title: "Hosting Inactive"
     document.title = suspendedConfig.documentTitle;
 
-    // Ensure meta robots noindex is present
+    // Ensure meta robots noindex is set
     let metaRobots = document.querySelector('meta[name="robots"]');
     let createdMeta = false;
     if (!metaRobots) {
@@ -34,42 +35,46 @@ export default function SuspendedPage() {
   }, []);
 
   return (
-    <div className="suspended-page-root">
-      <main className="suspended-main-content">
-        {/* 1. Colorful Chunky OFFLINE Word */}
-        <OfflineTitle isDisconnected={isDisconnected} isIdle={isIdle} />
+    <div className="hosting-inactive-root">
+      {/* 1. Full-Screen Background Image Layer with 82% White Overlay */}
+      <PageBackground imageUrl={suspendedConfig.backgroundImageUrl} />
 
-        {/* 2. Light Gray Label */}
-        <div className="suspended-label" role="status">
+      {/* 2. Main Content Viewport (Centered, clean, no card, no box) */}
+      <main className="hosting-inactive-main">
+        {/* OFFLINE word in 3 colors */}
+        <OfflineTitle isDisconnected={isDisconnected} isSettled={isSettled} />
+
+        {/* Label: small caps, gray, letter-spaced */}
+        <div className="inactive-label" role="status">
           {suspendedConfig.label}
         </div>
 
-        {/* 3. Primary Heading */}
-        <h1 className="suspended-heading">
+        {/* Heading: clean sans-serif */}
+        <h1 className="inactive-heading">
           {suspendedConfig.heading}
         </h1>
 
-        {/* 4. Explanatory Paragraph */}
-        <p className="suspended-paragraph">
+        {/* Paragraph: clean gray body */}
+        <p className="inactive-paragraph">
           {suspendedConfig.paragraph}
         </p>
 
-        {/* 5. Monospace Status Row */}
-        <div className="suspended-status-row" aria-label="System Status">
+        {/* Status row: monospace, small, dot-separated */}
+        <div className="inactive-status-row" aria-label="Hosting Status">
           {suspendedConfig.statusRow}
         </div>
 
-        {/* 6. Muted Red Warning Line */}
-        <p className="suspended-warning-line">
+        {/* Muted red line */}
+        <p className="inactive-warning-line">
           {suspendedConfig.warningLine}
         </p>
 
-        {/* 7. Single Dark Pill Button */}
+        {/* Single dark pill button */}
         <a
           href={suspendedConfig.ctaUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-contact"
+          className="btn-inactive-contact"
           aria-label="Contact developer at kathiravan.org (opens in a new tab)"
         >
           <span>{suspendedConfig.ctaText}</span>
@@ -78,15 +83,15 @@ export default function SuspendedPage() {
           </svg>
         </a>
 
-        {/* 8. Interactive Cartoon Dog Unplug Illustration */}
+        {/* Cartoon Dog Unplug Illustration */}
         <DogUnplugIllustration
           onDisconnect={() => setIsDisconnected(true)}
-          onSequenceComplete={() => setIsIdle(true)}
+          onSequenceComplete={() => setIsSettled(true)}
         />
       </main>
 
-      {/* 9. Clean Footer */}
-      <footer className="suspended-footer">
+      {/* 3. Footer */}
+      <footer className="hosting-inactive-footer">
         {suspendedConfig.footerText}
       </footer>
     </div>
